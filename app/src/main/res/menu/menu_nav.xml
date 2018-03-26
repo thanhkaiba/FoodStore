@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_food_list"
+            android:icon="@drawable/food_icon"
+            android:checked="true"
+            android:title="@string/nav_food_list"></item>
+        <item android:id="@+id/nav_user_list"
+            android:icon="@drawable/user_icon"
+            android:title="@string/nav_user_list"></item>
+        <item android:id="@+id/nav_vendor_list"
+            android:icon="@drawable/vendor_icon"
+            android:title="@string/nav_vendor_list"></item>
+        <item android:id="@+id/nav_order_list"
+            android:icon="@drawable/order_icon"
+            android:title="@string/nav_order_list"></item>
+        <item android:id="@+id/nav_bill_list"
+            android:icon="@drawable/bill_icon"
+            android:title="@string/nav_bill_list"></item>
+    </group>
+    <item android:title="@string/nav_support">
+        <menu>
+            <item
+                android:id="@+id/nav_help"
+                android:icon="@android:drawable/ic_menu_help"
+                android:title="@string/nav_help">
+            </item>
+            <item android:id="@+id/nav_feedback"
+                android:icon="@android:drawable/sym_action_email"
+                android:title="@string/nav_feedback">
+            </item>
+        </menu>
+    </item>
+</menu>
