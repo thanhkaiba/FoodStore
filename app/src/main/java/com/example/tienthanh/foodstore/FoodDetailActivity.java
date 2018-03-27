@@ -1,16 +1,13 @@
 package com.example.tienthanh.foodstore;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 public class FoodDetailActivity extends AppCompatActivity {
 
@@ -39,5 +36,11 @@ public class FoodDetailActivity extends AppCompatActivity {
         TextView cost = (TextView) findViewById(R.id.info_cost);
         cost.setText(food.getCost() + "$ per " + food.getUnit());
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

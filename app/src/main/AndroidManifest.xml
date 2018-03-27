@@ -16,7 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FoodDetailActivity"
+        <activity
+            android:name=".FoodDetailActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".EditFoodActivity"
             android:parentActivityName=".MainActivity"></activity>
     </application>
 
