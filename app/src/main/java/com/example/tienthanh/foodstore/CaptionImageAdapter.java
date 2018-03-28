@@ -1,8 +1,5 @@
 package com.example.tienthanh.foodstore;
 
-import android.graphics.drawable.Drawable;
-import android.net.sip.SipSession;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +9,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -92,7 +88,7 @@ public class CaptionImageAdapter extends RecyclerView.Adapter<CaptionImageAdapte
     public void onBindViewHolder(CaptionImageAdapter.ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
         ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
-        imageView.setImageResource(mFilteredList.get(position).getImageId());
+        imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(mFilteredList.get(position).getImage()));
         imageView.setContentDescription(mFilteredList.get(position).getName());
         TextView name = (TextView) cardView.findViewById(R.id.info_name);
         name.setText(mFilteredList.get(position).getName());

@@ -4,7 +4,7 @@ public class User {
     private int id;
     private String user;
     private String password;
-    private int img;
+    private String img;
     private String name;
     private String gender;
     private String birthday;
@@ -12,7 +12,7 @@ public class User {
     private  String phone;
     private int privilege;
 
-    public User(int id, String user, String password, int img, String name, String gender, String birthday, String email, String phone, int privilege) {
+    public User(int id, String user, String password, String img, String name, String gender, String birthday, String email, String phone, int privilege) {
         this.id = id;
         this.user = user;
         this.password = password;
@@ -50,11 +50,11 @@ public class User {
         this.password = password;
     }
 
-    public int getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(int img) {
+    public void setImg(String img) {
         this.img = img;
     }
 
@@ -103,6 +103,18 @@ public class User {
     }
 
     public void setPrivilege(int privilege) {
+        this.privilege = privilege;
+    }
+
+    public User(String user, String password, String img, String name, String gender, String birthday, String email, String phone, int privilege) {
+        this.user = user;
+        this.password = password;
+        this.img = img;
+        this.name = name;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.email = email;
+        this.phone = phone;
         this.privilege = privilege;
     }
 }

@@ -28,7 +28,7 @@ public class FoodDetailActivity extends AppCompatActivity {
         food = (Food) intent.getSerializableExtra(FOOD_INFO);
         id = food.getId();
         ImageView imageView = findViewById(R.id.info_image);
-        imageView.setImageResource(food.getImg());
+        imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(food.getImg()));
         TextView name = (TextView) findViewById(R.id.info_name);
         name.setText("Name: " + food.getName());
         TextView type = (TextView) findViewById(R.id.info_type);

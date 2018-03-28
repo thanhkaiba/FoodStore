@@ -73,7 +73,7 @@ public class UserListFragment extends Fragment {
                     int id = cursor.getInt(0);
                     String loginName = cursor.getString(1);
                     String password = cursor.getString(2);
-                    int image = cursor.getInt(3);
+                    String image = cursor.getString(3);
                     String name = cursor.getString(4);
                     String gender = cursor.getString(5);
                     String birthday = cursor.getString(6);

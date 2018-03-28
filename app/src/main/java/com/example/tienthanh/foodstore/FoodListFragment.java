@@ -59,7 +59,7 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
         try {
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
             cursor = db.query("FOOD",
-                    new String[] {"_id", "NAME", "TYPE", "DESCRIPTION", "IMAGE_RESOURCE_ID", "COST", "UNIT"},
+                    new String[]{"_id", "NAME", "TYPE", "DESCRIPTION", "IMAGE", "COST", "UNIT"},
                     null, null, null, null, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -67,7 +67,7 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
                     String type = cursor.getString(2);
                     String description = cursor.getString(3);
                     double cost = cursor.getDouble(5);
-                    int image = cursor.getInt(4);
+                    String image = cursor.getString(4);
                     String unit = cursor.getString(6);
                     int id = cursor.getInt(0);
 
@@ -93,6 +93,8 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
         search(searchView);
+
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 

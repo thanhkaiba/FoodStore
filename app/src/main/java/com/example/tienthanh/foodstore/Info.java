@@ -3,12 +3,12 @@ package com.example.tienthanh.foodstore;
 public class Info {
     String name;
     String description;
-    int imageId;
+    String image;
 
-    public Info(String name, String description, int imageId) {
+    public Info(String name, String description, String image) {
         this.name = name;
         this.description = description;
-        this.imageId = imageId;
+        this.image = image;
     }
 
     public String getName() {
@@ -27,11 +27,11 @@ public class Info {
         this.description = description;
     }
 
-    public int getImageId() {
-        return imageId;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

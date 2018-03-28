@@ -7,11 +7,15 @@ class Food implements Serializable{
     private String name;
     private String type;
     private String description;
-    private int img;
+    private String img;
     private double cost;
     private String unit;
 
-    public Food(int id, String name, String type, String description, int img, double cost, String unit) {
+    public Food() {
+
+    }
+
+    public Food(int id, String name, String type, String description, String img, double cost, String unit) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -53,11 +57,11 @@ class Food implements Serializable{
         this.description = description;
     }
 
-    public int getImg() {
+    public String getImg() {
         return img;
     }
 
-    public void setImg(int img) {
+    public void setImg(String img) {
         this.img = img;
     }
 
@@ -77,10 +81,19 @@ class Food implements Serializable{
         this.unit = unit;
     }
 
-    public Food(int id, String name, int img, double cost) {
+    public Food(int id, String name, String img, double cost) {
         this.id = id;
         this.name = name;
         this.img = img;
         this.cost = cost;
+    }
+
+    public Food(String name, String type, String description, String img, double cost, String unit) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.img = img;
+        this.cost = cost;
+        this.unit = unit;
     }
 }
