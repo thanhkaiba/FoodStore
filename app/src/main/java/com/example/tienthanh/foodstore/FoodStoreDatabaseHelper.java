@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -18,8 +17,8 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
     private static Context context;
     private static final String DB_NAME = "foodstore";
     private static final int DB_VERSION = 1;
-    private static final int FOOD = 102;
-    private static final int USER = 103;
+    public static final int FOOD = 102;
+    public static final int USER = 103;
 
 
     public FoodStoreDatabaseHelper(Context context) {
@@ -37,7 +36,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    private static void insertFood(SQLiteDatabase db, Food food) {
+    public static boolean insertFood(SQLiteDatabase db, Food food) {
         ContentValues foodValues = new ContentValues();
         foodValues.put("NAME", food.getName());
         foodValues.put("TYPE", food.getType());
@@ -45,10 +44,24 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         foodValues.put("IMAGE", food.getImg());
         foodValues.put("COST", food.getCost());
         foodValues.put("UNIT", food.getUnit());
-        db.insert("FOOD", null, foodValues);
+        long flag = db.insert("FOOD", null, foodValues);
+        return flag == -1;
+
     }
 
-    private static void insertUser(SQLiteDatabase db, User user) {
+    public static boolean updateFood(SQLiteDatabase db, Food food) {
+        ContentValues foodValues = new ContentValues();
+        foodValues.put("NAME", food.getName());
+        foodValues.put("TYPE", food.getType());
+        foodValues.put("DESCRIPTION", food.getDescription());
+        foodValues.put("IMAGE", food.getImg());
+        foodValues.put("COST", food.getCost());
+        foodValues.put("UNIT", food.getUnit());
+        int flag = db.update("FOOD", foodValues, "_id = ?", new String[]{String.valueOf(food.getId())});
+        return flag <= 0;
+    }
+
+    public static void insertUser(SQLiteDatabase db, User user) {
         ContentValues userValues = new ContentValues();
         userValues.put("USER", user.getUser());
         userValues.put("PASSWORD", user.getPassword());
@@ -60,18 +73,24 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         userValues.put("PHONE", user.getPhone());
         userValues.put("PRIVILEGE", user.getPrivilege());
         db.insert("USERS", null, userValues);
+
     }
 
 
-    public static Bitmap loadImageFromStorage(String path) {
+    public static Bitmap loadImageFromStorage(String path, int reqWidth, int reqHeight) {
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+
 
         try {
             File f = new File(path);
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            return b;
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
+            options.inJustDecodeBounds = false;
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, options);
 
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -88,14 +107,15 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         File directory = context.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
 
-        File myPath = new File(directory, name + type + ".jpg");
-
-
+        File myPath = new File(directory, name + type + ".jpeg");
+        if (myPath.exists()) {
+            myPath.delete();
+        }
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(myPath);
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -121,14 +141,14 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
                     + "NAME TEXT, "
                     + "TYPE TEXT, "
                     + "DESCRIPTION TEXT, "
-                    + "IMAGE STRING, "
+                    + "IMAGE TEXT, "
                     + "COST REAL, "
                     + "UNIT TEXT);");
 
             db.execSQL("CREATE TABLE USERS ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "USER TEXT NOT NULL, "
                     + "PASSWORD INTEGER, "
-                    + "IMAGE STRING, "
+                    + "IMAGE TEXT, "
                     + "NAME TEXT, "
                     + "GENDER TEXT, "
                     + "BIRTHDAY TEXT, "
@@ -157,5 +177,28 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
 
         }
 
+    }
+
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 }

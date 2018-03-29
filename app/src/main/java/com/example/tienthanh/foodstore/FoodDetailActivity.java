@@ -1,6 +1,9 @@
 package com.example.tienthanh.foodstore;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,33 +12,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FoodDetailActivity extends AppCompatActivity {
 
     public static final String FOOD_INFO = "food_info";
-    private int id;
     private Food food;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         food = (Food) intent.getSerializableExtra(FOOD_INFO);
-        id = food.getId();
         ImageView imageView = findViewById(R.id.info_image);
-        imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(food.getImg()));
-        TextView name = (TextView) findViewById(R.id.info_name);
+        imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(food.getImg(), 200, 300));
+        TextView name = findViewById(R.id.info_name);
         name.setText("Name: " + food.getName());
-        TextView type = (TextView) findViewById(R.id.info_type);
+        TextView type = findViewById(R.id.info_type);
         type.setText("Type: " + food.getType());
-        TextView description = (TextView) findViewById(R.id.info_description);
+        TextView description = findViewById(R.id.info_description);
         description.setText(food.getDescription());
-        TextView cost = (TextView) findViewById(R.id.info_cost);
+        TextView cost = findViewById(R.id.info_cost);
         cost.setText(food.getCost() + "$ per " + food.getUnit());
 
     }
@@ -53,14 +55,51 @@ public class FoodDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, EditFoodActivity.class);
                 intent.putExtra(EditFoodActivity.EDIT_FOOD, food);
                 startActivity(intent);
+
                 return true;
             case R.id.action_delete:
-                //do something
+                new UpdateDrinkTask().execute(food.getId());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
 
+    private class UpdateDrinkTask extends AsyncTask<Integer, Void, Boolean> {
+
+        @Override
+        protected void onPostExecute(Boolean done) {
+            if (!done) {
+                Toast toast = Toast.makeText(FoodDetailActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Integer... ids) {
+            SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(FoodDetailActivity.this);
+
+            try {
+                SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
+                int id = ids[0];
+                db.delete("FOOD", "_id=?", new String[]{Integer.toString(id)});
+                db.close();
+                Intent intent = new Intent(FoodDetailActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT, R.id.nav_food_list);
+                startActivity(intent);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.FRAGMENT, R.id.nav_food_list);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
 

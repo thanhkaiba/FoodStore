@@ -24,7 +24,6 @@ import java.util.ArrayList;
 public class FoodListFragment extends Fragment implements CaptionImageAdapter.Listener{
 
     ArrayList<Food> foods;
-    Cursor cursor;
     CaptionImageAdapter adapter;
 
     @Override
@@ -58,7 +57,7 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
         SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(getActivity());
         try {
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
-            cursor = db.query("FOOD",
+            Cursor cursor = db.query("FOOD",
                     new String[]{"_id", "NAME", "TYPE", "DESCRIPTION", "IMAGE", "COST", "UNIT"},
                     null, null, null, null, null);
             if (cursor.moveToFirst()) {
@@ -78,6 +77,8 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
                     }
                     cursor.moveToNext();
                 } while(true);
+                cursor.close();
+                db.close();
             }
         }catch (SQLiteException e) {
             Toast toast = Toast.makeText(getActivity(), "Database unavailable", Toast.LENGTH_SHORT);

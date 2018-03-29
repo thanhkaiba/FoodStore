@@ -16,7 +16,6 @@ public class CaptionImageAdapter extends RecyclerView.Adapter<CaptionImageAdapte
 
     private ArrayList<Info> infos;
     private ArrayList<Info> mFilteredList;
-
     Listener listener;
 
     @Override
@@ -88,7 +87,7 @@ public class CaptionImageAdapter extends RecyclerView.Adapter<CaptionImageAdapte
     public void onBindViewHolder(CaptionImageAdapter.ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
         ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
-        imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(mFilteredList.get(position).getImage()));
+        imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(mFilteredList.get(position).getImage(), 200, 200));
         imageView.setContentDescription(mFilteredList.get(position).getName());
         TextView name = (TextView) cardView.findViewById(R.id.info_name);
         name.setText(mFilteredList.get(position).getName());

@@ -89,6 +89,8 @@ public class UserListFragment extends Fragment {
                     }
                     cursor.moveToNext();
                 } while(true);
+                cursor.close();
+                db.close();
             }
         }catch (SQLiteException e) {
             Toast toast = Toast.makeText(getActivity(), "Database unavailable", Toast.LENGTH_SHORT);

@@ -18,9 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ShareActionProvider shareActionProvider;
+    public static final String FRAGMENT = "fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +36,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
-        FoodListFragment foodListFragment = new FoodListFragment();
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, foodListFragment);
+        Intent intent = getIntent();
+        Fragment fragment = new FoodListFragment();
+        ;
+        if (intent.hasExtra(FRAGMENT)) {
+            int id = intent.getExtras().getInt(FRAGMENT);
+            switch (id) {
+                case R.id.nav_food_list:
+                    fragment = new FoodListFragment();
+                    break;
+                case R.id.nav_user_list:
+                    fragment = new UserListFragment();
+                    break;
+                case R.id.nav_vendor_list:
+                    fragment = new VendorListFragment();
+                    break;
+                case R.id.nav_order_list:
+                    fragment = new OrderListFragment();
+                    break;
+                case R.id.nav_bill_list:
+                    fragment = new BillListFragment();
+                    break;
+                default:
+                    fragment = new FoodListFragment();
+            }
+        }
+        fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
         FoodStoreDatabaseHelper.setContext(new ContextWrapper(getApplicationContext()));
     }
