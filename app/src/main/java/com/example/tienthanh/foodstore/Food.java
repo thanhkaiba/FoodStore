@@ -3,7 +3,7 @@ package com.example.tienthanh.foodstore;
 import java.io.Serializable;
 
 class Food implements Serializable{
-    private int id;
+    private long id;
     private String name;
     private String type;
     private String description;
@@ -15,7 +15,16 @@ class Food implements Serializable{
 
     }
 
-    public Food(int id, String name, String type, String description, String img, double cost, String unit) {
+    public Food(String name, String type, String description, String img, double cost, String unit) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.img = img;
+        this.cost = cost;
+        this.unit = unit;
+    }
+
+    public Food(long id, String name, String type, String description, String img, double cost, String unit) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -25,11 +34,11 @@ class Food implements Serializable{
         this.unit = unit;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -78,22 +87,6 @@ class Food implements Serializable{
     }
 
     public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public Food(int id, String name, String img, double cost) {
-        this.id = id;
-        this.name = name;
-        this.img = img;
-        this.cost = cost;
-    }
-
-    public Food(String name, String type, String description, String img, double cost, String unit) {
-        this.name = name;
-        this.type = type;
-        this.description = description;
-        this.img = img;
-        this.cost = cost;
         this.unit = unit;
     }
 }

@@ -1,6 +1,7 @@
 package com.example.tienthanh.foodstore;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,8 +12,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -31,7 +34,8 @@ import java.util.ArrayList;
 public class EditFoodActivity extends AppCompatActivity {
 
     public static final String EDIT_FOOD = "Edit Food";
-    private static final int RESULT_LOAD_IMG = 100;
+    private static final int RESULT_LOAD_IMG = 201;
+    private static final int RESULT_CAPTURE_IMG = 200;
 
     private Food food;
     private ImageView imageView;
@@ -54,7 +58,6 @@ public class EditFoodActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         foods = getFoodDatabase();
-
 
         imageView = findViewById(R.id.info_image);
         name = findViewById(R.id.info_name);
@@ -108,37 +111,77 @@ public class EditFoodActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(this, FoodDetailActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(FoodDetailActivity.FOOD_INFO, food);
+        startActivity(intent);
+
+    }
+
     public void onChangeImage(View view) {
 
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+        CharSequence chooses[] = new CharSequence[]{"Camera", "Gallery"};
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose Image Source");
+        builder.setItems(chooses, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, RESULT_CAPTURE_IMG);
+                } else {
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
+                }
+            }
+        });
+        builder.show();
+
     }
 
     @Override
-    protected void onActivityResult(int reqCode, int resultCode, Intent data) {
-        super.onActivityResult(reqCode, resultCode, data);
+    protected void onActivityResult(int reqCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(reqCode, resultCode, imageReturnedIntent);
+        switch (reqCode) {
+            case RESULT_LOAD_IMG:
+                if (resultCode == RESULT_OK) {
+                    try {
 
-        if (resultCode == RESULT_OK) {
-            try {
+                        final Uri imageUri = imageReturnedIntent.getData();
+                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                        selectedImage = BitmapFactory.decodeStream(imageStream);
 
-                final Uri imageUri = data.getData();
-                final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                selectedImage = BitmapFactory.decodeStream(imageStream);
+                        if (imageView != null) {
+                            imageView.setImageBitmap(selectedImage);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                    }
 
-                if (imageView != null) {
-                    imageView.setImageBitmap(selectedImage);
+                } else {
+                    Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
-            }
+                break;
+            case RESULT_CAPTURE_IMG:
+                if (resultCode == RESULT_OK) {
 
-        } else {
-            Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+                    selectedImage = (Bitmap) imageReturnedIntent.getExtras().get("data");
+                    if (imageView != null) {
+                        imageView.setImageBitmap(selectedImage);
+                    } else {
+                        Toast.makeText(this, "Something went wrong", Toast.LENGTH_LONG).show();
+                    }
+                }
+                break;
         }
-    }
 
+    }
 
     public void onClickDone(View view) {
 
@@ -168,29 +211,22 @@ public class EditFoodActivity extends AppCompatActivity {
         }
 
 
-        if (food == null) {
-            food = new Food();
+        if (isDataChanged()) {
+
+            if (food == null)
+                food = new Food();
+            food.setName(name.getText().toString());
+            food.setDescription(description.getText().toString());
+            food.setCost(Double.valueOf(cost.getText().toString()));
+            food.setUnit(unit.getText().toString());
+            food.setType(type.getSelectedItem().toString());
+            if (selectedImage != null)
+                food.setImg(FoodStoreDatabaseHelper.saveToInternalStorage(selectedImage, food.getName(), FoodStoreDatabaseHelper.FOOD));
+            new UpdateDrinkTask().execute();
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.constraint), "Your food has been update", Snackbar.LENGTH_SHORT);
+            snackbar.show();
+            selectedImage = null;
         }
-
-        food.setName(name.getText().toString());
-        food.setDescription(description.getText().toString());
-        food.setCost(Double.valueOf(cost.getText().toString()));
-        food.setUnit(unit.getText().toString());
-        food.setType(type.getSelectedItem().toString());
-        if (selectedImage != null)
-            food.setImg(FoodStoreDatabaseHelper.saveToInternalStorage(selectedImage, food.getName(), FoodStoreDatabaseHelper.FOOD));
-        new UpdateDrinkTask().execute(preName);
-        CharSequence text = "Your food has been update";
-        int duration = Snackbar.LENGTH_SHORT;
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.constraint), text, duration);
-        snackbar.setAction("Undo", new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(EditFoodActivity.this, "Undone", Toast.LENGTH_SHORT).show();
-            }
-        });
-        snackbar.show();
 
     }
 
@@ -209,10 +245,11 @@ public class EditFoodActivity extends AppCompatActivity {
                     double cost = cursor.getDouble(5);
                     String image = cursor.getString(4);
                     String unit = cursor.getString(6);
-                    int id = cursor.getInt(0);
+                    long id = cursor.getLong(0);
 
                     Food food = new Food(id, name, type, description, image, cost, unit);
                     foodList.add(food);
+
                     if (cursor.isLast()) {
                         break;
                     }
@@ -228,10 +265,11 @@ public class EditFoodActivity extends AppCompatActivity {
         return foodList;
     }
 
-    private class UpdateDrinkTask extends AsyncTask<String, Void, Boolean> {
+
+    private class UpdateDrinkTask extends AsyncTask<Void, Void, Boolean> {
 
 
-        ContentValues foodValues;
+        private ContentValues foodValues;
 
         @Override
         protected void onPostExecute(Boolean done) {
@@ -253,17 +291,28 @@ public class EditFoodActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(String... preName) {
+        protected Boolean doInBackground(Void... voids) {
             SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(EditFoodActivity.this);
-
             try {
                 SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
-                if (preName[0] == null) {
+                if (preName == null) {
+                    long id = db.insert("FOOD", null, foodValues);
+                    food.setId(id);
+                    db.close();
+                    onBackPressed();
 
-                    long flag = db.insert("FOOD", null, foodValues);
                 } else {
-                    int flag = db.update("FOOD", foodValues, "_id = ?", new String[]{String.valueOf(food.getId())});
+                    db.update("FOOD", foodValues, "_id = ?", new String[]{String.valueOf(food.getId())});
+                    for (Food f : foods) {
+                        if (f.getId() == food.getId()) {
+                            foods.remove(f);
+                            foods.add(food);
+                            break;
+                        }
+                    }
+
                 }
+
                 db.close();
                 return true;
             } catch (Exception e) {
@@ -272,13 +321,34 @@ public class EditFoodActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
 
-        Intent intent = new Intent(this, FoodDetailActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(FoodDetailActivity.FOOD_INFO, food);
-        startActivity(intent);
+    private boolean isDataChanged() {
+
+        if (food == null && preName == null) {
+            return true;
+        }
+        if (selectedImage != null) {
+            return true;
+        }
+        if (!food.getName().equals(name.getText().toString())) {
+            return true;
+        }
+        if (!food.getDescription().equals(description.getText().toString())) {
+            return true;
+        }
+        if (food.getCost() != Double.parseDouble(cost.getText().toString())) {
+            return true;
+        }
+        if (!food.getUnit().equals(unit.getText().toString())) {
+            return true;
+        }
+        if (!food.getType().equals(type.getSelectedItem())) {
+            Toast.makeText(this, "7", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
 
     }
+
+
 }

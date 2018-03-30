@@ -65,7 +65,7 @@ public class FoodDetailActivity extends AppCompatActivity {
         }
     }
 
-    private class UpdateDrinkTask extends AsyncTask<Integer, Void, Boolean> {
+    private class UpdateDrinkTask extends AsyncTask<Long, Void, Boolean> {
 
         @Override
         protected void onPostExecute(Boolean done) {
@@ -76,13 +76,13 @@ public class FoodDetailActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Boolean doInBackground(Integer... ids) {
+        protected Boolean doInBackground(Long... ids) {
             SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(FoodDetailActivity.this);
 
             try {
                 SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
-                int id = ids[0];
-                db.delete("FOOD", "_id=?", new String[]{Integer.toString(id)});
+                long id = ids[0];
+                db.delete("FOOD", "_id=?", new String[]{Long.toString(id)});
                 db.close();
                 Intent intent = new Intent(FoodDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_food_list);
