@@ -1,9 +1,11 @@
 package com.example.tienthanh.foodstore;
 
 public class Info {
-    String name;
-    String description;
-    String image;
+    private String name;
+    private String description;
+    private String image;
+    private int type;
+
 
     public Info(String name, String description, String image) {
         this.name = name;
@@ -34,4 +36,6 @@ public class Info {
     public void setImage(String image) {
         this.image = image;
     }
+
+
 }

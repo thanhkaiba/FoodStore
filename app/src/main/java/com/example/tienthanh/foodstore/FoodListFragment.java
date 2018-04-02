@@ -34,8 +34,6 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
         foods = getFoodDatabase();
         ArrayList<Info> infos = new ArrayList<>();
 
-
-
         for (Food food : foods) {
            Info info = new Info(food.getName(), String.valueOf(food.getCost()), food.getImg());
            infos.add(info);
@@ -57,9 +55,7 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
         SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(getActivity());
         try {
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
-            Cursor cursor = db.query("FOOD",
-                    new String[]{"_id", "NAME", "TYPE", "DESCRIPTION", "IMAGE", "COST", "UNIT"},
-                    null, null, null, null, null);
+            Cursor cursor = db.rawQuery("SELECT * FROM FOOD", null);
             if (cursor.moveToFirst()) {
                 do {
                     String name = cursor.getString(1);
@@ -94,8 +90,6 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
         search(searchView);
-
-
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -115,7 +109,6 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
     @Override
     public void onClick(int position) {
        Intent intent = new Intent(getActivity(), FoodDetailActivity.class);
-
        intent.putExtra(FoodDetailActivity.FOOD_INFO, foods.get(position));
        startActivity(intent);
     }
@@ -125,13 +118,10 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 adapter.getFilter().filter(newText);
                 return true;
             }

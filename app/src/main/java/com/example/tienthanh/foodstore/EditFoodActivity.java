@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -71,7 +72,7 @@ public class EditFoodActivity extends AppCompatActivity {
             food = (Food) intent.getSerializableExtra(EDIT_FOOD);
             imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(food.getImg(), 132, 128));
             name.setText(food.getName());
-            preName = food.getName();
+            preName = food.getName().toLowerCase();
             description.setText(food.getDescription());
             cost.setText(String.valueOf(food.getCost()));
             unit.setText(food.getUnit());
@@ -114,10 +115,14 @@ public class EditFoodActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(this, FoodDetailActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(FoodDetailActivity.FOOD_INFO, food);
-        startActivity(intent);
+        if (food != null) {
+            Intent intent = new Intent(this, FoodDetailActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(FoodDetailActivity.FOOD_INFO, food);
+            startActivity(intent);
+        } else {
+            super.onBackPressed();
+        }
 
     }
 
@@ -210,7 +215,6 @@ public class EditFoodActivity extends AppCompatActivity {
             return;
         }
 
-
         if (isDataChanged()) {
 
             if (food == null)
@@ -226,6 +230,9 @@ public class EditFoodActivity extends AppCompatActivity {
             Snackbar snackbar = Snackbar.make(findViewById(R.id.constraint), "Your food has been update", Snackbar.LENGTH_SHORT);
             snackbar.show();
             selectedImage = null;
+        } else {
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.constraint), "Nothing change!", Snackbar.LENGTH_SHORT);
+            snackbar.show();
         }
 
     }
@@ -265,6 +272,16 @@ public class EditFoodActivity extends AppCompatActivity {
         return foodList;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     private class UpdateDrinkTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -330,7 +347,7 @@ public class EditFoodActivity extends AppCompatActivity {
         if (selectedImage != null) {
             return true;
         }
-        if (!food.getName().equals(name.getText().toString())) {
+        if (!food.getName().toLowerCase().equals(name.getText().toString())) {
             return true;
         }
         if (!food.getDescription().equals(description.getText().toString())) {
@@ -343,12 +360,9 @@ public class EditFoodActivity extends AppCompatActivity {
             return true;
         }
         if (!food.getType().equals(type.getSelectedItem())) {
-            Toast.makeText(this, "7", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
-
     }
-
 
 }

@@ -1,7 +1,10 @@
 package com.example.tienthanh.foodstore;
 
-public class User {
-    private int id;
+import java.io.Serializable;
+
+
+public class User implements Serializable {
+    private long id;
     private String user;
     private String password;
     private String img;
@@ -9,10 +12,14 @@ public class User {
     private String gender;
     private String birthday;
     private String email;
-    private  String phone;
+    private String phone;
     private int privilege;
+    private String address;
 
-    public User(int id, String user, String password, String img, String name, String gender, String birthday, String email, String phone, int privilege) {
+    public static final String[] PRIVILEGE = {"Manager", "Salesman / Saleswoman", "Storekeeper", "Customer" };
+
+    public User(long id, String user, String password, String img, String name,
+                String gender, String birthday, String email, String phone, int privilege, String address) {
         this.id = id;
         this.user = user;
         this.password = password;
@@ -23,14 +30,28 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.privilege = privilege;
+        this.address = address;
     }
 
-    public int getId() {
+    public User(String user, String password, String img, String name,
+                String gender, String birthday, String email, String phone, int privilege, String address) {
+        this.user = user;
+        this.password = password;
+        this.img = img;
+        this.name = name;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.email = email;
+        this.phone = phone;
+        this.privilege = privilege;
+        this.address = address;
+    }
+
+    public long getId() {
         return id;
     }
 
-
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -106,15 +127,11 @@ public class User {
         this.privilege = privilege;
     }
 
-    public User(String user, String password, String img, String name, String gender, String birthday, String email, String phone, int privilege) {
-        this.user = user;
-        this.password = password;
-        this.img = img;
-        this.name = name;
-        this.gender = gender;
-        this.birthday = birthday;
-        this.email = email;
-        this.phone = phone;
-        this.privilege = privilege;
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

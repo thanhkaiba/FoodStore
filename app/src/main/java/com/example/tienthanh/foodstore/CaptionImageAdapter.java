@@ -14,9 +14,16 @@ import java.util.ArrayList;
 
 public class CaptionImageAdapter extends RecyclerView.Adapter<CaptionImageAdapter.ViewHolder> implements Filterable {
 
+    public static final String FOOD_ADAPTER = "food_adapter";
+    public static final String USER_ADAPTER = "user_adapter";
     private ArrayList<Info> infos;
     private ArrayList<Info> mFilteredList;
+    private String type;
     Listener listener;
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     @Override
     public Filter getFilter() {
@@ -79,19 +86,24 @@ public class CaptionImageAdapter extends RecyclerView.Adapter<CaptionImageAdapte
 
     @Override
     public CaptionImageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.image_card, parent, false);
+        CardView cv;
+        if (type == USER_ADAPTER)
+            cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.image_card_user, parent, false);
+        else {
+            cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.image_card, parent, false);
+        }
         return new ViewHolder(cv);
     }
 
     @Override
     public void onBindViewHolder(CaptionImageAdapter.ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
-        ImageView imageView = (ImageView) cardView.findViewById(R.id.info_image);
+        ImageView imageView =  cardView.findViewById(R.id.info_image);
         imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(mFilteredList.get(position).getImage(), 200, 200));
         imageView.setContentDescription(mFilteredList.get(position).getName());
-        TextView name = (TextView) cardView.findViewById(R.id.info_name);
+        TextView name = cardView.findViewById(R.id.info_name);
         name.setText(mFilteredList.get(position).getName());
-        TextView description = (TextView) cardView.findViewById(R.id.info_description);
+        TextView description =  cardView.findViewById(R.id.info_description);
         description.setText(mFilteredList.get(position).getDescription());
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override

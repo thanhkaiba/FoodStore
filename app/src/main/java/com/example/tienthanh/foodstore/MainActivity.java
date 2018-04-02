@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Intent intent = getIntent();
         Fragment fragment = new FoodListFragment();
-        ;
+
         if (intent.hasExtra(FRAGMENT)) {
             int id = intent.getExtras().getInt(FRAGMENT);
             switch (id) {

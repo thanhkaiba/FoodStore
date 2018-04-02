@@ -49,17 +49,6 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public static boolean updateFood(SQLiteDatabase db, Food food) {
-        ContentValues foodValues = new ContentValues();
-        foodValues.put("NAME", food.getName());
-        foodValues.put("TYPE", food.getType());
-        foodValues.put("DESCRIPTION", food.getDescription());
-        foodValues.put("IMAGE", food.getImg());
-        foodValues.put("COST", food.getCost());
-        foodValues.put("UNIT", food.getUnit());
-        int flag = db.update("FOOD", foodValues, "_id = ?", new String[]{String.valueOf(food.getId())});
-        return flag <= 0;
-    }
 
     public static void insertUser(SQLiteDatabase db, User user) {
         ContentValues userValues = new ContentValues();
@@ -72,6 +61,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         userValues.put("EMAIL", user.getEmail());
         userValues.put("PHONE", user.getPhone());
         userValues.put("PRIVILEGE", user.getPrivilege());
+        userValues.put("ADDRESS", user.getAddress());
         db.insert("USERS", null, userValues);
 
     }
@@ -107,7 +97,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         File directory = context.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
 
-        File myPath = new File(directory, name + type + ".jpeg");
+        File myPath = new File(directory, name.toLowerCase() + type + ".jpeg");
         if (myPath.exists()) {
             myPath.delete();
         }
@@ -154,7 +144,9 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
                     + "BIRTHDAY TEXT, "
                     + "EMAIL TEXT, "
                     + "PHONE TEXT, "
-                    + "PRIVILEGE INTEGER NOT NULL );");
+                    + "PRIVILEGE INTEGER NOT NULL, "
+                    + "ADDRESS TEXT);");
+
 
             Food food = new Food("Mango", "Fruit", "\"The king of the fruits,\" mango fruit is one of the most popular, " +
                     "nutritionally rich fruits with unique flavor, fragrance, taste, and heath promoting qualities, making it" +
@@ -169,14 +161,18 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
             insertFood(db, food);
 
             User user = new User("thanhkaiba", "12345678", saveDrawableToInternalStorage(R.drawable.thanh, "thanh", USER), "Nguyễn Tiến Thành", "Nam", "30-04-1997",
-                    "tienthanhit97@gmail.com", "01679003648", 1);
-
+                    "tienthanhit97@gmail.com", "01679003648", 1, "Vietnam");
+            insertUser(db, user);
+            user = new User("tzuyu", "12345678", saveDrawableToInternalStorage(R.drawable.tzuyu, "tzuyu", USER), "Tzuyu", "Nữ", "14-6-1999",
+                    "tzuyu@gmail.com", "0123456789", 2, "South Korea");
+            insertUser(db, user);
+            user = new User("yoojung", "12345678", saveDrawableToInternalStorage(R.drawable.kimyojung, "kim yoo yung", USER), "Kim Yoo Yung", "Nữ", "22-9-1999",
+                    "kimyooyung@gmail.com", "0123456789", 2, "South Korea");
             insertUser(db, user);
         }
         if (oldVersion < 2) {
 
         }
-
     }
 
     public static int calculateInSampleSize(
@@ -198,7 +194,6 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
                 inSampleSize *= 2;
             }
         }
-
         return inSampleSize;
     }
 }

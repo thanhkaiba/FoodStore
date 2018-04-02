@@ -18,6 +18,7 @@
     <string name="action_share">Share</string>
     <string name="action_done">Done</string>
     <string name="select_type">Select type</string>
+    <string name="user_image">User Image</string>
     <array name="food_types">
         <item>Vegetable</item>
         <item>Meat</item>

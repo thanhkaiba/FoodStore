@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+
 public class FoodDetailActivity extends AppCompatActivity {
 
     public static final String FOOD_INFO = "food_info";
@@ -58,14 +60,17 @@ public class FoodDetailActivity extends AppCompatActivity {
 
                 return true;
             case R.id.action_delete:
-                new UpdateDrinkTask().execute(food.getId());
+                new DeleteFoodTask().execute(food.getId());
+                return true;
+            case android.R.id.home:
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private class UpdateDrinkTask extends AsyncTask<Long, Void, Boolean> {
+    private class DeleteFoodTask extends AsyncTask<Long, Void, Boolean> {
 
         @Override
         protected void onPostExecute(Boolean done) {
@@ -83,6 +88,10 @@ public class FoodDetailActivity extends AppCompatActivity {
                 SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
                 long id = ids[0];
                 db.delete("FOOD", "_id=?", new String[]{Long.toString(id)});
+                File myPath = new File(food.getImg());
+                if (myPath.exists()) {
+                    myPath.delete();
+                }
                 db.close();
                 Intent intent = new Intent(FoodDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_food_list);

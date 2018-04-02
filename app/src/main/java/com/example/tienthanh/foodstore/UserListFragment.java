@@ -1,6 +1,7 @@
 package com.example.tienthanh.foodstore;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -21,7 +22,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class UserListFragment extends Fragment {
+public class UserListFragment extends Fragment implements CaptionImageAdapter.Listener {
 
 
     private ArrayList<User> users;
@@ -30,21 +31,23 @@ public class UserListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView userRecycler = (RecyclerView)  inflater.inflate(R.layout.fragment_user_list, container, false);
+        RecyclerView userRecycler = (RecyclerView)  inflater.inflate(R.layout.fragment_user_list,
+                container, false);
 
        users = getUsersDatabase();
         ArrayList<Info> infos = new ArrayList<>();
 
 
         for (User user : users) {
-            Info info = new Info(user.getName(), "", user.getImg());
+            Info info = new Info(user.getName(), user.getEmail(), user.getImg());
             infos.add(info);
         }
 
         adapter = new CaptionImageAdapter(infos);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        adapter.setType(CaptionImageAdapter.USER_ADAPTER);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         userRecycler.setLayoutManager(layoutManager);
-        //adapter.setListener(this);
+        adapter.setListener(this);
         userRecycler.setAdapter(adapter);
         setHasOptionsMenu(true);
         return  userRecycler;
@@ -70,7 +73,7 @@ public class UserListFragment extends Fragment {
 
             if (cursor.moveToFirst()) {
                 do {
-                    int id = cursor.getInt(0);
+                    long id = cursor.getLong(0);
                     String loginName = cursor.getString(1);
                     String password = cursor.getString(2);
                     String image = cursor.getString(3);
@@ -80,8 +83,9 @@ public class UserListFragment extends Fragment {
                     String email = cursor.getString(7);
                     String phone = cursor.getString(8);
                     int privilege = cursor.getInt(9);
+                    String address = cursor.getString(10);
 
-                    User user = new User(id, loginName, password, image, name, gender, birthday, email, phone, privilege);
+                    User user = new User(id, loginName, password, image, name, gender, birthday, email, phone, privilege, address);
 
                     userList.add(user);
                     if (cursor.isLast() ) {
@@ -107,7 +111,6 @@ public class UserListFragment extends Fragment {
 
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
 
@@ -117,4 +120,10 @@ public class UserListFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onClick(int position) {
+        Intent intent = new Intent(getActivity(), UserDetailActivity.class);
+        intent.putExtra(UserDetailActivity.USER_INFO, users.get(position));
+        startActivity(intent);
+    }
 }
