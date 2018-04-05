@@ -19,11 +19,17 @@
     <string name="action_done">Done</string>
     <string name="select_type">Select type</string>
     <string name="user_image">User Image</string>
+    <string name="action_change_image">Change Image</string>
     <array name="food_types">
         <item>Vegetable</item>
         <item>Meat</item>
         <item>Fruit</item>
         <item>SeaFood</item>
         <item>Nuts, Grains and Beans</item>
+    </array>
+    <array name="array_genders">
+        <item>Male</item>
+        <item>Female</item>
+
     </array>
 </resources>

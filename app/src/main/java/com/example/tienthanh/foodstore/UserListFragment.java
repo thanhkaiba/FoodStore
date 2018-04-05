@@ -1,6 +1,5 @@
 package com.example.tienthanh.foodstore;
 
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,9 +20,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-
 public class UserListFragment extends Fragment implements CaptionImageAdapter.Listener {
-
 
     private ArrayList<User> users;
     CaptionImageAdapter adapter;
@@ -74,18 +71,17 @@ public class UserListFragment extends Fragment implements CaptionImageAdapter.Li
             if (cursor.moveToFirst()) {
                 do {
                     long id = cursor.getLong(0);
-                    String loginName = cursor.getString(1);
-                    String password = cursor.getString(2);
-                    String image = cursor.getString(3);
-                    String name = cursor.getString(4);
-                    String gender = cursor.getString(5);
-                    String birthday = cursor.getString(6);
-                    String email = cursor.getString(7);
-                    String phone = cursor.getString(8);
-                    int privilege = cursor.getInt(9);
-                    String address = cursor.getString(10);
+                    String password = cursor.getString(1);
+                    String image = cursor.getString(2);
+                    String name = cursor.getString(3);
+                    String gender = cursor.getString(4);
+                    String birthday = cursor.getString(5);
+                    String email = cursor.getString(6);
+                    String phone = cursor.getString(7);
+                    int privilege = cursor.getInt(8);
+                    String address = cursor.getString(9);
 
-                    User user = new User(id, loginName, password, image, name, gender, birthday, email, phone, privilege, address);
+                    User user = new User(id, password, image, name, gender, birthday, email, phone, privilege, address);
 
                     userList.add(user);
                     if (cursor.isLast() ) {
@@ -125,5 +121,18 @@ public class UserListFragment extends Fragment implements CaptionImageAdapter.Li
         Intent intent = new Intent(getActivity(), UserDetailActivity.class);
         intent.putExtra(UserDetailActivity.USER_INFO, users.get(position));
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                Intent intent = new Intent(getActivity(), EditUserActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 }

@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 
 public class User implements Serializable {
+    public static final String[] GENDER =  {"Nam", "Nữ"};
     private long id;
-    private String user;
     private String password;
     private String img;
     private String name;
@@ -18,10 +18,9 @@ public class User implements Serializable {
 
     public static final String[] PRIVILEGE = {"Manager", "Salesman / Saleswoman", "Storekeeper", "Customer" };
 
-    public User(long id, String user, String password, String img, String name,
+    public User(long id, String password, String img, String name,
                 String gender, String birthday, String email, String phone, int privilege, String address) {
         this.id = id;
-        this.user = user;
         this.password = password;
         this.img = img;
         this.name = name;
@@ -33,9 +32,8 @@ public class User implements Serializable {
         this.address = address;
     }
 
-    public User(String user, String password, String img, String name,
+    public User(String password, String img, String name,
                 String gender, String birthday, String email, String phone, int privilege, String address) {
-        this.user = user;
         this.password = password;
         this.img = img;
         this.name = name;
@@ -45,6 +43,10 @@ public class User implements Serializable {
         this.phone = phone;
         this.privilege = privilege;
         this.address = address;
+    }
+
+    public User() {
+
     }
 
     public long getId() {
@@ -55,13 +57,6 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
 
     public String getPassword() {
         return password;

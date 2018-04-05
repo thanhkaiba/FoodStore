@@ -11,6 +11,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <Spinner
+                android:inputType="phone"
+                android:id="@+id/privilege_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#212121" />
+
+        </RelativeLayout>
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,31 +46,32 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_person_black_24dp" />
 
-            <TextView
-                android:id="@+id/privilege_info"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/name_info"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_toEndOf="@id/ivContactItem6"
                 android:ellipsize="end"
                 android:maxLines="1"
+                android:inputType="textPersonName"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
-            <TextView
+            <Spinner
                 android:id="@+id/gender_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/privilege_info"
+                android:layout_below="@id/name_info"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@id/ivContactItem6"
+                android:entries="@array/array_genders"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#727272" />
 
         </RelativeLayout>
 
-        <include layout="@layout/item_divider" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -65,22 +85,22 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_phone_black_24dp"
                 android:tint="@color/colorPrimary"
-                android:tintMode="src_in"
-                android:src="@drawable/ic_phone_black_24dp" />
+                android:tintMode="src_in" />
 
-            <TextView
+            <EditText
                 android:id="@+id/phone_info"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_toEndOf="@id/ivContactItem1"
+                android:inputType="phone"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
         </RelativeLayout>
 
-        <include layout="@layout/item_divider" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -98,9 +118,10 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_email_black_24dp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/email_info"
-                android:layout_width="wrap_content"
+                android:inputType="textEmailAddress"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_toEndOf="@id/ivContactItem3"
@@ -110,8 +131,6 @@
                 android:textColor="#212121" />
 
         </RelativeLayout>
-
-        <include layout="@layout/item_divider" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -129,18 +148,18 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_cake_black_24dp" />
 
-            <TextView
+            <DatePicker
                 android:id="@+id/birthday_info"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_toEndOf="@id/ivContactItem5"
                 android:ellipsize="end"
-                android:maxLines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#212121" />
+                android:spinnersShown="true"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"/>
+
         </RelativeLayout>
-        <include layout="@layout/item_divider" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -159,9 +178,9 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_location_on_black_24dp" />
 
-            <TextView
-                android:id="@+id/info_address"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/address_info"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_toEndOf="@id/ivContactItem7"
@@ -169,6 +188,6 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
         </RelativeLayout>
-        <include layout="@layout/item_divider"></include>
     </LinearLayout>
+
 </android.support.v4.widget.NestedScrollView>

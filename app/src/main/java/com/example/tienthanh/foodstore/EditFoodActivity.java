@@ -226,7 +226,7 @@ public class EditFoodActivity extends AppCompatActivity {
             food.setType(type.getSelectedItem().toString());
             if (selectedImage != null)
                 food.setImg(FoodStoreDatabaseHelper.saveToInternalStorage(selectedImage, food.getName(), FoodStoreDatabaseHelper.FOOD));
-            new UpdateDrinkTask().execute();
+            new UpdateFoodTask().execute();
             Snackbar snackbar = Snackbar.make(findViewById(R.id.constraint), "Your food has been update", Snackbar.LENGTH_SHORT);
             snackbar.show();
             selectedImage = null;
@@ -283,7 +283,7 @@ public class EditFoodActivity extends AppCompatActivity {
         }
     }
 
-    private class UpdateDrinkTask extends AsyncTask<Void, Void, Boolean> {
+    private class UpdateFoodTask extends AsyncTask<Void, Void, Boolean> {
 
 
         private ContentValues foodValues;

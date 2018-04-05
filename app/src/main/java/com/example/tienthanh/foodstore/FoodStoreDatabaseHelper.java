@@ -35,7 +35,6 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         updateMyDatabase(db, oldVersion, newVersion);
     }
 
-
     public static boolean insertFood(SQLiteDatabase db, Food food) {
         ContentValues foodValues = new ContentValues();
         foodValues.put("NAME", food.getName());
@@ -52,7 +51,6 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
 
     public static void insertUser(SQLiteDatabase db, User user) {
         ContentValues userValues = new ContentValues();
-        userValues.put("USER", user.getUser());
         userValues.put("PASSWORD", user.getPassword());
         userValues.put("IMAGE", user.getImg());
         userValues.put("NAME", user.getName());
@@ -128,7 +126,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 1) {
             db.execSQL("CREATE TABLE FOOD (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "NAME TEXT, "
+                    + "NAME TEXT NOT NULL, "
                     + "TYPE TEXT, "
                     + "DESCRIPTION TEXT, "
                     + "IMAGE TEXT, "
@@ -136,13 +134,12 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
                     + "UNIT TEXT);");
 
             db.execSQL("CREATE TABLE USERS ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                    + "USER TEXT NOT NULL, "
-                    + "PASSWORD INTEGER, "
+                    + "PASSWORD INTEGER NOT NULL, "
                     + "IMAGE TEXT, "
                     + "NAME TEXT, "
                     + "GENDER TEXT, "
                     + "BIRTHDAY TEXT, "
-                    + "EMAIL TEXT, "
+                    + "EMAIL TEXT NOT NULL, "
                     + "PHONE TEXT, "
                     + "PRIVILEGE INTEGER NOT NULL, "
                     + "ADDRESS TEXT);");
@@ -160,13 +157,13 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
                     saveDrawableToInternalStorage(R.drawable.coconut, "coconut", FOOD), 20.5, "fruit");
             insertFood(db, food);
 
-            User user = new User("thanhkaiba", "12345678", saveDrawableToInternalStorage(R.drawable.thanh, "thanh", USER), "Nguyễn Tiến Thành", "Nam", "30-04-1997",
+            User user = new User( MD5("12345678"), saveDrawableToInternalStorage(R.drawable.thanh, "tienthanhit97@gmail.com", USER), "Nguyễn Tiến Thành", "Nam", "30-04-1997",
                     "tienthanhit97@gmail.com", "01679003648", 1, "Vietnam");
             insertUser(db, user);
-            user = new User("tzuyu", "12345678", saveDrawableToInternalStorage(R.drawable.tzuyu, "tzuyu", USER), "Tzuyu", "Nữ", "14-6-1999",
+            user = new User( MD5("12345678"), saveDrawableToInternalStorage(R.drawable.tzuyu, "tzuyu@gmail.com", USER), "Tzuyu", "Nữ", "14-6-1999",
                     "tzuyu@gmail.com", "0123456789", 2, "South Korea");
             insertUser(db, user);
-            user = new User("yoojung", "12345678", saveDrawableToInternalStorage(R.drawable.kimyojung, "kim yoo yung", USER), "Kim Yoo Yung", "Nữ", "22-9-1999",
+            user = new User(MD5("12345678"), saveDrawableToInternalStorage(R.drawable.kimyojung, "kimyooyung@gmail.com", USER), "Kim Yoo Yung", "Nữ", "22-9-1999",
                     "kimyooyung@gmail.com", "0123456789", 2, "South Korea");
             insertUser(db, user);
         }
@@ -195,5 +192,19 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
             }
         }
         return inSampleSize;
+    }
+
+    public String MD5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+        }
+        return null;
     }
 }

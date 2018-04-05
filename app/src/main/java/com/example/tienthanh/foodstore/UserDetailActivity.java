@@ -78,10 +78,9 @@ public class UserDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_edit:
-//                Intent intent = new Intent(this, EditFoodActivity.class);
-//                intent.putExtra(EditFoodActivity.EDIT_FOOD, food);
-//                startActivity(intent);
-
+                Intent intent = new Intent(this, EditUserActivity.class);
+                intent.putExtra(EditUserActivity.EDIT_USER, user);
+                startActivity(intent);
                 return true;
             case R.id.action_delete:
                 new DeleteUserTask().execute(user.getId());
