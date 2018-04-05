@@ -23,7 +23,9 @@
             android:name=".EditFoodActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".UserDetailActivity" />
-        <activity android:name=".EditUserActivity"></activity>
+        <activity android:name=".EditUserActivity" />
+        <activity android:name=".VendorDetailActivity" />
+        <activity android:name=".EditVendorActivity"></activity>
     </application>
 
 </manifest>

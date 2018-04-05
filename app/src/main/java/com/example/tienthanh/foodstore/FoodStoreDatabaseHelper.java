@@ -14,6 +14,7 @@ import java.io.IOException;
 
 public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
 
+    private static final int VENDOR = 104;
     private static Context context;
     private static final String DB_NAME = "foodstore";
     private static final int DB_VERSION = 1;
@@ -35,7 +36,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         updateMyDatabase(db, oldVersion, newVersion);
     }
 
-    public static boolean insertFood(SQLiteDatabase db, Food food) {
+    public static void insertFood(SQLiteDatabase db, Food food) {
         ContentValues foodValues = new ContentValues();
         foodValues.put("NAME", food.getName());
         foodValues.put("TYPE", food.getType());
@@ -43,9 +44,18 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         foodValues.put("IMAGE", food.getImg());
         foodValues.put("COST", food.getCost());
         foodValues.put("UNIT", food.getUnit());
-        long flag = db.insert("FOOD", null, foodValues);
-        return flag == -1;
+        foodValues.put("VENDORID", food.getVendorID());
+        db.insert("FOOD", null, foodValues);
+    }
 
+    public static void insertVendor(SQLiteDatabase db, Vendor vendor) {
+        ContentValues vendorValues = new ContentValues();
+        vendorValues.put("NAME", vendor.getName());
+        vendorValues.put("ADDRESS", vendor.getAddress());
+        vendorValues.put("EMAIL", vendor.getEmail());
+        vendorValues.put("PHONE",vendor.getPhone());
+        vendorValues.put("IMAGE",vendor.getImg());
+        db.insert("VENDOR", null, vendorValues);
     }
 
 
@@ -125,13 +135,23 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
 
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 1) {
+
+            db.execSQL("CREATE TABLE VENDOR (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "NAME TEXT NOT NULL, "
+                    + "IMAGE TEXT, "
+                    + "ADDRESS TEXT, "
+                    + "EMAIL TEXT, "
+                    + "PHONE TEXT);");
+
             db.execSQL("CREATE TABLE FOOD (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NAME TEXT NOT NULL, "
                     + "TYPE TEXT, "
                     + "DESCRIPTION TEXT, "
                     + "IMAGE TEXT, "
                     + "COST REAL, "
-                    + "UNIT TEXT);");
+                    + "UNIT TEXT, "
+                    + "VENDORID INTEGER, "
+                    + "FOREIGN KEY(VENDORID) REFERENCES VENDOR(_id));");
 
             db.execSQL("CREATE TABLE USERS ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "PASSWORD INTEGER NOT NULL, "
@@ -145,16 +165,25 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
                     + "ADDRESS TEXT);");
 
 
+
+
+            Vendor vendor = new Vendor("Earth's Best", saveDrawableToInternalStorage(R.drawable.earth_best, "EarthsBest@gmail.com", VENDOR), "4600 Sleepytime Dr. Boulder, CO 80301 USA",
+                    "EarthsBest@gmail.com", "1-800-442-4221");
+            insertVendor(db, vendor);
+            vendor = new Vendor("Amy's Kitchen ", saveDrawableToInternalStorage(R.drawable.amyskitchen , "donations@amys.com", VENDOR), "Amy's Customer Care P.O. Box 7129 Petaluma, Ca 94955 ",
+                    "donations@amys.com", "707-781-6600");
+            insertVendor(db, vendor);
+
             Food food = new Food("Mango", "Fruit", "\"The king of the fruits,\" mango fruit is one of the most popular, " +
                     "nutritionally rich fruits with unique flavor, fragrance, taste, and heath promoting qualities, making it" +
-                    " numero-uno among new functional foods, often labeled as “super fruits", saveDrawableToInternalStorage(R.drawable.mango, "mango", FOOD), 50, "fruit");
+                    " numero-uno among new functional foods, often labeled as “super fruits", saveDrawableToInternalStorage(R.drawable.mango, "mango", FOOD), 50, "fruit", 2);
             insertFood(db, food);
             food = new Food("Pineapple", "Fruit", "Pineapples are tropical fruit that are rich in vitamins, enzymes and antioxidants. " +
                     "They may help boost the immune system, build strong bones and aid indigestion. Also, despite their sweetness, pineapples are low in calories",
-                    saveDrawableToInternalStorage(R.drawable.pineapple, "pineapple", FOOD), 70.5, "fruit");
+                    saveDrawableToInternalStorage(R.drawable.pineapple, "pineapple", FOOD), 70.5, "fruit", 1);
             insertFood(db, food);
             food = new Food("Coconut", "Fruit", "Coconut oil is high in healthy saturated fats that have different effects than most other fats in your diet.",
-                    saveDrawableToInternalStorage(R.drawable.coconut, "coconut", FOOD), 20.5, "fruit");
+                    saveDrawableToInternalStorage(R.drawable.coconut, "coconut", FOOD), 20.5, "fruit", 2);
             insertFood(db, food);
 
             User user = new User( MD5("12345678"), saveDrawableToInternalStorage(R.drawable.thanh, "tienthanhit97@gmail.com", USER), "Nguyễn Tiến Thành", "Nam", "30-04-1997",
@@ -166,6 +195,8 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
             user = new User(MD5("12345678"), saveDrawableToInternalStorage(R.drawable.kimyojung, "kimyooyung@gmail.com", USER), "Kim Yoo Yung", "Nữ", "22-9-1999",
                     "kimyooyung@gmail.com", "0123456789", 2, "South Korea");
             insertUser(db, user);
+
+
         }
         if (oldVersion < 2) {
 
@@ -206,5 +237,11 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         } catch (java.security.NoSuchAlgorithmException e) {
         }
         return null;
+    }
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        db.setForeignKeyConstraintsEnabled(true);
+        super.onConfigure(db);
     }
 }

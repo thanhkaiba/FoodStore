@@ -41,6 +41,8 @@ public class FoodDetailActivity extends AppCompatActivity {
         description.setText(food.getDescription());
         TextView cost = findViewById(R.id.info_cost);
         cost.setText(food.getCost() + "$ per " + food.getUnit());
+        TextView vendorName = findViewById(R.id.info_vendor);
+        vendorName.setText(food.getVendorName());
 
     }
 

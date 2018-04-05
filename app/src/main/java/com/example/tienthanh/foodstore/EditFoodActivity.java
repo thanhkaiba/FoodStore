@@ -246,15 +246,17 @@ public class EditFoodActivity extends AppCompatActivity {
             Cursor cursor = db.rawQuery("SELECT * FROM FOOD", null);
             if (cursor.moveToFirst()) {
                 do {
+                    long id = cursor.getLong(0);
                     String name = cursor.getString(1);
                     String type = cursor.getString(2);
                     String description = cursor.getString(3);
                     double cost = cursor.getDouble(5);
                     String image = cursor.getString(4);
                     String unit = cursor.getString(6);
-                    long id = cursor.getLong(0);
+                    int vendorID = cursor.getInt(7);
+                    String vendorName = cursor.getString(8);
 
-                    Food food = new Food(id, name, type, description, image, cost, unit);
+                    Food food = new Food(id, name, type, description, image, cost, unit, vendorID, vendorName);
                     foodList.add(food);
 
                     if (cursor.isLast()) {
@@ -305,6 +307,7 @@ public class EditFoodActivity extends AppCompatActivity {
             foodValues.put("IMAGE", food.getImg());
             foodValues.put("COST", food.getCost());
             foodValues.put("UNIT", food.getUnit());
+            foodValues.put("VENDORID", food.getVendorID());
         }
 
         @Override

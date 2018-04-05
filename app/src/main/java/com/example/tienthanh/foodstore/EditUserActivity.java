@@ -276,6 +276,7 @@ public class EditUserActivity extends AppCompatActivity {
                 user.setImg(FoodStoreDatabaseHelper.saveToInternalStorage(selectedImage, user.getEmail(), FoodStoreDatabaseHelper.FOOD));
             user.setPhone(phone.getText().toString());
             user.setAddress(address.getText().toString());
+            user.setName(name.getText().toString());
             user.setBirthday(birthday.getDayOfMonth() + "-" + (birthday.getMonth() + 1) + "-" + birthday.getYear());
             user.setPrivilege((int)privilege.getSelectedItemId());
             user.setGender(gender.getSelectedItem().toString());

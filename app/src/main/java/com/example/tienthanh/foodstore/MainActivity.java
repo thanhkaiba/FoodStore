@@ -1,6 +1,5 @@
 package com.example.tienthanh.foodstore;
 
-
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -76,12 +74,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id) {
             case R.id.nav_food_list:
                 fragment = new FoodListFragment();
+                setTitle("FOOD");
                 break;
             case R.id.nav_user_list:
                 fragment = new UserListFragment();
+                setTitle("USER");
                 break;
             case R.id.nav_vendor_list:
                 fragment = new VendorListFragment();
+                setTitle("VENDOR");
                 break;
             case R.id.nav_order_list:
                 fragment = new OrderListFragment();

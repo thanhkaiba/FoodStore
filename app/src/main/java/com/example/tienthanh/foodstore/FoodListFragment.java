@@ -55,18 +55,20 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
         SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(getActivity());
         try {
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM FOOD", null);
+            Cursor cursor = db.rawQuery("SELECT FOOD.*, VENDOR.NAME FROM FOOD LEFT JOIN VENDOR ON FOOD.VENDORID = VENDOR._id", null);
             if (cursor.moveToFirst()) {
                 do {
+                    long id = cursor.getLong(0);
                     String name = cursor.getString(1);
                     String type = cursor.getString(2);
                     String description = cursor.getString(3);
                     double cost = cursor.getDouble(5);
                     String image = cursor.getString(4);
                     String unit = cursor.getString(6);
-                    long id = cursor.getLong(0);
+                    int vendorId = cursor.getInt(7);
+                    String vendorName = cursor.getString(8);
 
-                    Food food = new Food(id, name, type, description, image, cost, unit);
+                    Food food = new Food(id, name, type, description, image, cost, unit, vendorId, vendorName);
                     foodList.add(food);
                     if (cursor.isLast() ) {
                         break;
