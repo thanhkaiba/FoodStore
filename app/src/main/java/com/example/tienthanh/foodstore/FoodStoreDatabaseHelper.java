@@ -15,6 +15,7 @@ import java.io.IOException;
 public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
 
     private static final int VENDOR = 104;
+    public static final int ORDER = 105;
     private static Context context;
     private static final String DB_NAME = "foodstore";
     private static final int DB_VERSION = 1;
@@ -36,7 +37,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         updateMyDatabase(db, oldVersion, newVersion);
     }
 
-    public static void insertFood(SQLiteDatabase db, Food food) {
+    private static void insertFood(SQLiteDatabase db, Food food) {
         ContentValues foodValues = new ContentValues();
         foodValues.put("NAME", food.getName());
         foodValues.put("TYPE", food.getType());
@@ -48,7 +49,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         db.insert("FOOD", null, foodValues);
     }
 
-    public static void insertVendor(SQLiteDatabase db, Vendor vendor) {
+    private static void insertVendor(SQLiteDatabase db, Vendor vendor) {
         ContentValues vendorValues = new ContentValues();
         vendorValues.put("NAME", vendor.getName());
         vendorValues.put("ADDRESS", vendor.getAddress());
@@ -59,7 +60,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public static void insertUser(SQLiteDatabase db, User user) {
+    private static void insertUser(SQLiteDatabase db, User user) {
         ContentValues userValues = new ContentValues();
         userValues.put("PASSWORD", user.getPassword());
         userValues.put("IMAGE", user.getImg());
@@ -73,6 +74,32 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         db.insert("USERS", null, userValues);
 
     }
+
+    private static void insertOrder(SQLiteDatabase db, Order order) {
+        ContentValues orderValues = new ContentValues();
+        orderValues.put("TOTAL", order.getTotal());
+        orderValues.put("DATE", order.getDate());
+        orderValues.put("NAME", order.getName());
+        orderValues.put("EMAIL", order.getEmail());
+        orderValues.put("PHONE", order.getPhone());
+        orderValues.put("ADDRESS", order.getAddress());
+        orderValues.put("AMOUNT", order.getAmount());
+        orderValues.put("STATUS ", order.getStatus());
+
+        db.insert("ORDERS", null, orderValues);
+    }
+
+    private static void insertOrderDetail(SQLiteDatabase db, OrderDetail orderDetail) {
+        ContentValues orderDetailValue = new ContentValues();
+        orderDetailValue.put("ORDERID", orderDetail.getOrderID());
+        orderDetailValue.put("FOODID", orderDetail.getFoodID());
+        orderDetailValue.put("AMOUNT ", orderDetail.getAmount());
+        orderDetailValue.put("COST", orderDetail.getCost());
+
+        db.insert("ORDERDETAIL", null, orderDetailValue);
+    }
+
+
 
 
     public static Bitmap loadImageFromStorage(String path, int reqWidth, int reqHeight) {
@@ -136,6 +163,8 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
     private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 1) {
 
+
+
             db.execSQL("CREATE TABLE VENDOR (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NAME TEXT NOT NULL, "
                     + "IMAGE TEXT, "
@@ -164,7 +193,23 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
                     + "PRIVILEGE INTEGER NOT NULL, "
                     + "ADDRESS TEXT);");
 
+            db.execSQL("CREATE TABLE ORDERS ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "TOTAL REAL NOT NULL, "
+                    + "DATE TEXT, "
+                    + "NAME TEXT NOT NULL, "
+                    + "EMAIL TEXT NOT NULL, "
+                    + "PHONE TEXT, "
+                    + "ADDRESS TEXT, "
+                    + "AMOUNT INTEGER NOT NULL, "
+                    + "STATUS INTEGER NOT NULL);");
 
+            db.execSQL("CREATE TABLE ORDERDETAIL ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "ORDERID INTEGER NOT NULL, "
+                    + "FOODID INTEGER NOT NULL, "
+                    + "AMOUNT INTEGER NOT NULL, "
+                    + "COST REAL, "
+                    + "FOREIGN KEY(ORDERID) REFERENCES ORDERS(_id),"
+                    + "FOREIGN KEY(FOODID) REFERENCES FOOD(_id));");
 
 
             Vendor vendor = new Vendor("Earth's Best", saveDrawableToInternalStorage(R.drawable.earth_best, "EarthsBest@gmail.com", VENDOR), "4600 Sleepytime Dr. Boulder, CO 80301 USA",
@@ -195,7 +240,12 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
             user = new User(MD5("12345678"), saveDrawableToInternalStorage(R.drawable.kimyojung, "kimyooyung@gmail.com", USER), "Kim Yoo Yung", "Nữ", "22-9-1999",
                     "kimyooyung@gmail.com", "0123456789", 2, "South Korea");
             insertUser(db, user);
-
+            Order order = new Order(50, "6-4-2018", "Nguyễn Tiến Thành", "tienthanhit97@gmail.com", "01679003648", "Vietnam", 20, 0);
+            insertOrder(db, order);
+            OrderDetail orderDetail = new OrderDetail(1, 1, 1, 25);
+            insertOrderDetail(db, orderDetail);
+            orderDetail = new OrderDetail(1, 2, 1, 25);
+            insertOrderDetail(db, orderDetail);
 
         }
         if (oldVersion < 2) {
@@ -203,7 +253,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public static int calculateInSampleSize(
+    private static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
@@ -225,16 +275,17 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         return inSampleSize;
     }
 
-    public String MD5(String md5) {
+    private String MD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(md5.getBytes());
-            StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1,3));
+            StringBuilder sb = new StringBuilder();
+            for (byte anArray : array) {
+                sb.append(Integer.toHexString((anArray & 0xFF) | 0x100).substring(1, 3));
             }
             return sb.toString();
         } catch (java.security.NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -244,4 +295,6 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         db.setForeignKeyConstraintsEnabled(true);
         super.onConfigure(db);
     }
+
+
 }

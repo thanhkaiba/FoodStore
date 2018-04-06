@@ -16,9 +16,10 @@ public class CaptionImageAdapter extends RecyclerView.Adapter<CaptionImageAdapte
 
     public static final String FOOD_ADAPTER = "food_adapter";
     public static final String USER_ADAPTER = "user_adapter";
+    public static final String ORDER_ADAPTER = "order_adapter";
     private ArrayList<Info> infos;
     private ArrayList<Info> mFilteredList;
-    private String type;
+    private String type = "";
     Listener listener;
 
     public void setType(String type) {
@@ -87,7 +88,7 @@ public class CaptionImageAdapter extends RecyclerView.Adapter<CaptionImageAdapte
     @Override
     public CaptionImageAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView cv;
-        if (type == USER_ADAPTER)
+        if (type.equals(USER_ADAPTER))
             cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.image_card_user, parent, false);
         else {
             cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.image_card, parent, false);
@@ -99,7 +100,10 @@ public class CaptionImageAdapter extends RecyclerView.Adapter<CaptionImageAdapte
     public void onBindViewHolder(CaptionImageAdapter.ViewHolder holder, final int position) {
         CardView cardView = holder.cardView;
         ImageView imageView =  cardView.findViewById(R.id.info_image);
-        imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(mFilteredList.get(position).getImage(), 200, 200));
+        if (type != ORDER_ADAPTER)
+            imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(mFilteredList.get(position).getImage(), 200, 200));
+        else
+            imageView.setImageResource(R.drawable.order);
         imageView.setContentDescription(mFilteredList.get(position).getName());
         TextView name = cardView.findViewById(R.id.info_name);
         name.setText(mFilteredList.get(position).getName());
