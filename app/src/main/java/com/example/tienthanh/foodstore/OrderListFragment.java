@@ -128,7 +128,9 @@ public class OrderListFragment extends Fragment implements CaptionImageAdapter.L
     }
 
     @Override
-    public void onClick(int id) {
-        
+    public void onClick(int position) {
+        Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
+        intent.putExtra(OrderDetailActivity.ORDER_INFO, orders.get(position));
+        startActivity(intent);
     }
 }

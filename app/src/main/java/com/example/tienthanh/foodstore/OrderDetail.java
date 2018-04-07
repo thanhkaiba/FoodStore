@@ -1,13 +1,23 @@
 package com.example.tienthanh.foodstore;
 
 public class OrderDetail {
-    private int id;
+    private long id;
     private int orderID;
     private int foodID;
     private int amount;
-    private int cost;
+    private Double cost;
+    private String foodName;
 
-    public OrderDetail(int id, int orderID, int foodID, int amount, int cost) {
+    public OrderDetail(long id, int orderID, int foodID, int amount, Double cost, String foodName) {
+        this.id = id;
+        this.orderID = orderID;
+        this.foodID = foodID;
+        this.amount = amount;
+        this.cost = cost;
+        this.foodName = foodName;
+    }
+
+    public OrderDetail(long id, int orderID, int foodID, int amount, Double cost) {
         this.id = id;
         this.orderID = orderID;
         this.foodID = foodID;
@@ -15,18 +25,18 @@ public class OrderDetail {
         this.cost = cost;
     }
 
-    public OrderDetail(int orderID, int foodID, int amount, int cost) {
+    public OrderDetail(int orderID, int foodID, int amount, Double cost) {
         this.orderID = orderID;
         this.foodID = foodID;
         this.amount = amount;
         this.cost = cost;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -54,11 +64,19 @@ public class OrderDetail {
         this.amount = amount;
     }
 
-    public int getCost() {
+    public Double getCost() {
         return cost;
     }
 
-    public void setCost(int cost) {
+    public void setCost(Double cost) {
         this.cost = cost;
+    }
+
+    public String getFoodName() {
+        return foodName;
+    }
+
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 }

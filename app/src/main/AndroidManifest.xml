@@ -25,7 +25,8 @@
         <activity android:name=".UserDetailActivity" />
         <activity android:name=".EditUserActivity" />
         <activity android:name=".VendorDetailActivity" />
-        <activity android:name=".EditVendorActivity"></activity>
+        <activity android:name=".EditVendorActivity" />
+        <activity android:name=".OrderDetailActivity"></activity>
     </application>
 
 </manifest>

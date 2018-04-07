@@ -208,7 +208,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
                     + "FOODID INTEGER NOT NULL, "
                     + "AMOUNT INTEGER NOT NULL, "
                     + "COST REAL, "
-                    + "FOREIGN KEY(ORDERID) REFERENCES ORDERS(_id),"
+                    + "FOREIGN KEY(ORDERID) REFERENCES ORDERS(_id) ON UPDATE CASCADE ON DELETE CASCADE,"
                     + "FOREIGN KEY(FOODID) REFERENCES FOOD(_id));");
 
 
@@ -242,9 +242,9 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
             insertUser(db, user);
             Order order = new Order(50, "6-4-2018", "Nguyễn Tiến Thành", "tienthanhit97@gmail.com", "01679003648", "Vietnam", 20, 0);
             insertOrder(db, order);
-            OrderDetail orderDetail = new OrderDetail(1, 1, 1, 25);
+            OrderDetail orderDetail = new OrderDetail(1, 1, 1, 25.0);
             insertOrderDetail(db, orderDetail);
-            orderDetail = new OrderDetail(1, 2, 1, 25);
+            orderDetail = new OrderDetail(1, 2, 1, 25.0);
             insertOrderDetail(db, orderDetail);
 
         }

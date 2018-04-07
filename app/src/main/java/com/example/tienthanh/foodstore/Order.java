@@ -1,6 +1,8 @@
 package com.example.tienthanh.foodstore;
 
-public class Order {
+import java.io.Serializable;
+
+public class Order implements Serializable{
     private long id;
     private double total;
     private String date;
