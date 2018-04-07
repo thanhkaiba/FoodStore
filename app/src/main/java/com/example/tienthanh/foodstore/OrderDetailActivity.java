@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -36,6 +37,21 @@ public class OrderDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent.hasExtra(ORDER_INFO)) {
             order = (Order) intent.getSerializableExtra(ORDER_INFO);
+            TextView id = findViewById(R.id.info_id);
+            TextView name = findViewById(R.id.info_name);
+            TextView phone = findViewById(R.id.info_phone);
+            TextView email = findViewById(R.id.info_email);
+            TextView address = findViewById(R.id.info_address);
+            TextView date = findViewById(R.id.info_date);
+            TextView total = findViewById(R.id.info_total);
+
+            total.setText(String.valueOf(order.getTotal()));
+            id.setText("Id:" + String.valueOf(order.getId()));
+            name.setText("Name:" + order.getName());
+            phone.setText("Phone: "+ order.getPhone());
+            email.setText("Email: "+ order.getEmail());
+            date.setText("Date: "+ order.getDate());
+            address.setText("Address:" + order.getAddress());
         }
 
         ListView listView =  findViewById(R.id.list_view);
@@ -49,6 +65,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detail_menu, menu);
+        MenuItem editAction = menu.findItem(R.id.action_edit);
+        editAction.setVisible(false);
         return super.onCreateOptionsMenu(menu);
     }
 

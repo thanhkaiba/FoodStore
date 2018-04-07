@@ -20,6 +20,12 @@
     <string name="select_type">Select type</string>
     <string name="user_image">User Image</string>
     <string name="action_change_image">Change Image</string>
+    <string name="order_detail_field_1">No.</string>
+    <string name="order_detail_field_2">Food\'s name</string>
+    <string name="order_detail_field_3">Amount</string>
+    <string name="order_detail_field_4">Cost</string>
+    <string name="order_total">Total</string>
+    <string name="order_done">Done</string>
     <array name="food_types">
         <item>Vegetable</item>
         <item>Meat</item>
