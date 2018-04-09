@@ -98,6 +98,16 @@ public class VendorDetailActivity extends AppCompatActivity {
         }
 
         @Override
+        protected void onPreExecute() {
+            if (vendor.getImg() != null) {
+                File myPath = new File(vendor.getImg());
+                if (myPath.exists()) {
+                    myPath.delete();
+                }
+            }
+        }
+
+        @Override
         protected Boolean doInBackground(Long... ids) {
             SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(VendorDetailActivity.this);
 
@@ -105,10 +115,7 @@ public class VendorDetailActivity extends AppCompatActivity {
                 SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
                 long id = ids[0];
                 db.delete("VENDOR", "_id=?", new String[]{Long.toString(id)});
-                File myPath = new File(vendor.getImg());
-                if (myPath.exists()) {
-                    myPath.delete();
-                }
+
                 db.close();
                 Intent intent = new Intent(VendorDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_vendor_list);

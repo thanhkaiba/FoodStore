@@ -1,5 +1,14 @@
 package com.example.tienthanh.foodstore;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import java.io.Serializable;
 
 public class Vendor implements Serializable {
@@ -78,4 +87,5 @@ public class Vendor implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
 }

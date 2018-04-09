@@ -83,6 +83,17 @@ public class FoodDetailActivity extends AppCompatActivity {
         }
 
         @Override
+        protected void onPreExecute() {
+            if (food.getImg() != null) {
+                File myPath = new File(food.getImg());
+                if (myPath.exists()) {
+                    myPath.delete();
+                }
+            }
+            super.onPreExecute();
+        }
+
+        @Override
         protected Boolean doInBackground(Long... ids) {
             SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(FoodDetailActivity.this);
 
@@ -90,16 +101,14 @@ public class FoodDetailActivity extends AppCompatActivity {
                 SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
                 long id = ids[0];
                 db.delete("FOOD", "_id=?", new String[]{Long.toString(id)});
-                File myPath = new File(food.getImg());
-                if (myPath.exists()) {
-                    myPath.delete();
-                }
+
                 db.close();
                 Intent intent = new Intent(FoodDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_food_list);
                 startActivity(intent);
                 return true;
             } catch (Exception e) {
+                e.printStackTrace();
                 return false;
             }
         }

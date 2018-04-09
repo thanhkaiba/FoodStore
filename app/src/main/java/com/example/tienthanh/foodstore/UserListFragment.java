@@ -50,13 +50,12 @@ public class UserListFragment extends Fragment implements CaptionImageAdapter.Li
         return  userRecycler;
     }
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.main_menu, menu);
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
         search(searchView);
-        super.onCreateOptionsMenu(menu, inflater);
-
+        super.onPrepareOptionsMenu(menu);
     }
 
     private ArrayList<User> getUsersDatabase() {

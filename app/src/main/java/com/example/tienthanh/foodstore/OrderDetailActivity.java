@@ -1,5 +1,6 @@
 package com.example.tienthanh.foodstore;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,14 +10,17 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class OrderDetailActivity extends AppCompatActivity {
@@ -24,6 +28,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     public static final String ORDER_INFO = "order info";
     private Order order;
     private ArrayList<OrderDetail> details;
+    private ToggleButton status;
+    private int preStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,21 +50,27 @@ public class OrderDetailActivity extends AppCompatActivity {
             TextView address = findViewById(R.id.info_address);
             TextView date = findViewById(R.id.info_date);
             TextView total = findViewById(R.id.info_total);
-
             total.setText(String.valueOf(order.getTotal()));
-            id.setText("Id:" + String.valueOf(order.getId()));
-            name.setText("Name:" + order.getName());
-            phone.setText("Phone: "+ order.getPhone());
-            email.setText("Email: "+ order.getEmail());
-            date.setText("Date: "+ order.getDate());
-            address.setText("Address:" + order.getAddress());
+            status = findViewById(R.id.info_status);
+            status.setChecked(order.getStatus() == 1);
+            String info_id = "ID: " + String.valueOf(order.getId());
+            id.setText(info_id);
+            preStatus = order.getStatus();
+            name.setText(order.getName());
+            phone.setText(order.getPhone());
+            email.setText(order.getEmail());
+            date.setText(order.getDate());
+            address.setText(order.getAddress());
         }
 
-        ListView listView =  findViewById(R.id.list_view);
+        RecyclerView recyclerView =  findViewById(R.id.recyclerview);
         details = getOrderDetailDatabase();
 
-        listViewAdapter adapter = new listViewAdapter(this, details);
-        listView.setAdapter(adapter);
+        OrderRecyclerAdapter adapter = new OrderRecyclerAdapter(this, details);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
 
     }
 
@@ -73,11 +85,6 @@ public class OrderDetailActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_edit:
-                //Intent intent = new Intent(this, EditVendorActivity.class);
-                //intent.putExtra(EditVendorActivity.EDIT_VENDOR, vendor);
-                //startActivity(intent);
-                return true;
             case R.id.action_delete:
                 new DeleteOrderTask().execute(order.getId());
                 return true;
@@ -95,7 +102,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(this);
         try {
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT ORDERDETAIL.*, FOOD.NAME FROM ORDERDETAIL, FOOD WHERE ORDERID = " +
+            Cursor cursor = db.rawQuery("SELECT ORDERDETAIL.*, FOOD.NAME FROM ORDERDETAIL, FOOD, ORDERS WHERE ORDERID = " +
                     + order.getId() + " AND FOOD._id = FOODID;", null);
             if (cursor.moveToFirst()) {
                 do {
@@ -125,6 +132,18 @@ public class OrderDetailActivity extends AppCompatActivity {
         return detailList;
     }
 
+    public void onClickDone(View view) {
+        boolean on = ((ToggleButton) view).isChecked();
+
+        if (on) {
+            new UpdateOrderTask().execute(order.getId());
+        } else {
+            new UpdateOrderTask().execute(order.getId());
+        }
+
+    }
+
+
     private class DeleteOrderTask extends AsyncTask<Long, Void, Boolean> {
 
         @Override
@@ -153,5 +172,59 @@ public class OrderDetailActivity extends AppCompatActivity {
                 return false;
             }
         }
+    }
+    private class UpdateOrderTask extends AsyncTask<Long, Void, Boolean> {
+
+        private ContentValues orderValues;
+
+        @Override
+        protected void onPostExecute(Boolean done) {
+            if (!done) {
+                Toast toast = Toast.makeText(OrderDetailActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            if (status.isChecked()) {
+                order.setStatus(1);
+            } else {
+                order.setStatus(0);
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Long... ids) {
+            SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(OrderDetailActivity.this);
+
+            try {
+
+                SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
+                long id = ids[0];
+
+                orderValues = new ContentValues();
+                orderValues.put("STATUS", order.getStatus());
+                db.update("ORDERS", orderValues, "_id=?", new String[]{Long.toString(id)});
+                db.close();
+                return true;
+            } catch (Exception e) {
+                e.getStackTrace();
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (preStatus != order.getStatus()) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(MainActivity.FRAGMENT, R.id.nav_order_list);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        } else {
+            super.onBackPressed();
+        }
+
     }
 }

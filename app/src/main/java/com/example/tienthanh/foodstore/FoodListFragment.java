@@ -25,11 +25,24 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
 
     ArrayList<Food> foods;
     CaptionImageAdapter adapter;
+    public static final String VEGETABLE = "Vegetable";
+    public static final String MEAT = "Meat";
+    public static final String FRUIT = "Fruit";
+    public static final String SEAFOOD = "SeaFood";
+    public static final String TYPE = "type";
+    public static final String NUTS_GRAINS_BEANS = "Nuts, Grains and Beans";
+    private String type = "";
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView foodRecycler = (RecyclerView)  inflater.inflate(R.layout.fragment_food_list, container, false);
+        savedInstanceState = getArguments();
+        if (savedInstanceState != null) {
+            type = savedInstanceState.getString(TYPE);
+        }
 
         foods = getFoodDatabase();
         ArrayList<Info> infos = new ArrayList<>();
@@ -38,6 +51,8 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
            Info info = new Info(food.getName(), String.valueOf(food.getCost()), food.getImg());
            infos.add(info);
         }
+
+
 
         adapter = new CaptionImageAdapter(infos);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -55,7 +70,8 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
         SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(getActivity());
         try {
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT FOOD.*, VENDOR.NAME FROM FOOD LEFT JOIN VENDOR ON FOOD.VENDORID = VENDOR._id", null);
+            String sql = "SELECT FOOD.*, VENDOR.NAME FROM FOOD LEFT JOIN VENDOR ON FOOD.VENDORID = VENDOR._id WHERE TYPE = '" + type + "';" ;
+            Cursor cursor = db.rawQuery(sql, null);
             if (cursor.moveToFirst()) {
                 do {
                     long id = cursor.getLong(0);
@@ -87,12 +103,11 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
 
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.main_menu, menu);
+    public void onPrepareOptionsMenu(Menu menu) {
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
         search(searchView);
-        super.onCreateOptionsMenu(menu, inflater);
+        super.onPrepareOptionsMenu(menu);
     }
 
     @Override

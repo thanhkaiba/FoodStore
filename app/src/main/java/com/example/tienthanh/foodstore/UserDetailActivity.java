@@ -104,6 +104,16 @@ public class UserDetailActivity extends AppCompatActivity {
         }
 
         @Override
+        protected void onPreExecute() {
+            if (user.getImg() != null) {
+                File myPath = new File(user.getImg());
+                if (myPath.exists()) {
+                    myPath.delete();
+                }
+            }
+        }
+
+        @Override
         protected Boolean doInBackground(Long... ids) {
             SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(UserDetailActivity.this);
 
@@ -111,10 +121,6 @@ public class UserDetailActivity extends AppCompatActivity {
                 SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
                 long id = ids[0];
                 db.delete("USERS", "_id=?", new String[]{Long.toString(id)});
-                File myPath = new File(user.getImg());
-                if (myPath.exists()) {
-                    myPath.delete();
-                }
                 db.close();
                 Intent intent = new Intent(UserDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_user_list);

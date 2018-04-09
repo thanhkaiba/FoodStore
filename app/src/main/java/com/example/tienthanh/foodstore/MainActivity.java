@@ -37,13 +37,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Intent intent = getIntent();
-        Fragment fragment = new FoodListFragment();
+        Fragment fragment = new FoodTypeFragment();
 
         if (intent.hasExtra(FRAGMENT)) {
             int id = intent.getExtras().getInt(FRAGMENT);
             switch (id) {
                 case R.id.nav_food_list:
-                    fragment = new FoodListFragment();
+                    fragment = new FoodTypeFragment();
                     break;
                 case R.id.nav_user_list:
                     fragment = new UserListFragment();
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragment = new BillListFragment();
                     break;
                 default:
-                    fragment = new FoodListFragment();
+                    fragment = new FoodTypeFragment();
             }
         }
         fragmentTransaction.add(R.id.fragment_container, fragment);
@@ -69,20 +69,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Fragment fragment = null;
+        Fragment fragment;
         Intent intent = null;
         switch (id) {
             case R.id.nav_food_list:
-                fragment = new FoodListFragment();
-                setTitle("FOOD");
+                fragment = new FoodTypeFragment();
+                setTitle("Food");
                 break;
             case R.id.nav_user_list:
                 fragment = new UserListFragment();
-                setTitle("USER");
+                setTitle("User");
                 break;
             case R.id.nav_vendor_list:
                 fragment = new VendorListFragment();
-                setTitle("VENDOR");
+                setTitle("Vendor");
                 break;
             case R.id.nav_order_list:
                 fragment = new OrderListFragment();
@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new BillListFragment();
                 break;
             default:
-                fragment = new FoodListFragment();
+                fragment = new FoodTypeFragment();
+                setTitle("Food");
         }
 
         if (fragment != null) {
@@ -101,14 +102,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             startActivity(intent);
         }
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout =  findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -117,18 +118,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.action_share);
         shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-        setShareActionIntent("Let use FoodStore app!");
-        return super.onPrepareOptionsMenu(menu);
+        setShareActionIntent();
+        return super.onCreateOptionsMenu(menu);
     }
 
-    private void setShareActionIntent(String text) {
+
+    private void setShareActionIntent() {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, text);
-        shareActionProvider.setShareIntent(intent);
+        intent.putExtra(Intent.EXTRA_TEXT, "Let use FoodStore app!");
+       shareActionProvider.setShareIntent(intent);
     }
 
 

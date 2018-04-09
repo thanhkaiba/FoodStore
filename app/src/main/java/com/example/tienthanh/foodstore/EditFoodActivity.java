@@ -243,7 +243,7 @@ public class EditFoodActivity extends AppCompatActivity {
         SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(this);
         try {
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM FOOD", null);
+            Cursor cursor = db.rawQuery("SELECT FOOD.*, VENDOR.NAME FROM FOOD LEFT JOIN VENDOR ON FOOD.VENDORID = VENDOR._id", null);
             if (cursor.moveToFirst()) {
                 do {
                     long id = cursor.getLong(0);
@@ -307,7 +307,7 @@ public class EditFoodActivity extends AppCompatActivity {
             foodValues.put("IMAGE", food.getImg());
             foodValues.put("COST", food.getCost());
             foodValues.put("UNIT", food.getUnit());
-            foodValues.put("VENDORID", food.getVendorID());
+            foodValues.put("VENDORID", 1);
         }
 
         @Override
@@ -336,6 +336,7 @@ public class EditFoodActivity extends AppCompatActivity {
                 db.close();
                 return true;
             } catch (Exception e) {
+                e.printStackTrace();
                 return false;
             }
         }
