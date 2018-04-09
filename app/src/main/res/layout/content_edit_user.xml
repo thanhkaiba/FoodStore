@@ -11,8 +11,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-
+        
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +46,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_person_black_24dp" />
 
-            <EditText
+            <com.example.tienthanh.customfonts.MyEditText
                 android:id="@+id/name_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,7 +89,7 @@
                 android:tint="@color/colorPrimary"
                 android:tintMode="src_in" />
 
-            <EditText
+            <com.example.tienthanh.customfonts.MyEditText
                 android:id="@+id/phone_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -119,7 +118,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_email_black_24dp" />
 
-            <EditText
+            <com.example.tienthanh.customfonts.MyEditText
                 android:id="@+id/email_info"
                 android:inputType="textEmailAddress"
                 android:layout_width="match_parent"
@@ -179,7 +178,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_location_on_black_24dp" />
 
-            <EditText
+            <com.example.tienthanh.customfonts.MyEditText
                 android:id="@+id/address_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

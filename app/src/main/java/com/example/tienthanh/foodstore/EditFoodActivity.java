@@ -31,13 +31,14 @@ import android.widget.Toast;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EditFoodActivity extends AppCompatActivity {
 
     public static final String EDIT_FOOD = "Edit Food";
     private static final int RESULT_LOAD_IMG = 201;
     private static final int RESULT_CAPTURE_IMG = 200;
-
+    private ArrayList<Vendor> vendors = new ArrayList<>();
     private Food food;
     private ImageView imageView;
     private Bitmap selectedImage;
@@ -47,6 +48,7 @@ public class EditFoodActivity extends AppCompatActivity {
     private EditText cost;
     private EditText unit;
     private String preName;
+    private Spinner vendor;
     private ArrayList<Food> foods;
 
 
@@ -65,7 +67,16 @@ public class EditFoodActivity extends AppCompatActivity {
         description = (EditText) findViewById(R.id.info_description);
         cost = findViewById(R.id.info_cost);
         unit = findViewById(R.id.info_unit);
+        vendor = findViewById(R.id.info_vendor);
         type = findViewById(R.id.info_type);
+        ArrayAdapter<String> typeAdapter = new MySpinnerAdapter(this, android.R.layout.simple_list_item_1, Food.TYPE);
+        ArrayList<String> vendorName = new ArrayList<>();
+        for (Vendor v : vendors) {
+            vendorName.add(v.getName());
+        }
+        ArrayAdapter<String> vendorAdapter = new MySpinnerAdapter(this, android.R.layout.simple_list_item_1, vendorName);
+        type.setAdapter(typeAdapter);
+        vendor.setAdapter(vendorAdapter);
 
         Intent intent = getIntent();
         if (intent.hasExtra(EDIT_FOOD)) {
@@ -76,10 +87,8 @@ public class EditFoodActivity extends AppCompatActivity {
             description.setText(food.getDescription());
             cost.setText(String.valueOf(food.getCost()));
             unit.setText(food.getUnit());
-            ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) type.getAdapter();
-            int position = adapter.getPosition(food.getType());
-            type.setSelection(position);
-
+            type.setSelection(typeAdapter.getPosition(food.getType()));
+            vendor.setSelection(vendorAdapter.getPosition(food.getVendorName()));
         }
 
         name.addTextChangedListener(new TextWatcher() {
@@ -224,6 +233,14 @@ public class EditFoodActivity extends AppCompatActivity {
             food.setCost(Double.valueOf(cost.getText().toString()));
             food.setUnit(unit.getText().toString());
             food.setType(type.getSelectedItem().toString());
+            String vendorNameSelected = vendor.getSelectedItem().toString();
+            food.setVendorName(vendorNameSelected);
+            for (Vendor v : vendors) {
+                if (v.getName().equals(vendorNameSelected)) {
+                    food.setVendorID(v.getId());
+                    break;
+                }
+            }
             if (selectedImage != null)
                 food.setImg(FoodStoreDatabaseHelper.saveToInternalStorage(selectedImage, food.getName(), FoodStoreDatabaseHelper.FOOD));
             new UpdateFoodTask().execute();
@@ -253,10 +270,11 @@ public class EditFoodActivity extends AppCompatActivity {
                     double cost = cursor.getDouble(5);
                     String image = cursor.getString(4);
                     String unit = cursor.getString(6);
-                    int vendorID = cursor.getInt(7);
-                    String vendorName = cursor.getString(8);
+                    long vendorID = cursor.getInt(7);
+                    int amount = cursor.getInt(8);
+                    String vendorName = cursor.getString(9);
 
-                    Food food = new Food(id, name, type, description, image, cost, unit, vendorID, vendorName);
+                    Food food = new Food(id, name, type, description, image, cost, unit, vendorID, vendorName, amount);
                     foodList.add(food);
 
                     if (cursor.isLast()) {
@@ -264,6 +282,25 @@ public class EditFoodActivity extends AppCompatActivity {
                     }
                     cursor.moveToNext();
                 } while (true);
+            }
+
+            cursor = db.rawQuery("SELECT * FROM VENDOR", null);
+            if (cursor.moveToFirst()) {
+                do {
+                    long id = cursor.getLong(0);
+                    String name = cursor.getString(1);
+                    String image = cursor.getString(2);
+                    String address = cursor.getString(3);
+                    String email = cursor.getString(4);
+                    String phone = cursor.getString(5);
+
+                    Vendor vendor = new Vendor(id, name, image, address, email, phone);
+                    vendors.add(vendor);
+                    if (cursor.isLast() ) {
+                        break;
+                    }
+                    cursor.moveToNext();
+                } while(true);
             }
             cursor.close();
             db.close();
@@ -307,7 +344,8 @@ public class EditFoodActivity extends AppCompatActivity {
             foodValues.put("IMAGE", food.getImg());
             foodValues.put("COST", food.getCost());
             foodValues.put("UNIT", food.getUnit());
-            foodValues.put("VENDORID", 1);
+            foodValues.put("AMOUNT", food.getAmount());
+            foodValues.put("VENDORID", food.getVendorID());
         }
 
         @Override
@@ -364,6 +402,9 @@ public class EditFoodActivity extends AppCompatActivity {
             return true;
         }
         if (!food.getType().equals(type.getSelectedItem())) {
+            return true;
+        }
+        if (!food.getVendorName().equals(vendor.getSelectedItem())) {
             return true;
         }
         return false;

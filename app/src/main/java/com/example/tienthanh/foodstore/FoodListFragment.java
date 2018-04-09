@@ -81,10 +81,12 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
                     double cost = cursor.getDouble(5);
                     String image = cursor.getString(4);
                     String unit = cursor.getString(6);
-                    int vendorId = cursor.getInt(7);
-                    String vendorName = cursor.getString(8);
+                    long vendorId = cursor.getInt(7);
+                    int amount = cursor.getInt(8);
+                    String vendorName = cursor.getString(9);
 
-                    Food food = new Food(id, name, type, description, image, cost, unit, vendorId, vendorName);
+
+                    Food food = new Food(id, name, type, description, image, cost, unit, vendorId, vendorName, amount);
                     foodList.add(food);
                     if (cursor.isLast() ) {
                         break;

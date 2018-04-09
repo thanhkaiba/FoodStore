@@ -27,15 +27,8 @@
     <string name="order_total">Total</string>
     <string name="order_done">Done</string>
     <string name="order_item">ITEM</string>
-    <string name="order_amount">AMOUNT</string>
+    <string name="order_amount">QTY</string>
     <string name="order_vat">VAT</string>
-    <array name="food_types">
-        <item>Vegetable</item>
-        <item>Meat</item>
-        <item>Fruit</item>
-        <item>SeaFood</item>
-        <item>Nuts, Grains and Beans</item>
-    </array>
     <array name="array_genders">
         <item>Male</item>
         <item>Female</item>

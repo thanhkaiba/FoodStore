@@ -83,9 +83,9 @@ public class EditUserActivity extends AppCompatActivity {
         c.add(Calendar.YEAR, -10);
         birthday.setMaxDate(c.getTimeInMillis());
 
-        ArrayAdapter<String> privilegeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, User.PRIVILEGE);
+        ArrayAdapter<String> privilegeAdapter = new MySpinnerAdapter(this, android.R.layout.simple_list_item_1, User.PRIVILEGE);
         privilege.setAdapter(privilegeAdapter);
-        ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, User.GENDER);
+        ArrayAdapter<String> genderAdapter = new MySpinnerAdapter(this, android.R.layout.simple_list_item_1, User.GENDER);
         gender.setAdapter(genderAdapter);
 
         Intent intent = getIntent();

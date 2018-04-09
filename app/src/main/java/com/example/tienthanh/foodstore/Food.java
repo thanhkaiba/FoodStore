@@ -10,35 +10,20 @@ class Food implements Serializable{
     private String img;
     private double cost;
     private String unit;
-    private int vendorID;
+    private long vendorID;
     private String vendorName;
+    private int amount;
+    public static final String[] TYPE = {"Vegetable", "Meat", "Fruit", "SeaFood", "Nuts, Grains and Beans"};
 
-    public Food() {
-
+    public int getAmount() {
+        return amount;
     }
 
-    public Food(long id, String name, String type, String description, String img, double cost, String unit, int vendor) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.description = description;
-        this.img = img;
-        this.cost = cost;
-        this.unit = unit;
-        this.vendorID = vendor;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
-    public Food(String name, String type, String description, String img, double cost, String unit, int vendor) {
-        this.name = name;
-        this.type = type;
-        this.description = description;
-        this.img = img;
-        this.cost = cost;
-        this.unit = unit;
-        this.vendorID = vendor;
-    }
-
-    public Food(long id, String name, String type, String description, String img, double cost, String unit, int vendorID, String vendorName) {
+    public Food(long id, String name, String type, String description, String img, double cost, String unit, long vendorID, String vendorName, int amount) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -48,13 +33,31 @@ class Food implements Serializable{
         this.unit = unit;
         this.vendorID = vendorID;
         this.vendorName = vendorName;
+        this.amount = amount;
     }
 
-    public int getVendorID() {
+    public Food() {
+
+    }
+
+
+    public Food(String name, String type, String description, String img, double cost, String unit, long vendorID, int amount) {
+        this.name = name;
+        this.type = type;
+        this.description = description;
+        this.img = img;
+        this.cost = cost;
+        this.unit = unit;
+        this.vendorID = vendorID;
+        this.vendorName = vendorName;
+        this.amount = amount;
+    }
+
+    public long getVendorID() {
         return vendorID;
     }
 
-    public void setVendorID(int vendorID) {
+    public void setVendorID(long vendorID) {
         this.vendorID = vendorID;
     }
 

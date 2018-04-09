@@ -46,6 +46,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         foodValues.put("COST", food.getCost());
         foodValues.put("UNIT", food.getUnit());
         foodValues.put("VENDORID", food.getVendorID());
+        foodValues.put("AMOUNT", food.getAmount());
         db.insert("FOOD", null, foodValues);
     }
 
@@ -180,6 +181,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
                     + "COST REAL, "
                     + "UNIT TEXT, "
                     + "VENDORID INTEGER, "
+                    + "AMOUNT INTEGER, "
                     + "FOREIGN KEY(VENDORID) REFERENCES VENDOR(_id));");
 
             db.execSQL("CREATE TABLE USERS ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -221,14 +223,14 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
 
             Food food = new Food("Mango", "Fruit", "\"The king of the fruits,\" mango fruit is one of the most popular, " +
                     "nutritionally rich fruits with unique flavor, fragrance, taste, and heath promoting qualities, making it" +
-                    " numero-uno among new functional foods, often labeled as “super fruits", saveDrawableToInternalStorage(R.drawable.mango, "mango", FOOD), 50, "fruit", 2);
+                    " numero-uno among new functional foods, often labeled as “super fruits", saveDrawableToInternalStorage(R.drawable.mango, "mango", FOOD), 50, "fruit", 2, 50);
             insertFood(db, food);
             food = new Food("Pineapple", "Fruit", "Pineapples are tropical fruit that are rich in vitamins, enzymes and antioxidants. " +
                     "They may help boost the immune system, build strong bones and aid indigestion. Also, despite their sweetness, pineapples are low in calories",
-                    saveDrawableToInternalStorage(R.drawable.pineapple, "pineapple", FOOD), 70.5, "fruit", 1);
+                    saveDrawableToInternalStorage(R.drawable.pineapple, "pineapple", FOOD), 70.5, "fruit", 1, 50);
             insertFood(db, food);
             food = new Food("Coconut", "Fruit", "Coconut oil is high in healthy saturated fats that have different effects than most other fats in your diet.",
-                    saveDrawableToInternalStorage(R.drawable.coconut, "coconut", FOOD), 20.5, "fruit", 2);
+                    saveDrawableToInternalStorage(R.drawable.coconut, "coconut", FOOD), 20.5, "fruit", 2, 50);
             insertFood(db, food);
 
             User user = new User( MD5("12345678"), saveDrawableToInternalStorage(R.drawable.thanh, "tienthanhit97@gmail.com", USER), "Nguyễn Tiến Thành", "Nam", "30-04-1997",

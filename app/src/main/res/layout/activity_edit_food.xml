@@ -7,49 +7,50 @@
     android:layout_height="match_parent"
     tools:context=".EditFoodActivity">
 
-    <EditText
+    <com.example.tienthanh.customfonts.MyEditText
         android:id="@+id/info_unit"
         android:layout_width="105dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Unit"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/info_vendor" />
 
-    <EditText
+    <com.example.tienthanh.customfonts.MyEditText
         android:id="@+id/info_cost"
         android:layout_width="176dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:drawableLeft="@drawable/ic_attach_money_black_24dp"
         android:ems="10"
         android:hint="Cost"
         android:inputType="number"
         app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/info_vendor" />
 
-    <TextView
+    <com.example.tienthanh.customfonts.MyTextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:text="per"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintEnd_toStartOf="@+id/info_unit"
         app:layout_constraintStart_toEndOf="@+id/info_cost"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/info_vendor" />
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_main"></include>
+        layout="@layout/toolbar_main">
+    </include>
 
     <FrameLayout
         android:id="@+id/imageView"
@@ -75,7 +76,7 @@
 
     </FrameLayout>
 
-    <EditText
+    <com.example.tienthanh.customfonts.MyEditText
         android:id="@+id/info_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,17 +93,16 @@
         android:layout_width="177dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:entries="@array/food_types"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/info_name" />
 
-    <EditText
+    <com.example.tienthanh.customfonts.MyEditText
         android:id="@+id/info_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
         android:drawableLeft="@drawable/ic_description_black_24dp"
         android:ems="10"
         android:gravity="top|left"
@@ -124,6 +124,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_check_white_24dp" />
+
+    <Spinner
+        android:id="@+id/info_vendor"
+        android:layout_width="match_parent"
+        android:layout_height="29dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
 </android.support.constraint.ConstraintLayout>

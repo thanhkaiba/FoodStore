@@ -27,7 +27,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_person_black_24dp" />
 
-            <TextView
+            <com.example.tienthanh.customfonts.MyTextView
                 android:id="@+id/privilege_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#212121" />
 
-            <TextView
+            <com.example.tienthanh.customfonts.MyTextView
                 android:id="@+id/gender_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_phone_black_24dp" />
 
-            <TextView
+            <com.example.tienthanh.customfonts.MyTextView
                 android:id="@+id/phone_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_email_black_24dp" />
 
-            <TextView
+            <com.example.tienthanh.customfonts.MyTextView
                 android:id="@+id/email_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_cake_black_24dp" />
 
-            <TextView
+            <com.example.tienthanh.customfonts.MyTextView
                 android:id="@+id/birthday_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_location_on_black_24dp" />
 
-            <TextView
+            <com.example.tienthanh.customfonts.MyTextView
                 android:id="@+id/info_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -27,7 +27,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_store_black_24dp" />
 
-            <EditText
+            <com.example.tienthanh.customfonts.MyEditText
                 android:id="@+id/info_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_phone_black_24dp" />
 
-            <EditText
+            <com.example.tienthanh.customfonts.MyEditText
                 android:id="@+id/info_phone"
                 android:layout_width="match_parent"
                 android:inputType="phone"
@@ -83,7 +83,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_email_black_24dp" />
 
-            <EditText
+            <com.example.tienthanh.customfonts.MyEditText
                 android:id="@+id/info_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                 android:tintMode="src_in"
                 android:src="@drawable/ic_location_on_black_24dp" />
 
-            <EditText
+            <com.example.tienthanh.customfonts.MyEditText
                 android:id="@+id/info_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

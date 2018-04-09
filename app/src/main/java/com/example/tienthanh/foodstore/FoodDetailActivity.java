@@ -34,13 +34,13 @@ public class FoodDetailActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.info_image);
         imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(food.getImg(), 200, 300));
         TextView name = findViewById(R.id.info_name);
-        name.setText("Name: " + food.getName());
-        TextView type = findViewById(R.id.info_type);
-        type.setText("Type: " + food.getType());
+        name.setText(food.getName());
+        TextView amount = findViewById(R.id.info_amount);
+        amount.setText("There are " +food.getAmount()+ " " + food.getUnit() + " in stock");
         TextView description = findViewById(R.id.info_description);
         description.setText(food.getDescription());
         TextView cost = findViewById(R.id.info_cost);
-        cost.setText(food.getCost() + "$ per " + food.getUnit());
+        cost.setText(food.getCost() + "$ / " + food.getUnit());
         TextView vendorName = findViewById(R.id.info_vendor);
         vendorName.setText(food.getVendorName());
 
