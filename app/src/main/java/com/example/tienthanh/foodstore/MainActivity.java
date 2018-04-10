@@ -15,11 +15,16 @@ import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
     private ShareActionProvider shareActionProvider;
+    public static ArrayList<OrderDetail> cart;
     public static final String FRAGMENT = "fragment";
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
+        cart = new ArrayList<>();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Intent intent = getIntent();
@@ -118,6 +124,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_view_cart:
+                Intent intent = new Intent(this, CartDetailActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.action_share);
@@ -134,5 +152,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
        shareActionProvider.setShareIntent(intent);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (currentFragment != null) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, currentFragment);
+            ft.detach(currentFragment);
+            ft.attach(currentFragment);
+            ft.commit();
+        }
+    }
 }

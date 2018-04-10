@@ -2,14 +2,10 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="@drawable/nav_header"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:layout_height="180dp">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/thanh"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -17,12 +13,23 @@
         android:gravity="bottom|start"
         android:layout_margin="16dp">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/tzuyu"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FFFFFF"/>
+
         <TextView
+            android:id="@+id/profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Thành Kaiba"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
         <TextView
+            android:id="@+id/profile_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="tienthanhit97@gmail.com"/>

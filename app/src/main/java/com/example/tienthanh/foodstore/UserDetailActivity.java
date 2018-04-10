@@ -66,14 +66,14 @@ public class UserDetailActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
+ /*   @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(MainActivity.FRAGMENT, R.id.nav_user_list);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
-
+*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

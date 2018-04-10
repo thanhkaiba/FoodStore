@@ -30,7 +30,9 @@ public class VendorDetailActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         ImageView image = findViewById(R.id.info_image);
         TextView phone = findViewById(R.id.phone_info);
@@ -60,13 +62,13 @@ public class VendorDetailActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
+  /*  @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(MainActivity.FRAGMENT, R.id.nav_vendor_list);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -4,21 +4,20 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f2f2f2"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
     android:orientation="vertical"
-    android:background="#f2f2f2">
+    tools:openDrawer="start">
 
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar_main">
-    </include>
+        layout="@layout/toolbar_main"></include>
 
     <ScrollView
-        android:layout_marginTop="55dp"
-        android:layout_marginBottom="49dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="49dp"
+        android:layout_marginTop="55dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,59 +33,60 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#fff">
+                android:background="#fff"
+                android:orientation="vertical">
+
                 <LinearLayout
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal">
 
                     <com.example.tienthanh.customfonts.MyTextView
                         android:id="@+id/info_name"
-                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="21sp"
-                        android:textColor="@color/colorTex"/>
+                        android:layout_weight="1"
+                        android:textColor="@color/colorTex"
+                        android:textSize="21sp" />
 
                     <com.example.tienthanh.customfonts.MyTextView
                         android:id="@+id/info_cost"
-                        android:layout_weight="1"
-                        android:gravity="end"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="21sp"
-                        android:textColor="@color/colorTex" />
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:textColor="@color/colorTex"
+                        android:textSize="21sp" />
                 </LinearLayout>
 
                 <LinearLayout
 
-                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:orientation="horizontal"
-                    android:gravity="center">
+                    android:padding="16dp">
 
                     <com.example.tienthanh.customfonts.MyTextView
                         android:id="@+id/info_vendor"
                         android:layout_width="wrap_content"
-                        android:padding="10dp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rect"
-                        android:textColor="#fff"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:textColor="#fff" />
 
-                        <com.example.tienthanh.customfonts.MyTextView
-                            android:layout_weight="1"
-                            android:layout_marginStart="10dp"
-                            android:id="@+id/info_amount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:textSize="13sp"
-                            android:textColor="@color/colorTex" />
+                    <com.example.tienthanh.customfonts.MyTextView
+                        android:id="@+id/info_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorTex"
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -96,27 +96,78 @@
                     android:background="@color/colordevider"
                     android:padding="16dp" />
 
+
                 <LinearLayout
-                    android:layout_marginTop="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
+                    android:id="@+id/size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/info_vendor"
+                    android:background="#fff"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+
+                    <com.example.tienthanh.customfonts.MyTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="@string/order_qty"
+                        android:textColor="@color/Tex"
+                        android:textSize="15sp" />
+
+
+                    <ImageView
+                        android:id="@+id/minus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:padding="2dp"
+                        android:src="@drawable/minus" />
+
+                    <com.example.tienthanh.customfonts.MyTextView
+                        android:id="@+id/sizeno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:background="#00000000"
+                        android:hint="0"
+                        android:inputType="number"
+                        android:textColor="@color/textSub"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/plus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="22dp"
+                        android:padding="2dp"
+                        android:src="@drawable/plus" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="vertical">
+
                     <com.example.tienthanh.customfonts.MyTextView
 
-                        android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:text="Description"
                         android:textColor="@color/colorSub" />
 
                     <com.example.tienthanh.customfonts.MyTextView
                         android:id="@+id/info_description"
-                        android:layout_weight="0.5"
                         android:layout_width="match_parent"
-                        android:layout_marginBottom="16dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:layout_weight="0.5"
                         android:textColor="@color/colorTex" />
                 </LinearLayout>
             </LinearLayout>
@@ -127,14 +178,14 @@
         android:id="@+id/buy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#4c71f5"
-        android:text="BUY IT NOW"
-        android:textSize="16sp"
-        android:textColor="#fff"
-        android:gravity="center"
-        android:padding="16dp"
         android:layout_alignParentBottom="true"
-        />
+        android:background="#4c71f5"
+        android:gravity="center"
+        android:onClick="onClickBuy"
+        android:padding="16dp"
+        android:text="@string/customer_order"
+        android:textColor="#fff"
+        android:textSize="16sp" />
 </RelativeLayout>
 
 

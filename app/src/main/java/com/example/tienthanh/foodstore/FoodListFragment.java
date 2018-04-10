@@ -52,8 +52,6 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
            infos.add(info);
         }
 
-
-
         adapter = new CaptionImageAdapter(infos);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         foodRecycler.setLayoutManager(layoutManager);
@@ -116,8 +114,7 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add:
-                Intent intent = new Intent(getActivity(), EditFoodActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getActivity(), EditFoodActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -146,6 +143,7 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
             }
         });
     }
+
 
 
 

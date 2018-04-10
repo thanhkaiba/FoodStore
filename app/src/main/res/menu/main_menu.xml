@@ -9,14 +9,22 @@
         android:id="@+id/action_add"
         android:title="@string/action_add"
         android:icon="@drawable/ic_add_white_24dp"
+        android:orderInCategory="3"
+        app:showAsAction="ifRoom">
+    </item>
+
+    <item
+        android:title="@string/action_view_cart"
+        android:id="@+id/action_view_cart"
+        android:icon="@drawable/ic_shopping_cart_white_24dp"
         android:orderInCategory="2"
-        app:showAsAction="ifRoom"></item>
+        app:showAsAction="ifRoom">
+    </item>
     <item
         android:id="@+id/action_share"
         android:title="@string/action_share"
-        android:orderInCategory="3"
-        app:showAsAction="ifRoom"
+        android:orderInCategory="4"
+        app:showAsAction="collapseActionView"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider">
-
     </item>
 </menu>

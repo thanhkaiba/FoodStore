@@ -29,9 +29,11 @@
     <string name="order_item">ITEM</string>
     <string name="order_amount">QTY</string>
     <string name="order_vat">VAT</string>
+    <string name="customer_order">BUY IT NOW</string>
     <array name="array_genders">
         <item>Male</item>
         <item>Female</item>
-
     </array>
+    <string name="action_view_cart">Cart</string>
+    <string name="order_qty">QTY</string>
 </resources>

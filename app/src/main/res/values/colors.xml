@@ -7,5 +7,7 @@
     <color name="colorTex">#585858</color>
     <color name="colordevider">#64dad8d8</color>
     <color name="colorblue">#4c71f5</color>
+    <color name="textSub">#76818a</color>
+    <color name="Tex">#404547</color>
 
 </resources>

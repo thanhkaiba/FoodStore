@@ -1,14 +1,16 @@
 package com.example.tienthanh.foodstore;
 
-public class OrderDetail {
+import java.io.Serializable;
+
+public class OrderDetail implements Serializable{
     private long id;
-    private int orderID;
-    private int foodID;
+    private long orderID;
+    private long foodID;
     private int amount;
     private Double cost;
     private String foodName;
 
-    public OrderDetail(long id, int orderID, int foodID, int amount, Double cost, String foodName) {
+    public OrderDetail(long id, long orderID, long foodID, int amount, Double cost, String foodName) {
         this.id = id;
         this.orderID = orderID;
         this.foodID = foodID;
@@ -17,15 +19,15 @@ public class OrderDetail {
         this.foodName = foodName;
     }
 
-    public OrderDetail(long id, int orderID, int foodID, int amount, Double cost) {
-        this.id = id;
+    public OrderDetail(long orderID, long foodID, int amount, Double cost, String foodName) {
         this.orderID = orderID;
         this.foodID = foodID;
         this.amount = amount;
         this.cost = cost;
+        this.foodName = foodName;
     }
 
-    public OrderDetail(int orderID, int foodID, int amount, Double cost) {
+    public OrderDetail(long orderID, long foodID, int amount, Double cost) {
         this.orderID = orderID;
         this.foodID = foodID;
         this.amount = amount;
@@ -40,19 +42,19 @@ public class OrderDetail {
         this.id = id;
     }
 
-    public int getOrderID() {
+    public long getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(long orderID) {
         this.orderID = orderID;
     }
 
-    public int getFoodID() {
+    public long getFoodID() {
         return foodID;
     }
 
-    public void setFoodID(int foodID) {
+    public void setFoodID(long foodID) {
         this.foodID = foodID;
     }
 
@@ -78,5 +80,8 @@ public class OrderDetail {
 
     public void setFoodName(String foodName) {
         this.foodName = foodName;
+    }
+    public OrderDetail() {
+
     }
 }

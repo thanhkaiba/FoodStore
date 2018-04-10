@@ -10,16 +10,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class FoodDetailActivity extends AppCompatActivity {
 
     public static final String FOOD_INFO = "food_info";
     private Food food;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +39,56 @@ public class FoodDetailActivity extends AppCompatActivity {
         TextView name = findViewById(R.id.info_name);
         name.setText(food.getName());
         TextView amount = findViewById(R.id.info_amount);
-        amount.setText("There are " +food.getAmount()+ " " + food.getUnit() + " in stock");
+        String amountText = "There are " +food.getAmount()+ " " + food.getUnit() + " in stock";
+        amount.setText(amountText);
         TextView description = findViewById(R.id.info_description);
         description.setText(food.getDescription());
         TextView cost = findViewById(R.id.info_cost);
-        cost.setText(food.getCost() + "$ / " + food.getUnit());
+        String costText = food.getCost() + "$ / " + food.getUnit();
+        cost.setText(costText);
         TextView vendorName = findViewById(R.id.info_vendor);
         vendorName.setText(food.getVendorName());
 
+        ImageView plus =  findViewById(R.id.plus);
+        ImageView minus =  findViewById(R.id.minus);
+        final TextView qty = findViewById(R.id.sizeno);
+
+        final int[] number = {0};
+        qty.setText("" + number[0]);
+
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (number[0] == 0) {
+                    qty.setText("" + number[0]);
+                }
+
+                if (number[0] > 0) {
+
+                    number[0] = number[0] - 1;
+                    qty.setText("" + number[0]);
+                }
+            }
+        });
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (number[0] == food.getAmount()) {
+                    qty.setText("" + number[0]);
+                }
+
+                if (number[0] < food.getAmount()) {
+
+                    number[0] = number[0] + 1;
+                    qty.setText("" + number[0]);
+
+                }
+            }
+        });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -70,6 +114,16 @@ public class FoodDetailActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onClickBuy(View view) {
+        TextView qty = findViewById(R.id.sizeno);
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setFoodName(food.getName());
+        orderDetail.setFoodID(food.getId());
+        orderDetail.setCost(food.getCost());
+        orderDetail.setAmount(Integer.parseInt(qty.getText().toString()));
+        MainActivity.cart.add(orderDetail);
     }
 
     private class DeleteFoodTask extends AsyncTask<Long, Void, Boolean> {
@@ -114,12 +168,8 @@ public class FoodDetailActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(MainActivity.FRAGMENT, R.id.nav_food_list);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
+
+
+
 }
 
