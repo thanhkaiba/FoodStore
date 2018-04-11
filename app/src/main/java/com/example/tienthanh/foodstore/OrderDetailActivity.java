@@ -152,6 +152,9 @@ public class OrderDetailActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(OrderDetailActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
                 toast.show();
             }
+            else {
+                onBackPressed();
+            }
         }
 
         @Override
@@ -166,7 +169,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 /*Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_order_list);
                 startActivity(intent);*/
-                onBackPressed();
+
                 return true;
             } catch (Exception e) {
                 e.getStackTrace();

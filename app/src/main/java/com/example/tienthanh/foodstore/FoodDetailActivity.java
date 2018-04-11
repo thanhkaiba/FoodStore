@@ -141,6 +141,7 @@ public class FoodDetailActivity extends AppCompatActivity {
                         myPath.delete();
                     }
                 }
+                onBackPressed();
             }
         }
 
@@ -158,7 +159,6 @@ public class FoodDetailActivity extends AppCompatActivity {
                 /*Intent intent = new Intent(FoodDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_food_list);
                 startActivity(intent);*/
-                onBackPressed();
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();

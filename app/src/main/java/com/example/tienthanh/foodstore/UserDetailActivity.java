@@ -107,6 +107,7 @@ public class UserDetailActivity extends AppCompatActivity {
                         myPath.delete();
                     }
                 }
+                onBackPressed();
             }
         }
 
@@ -123,7 +124,7 @@ public class UserDetailActivity extends AppCompatActivity {
                 /*Intent intent = new Intent(UserDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_user_list);
                 startActivity(intent);*/
-                onBackPressed();
+
                 return true;
             } catch (Exception e) {
                 e.getStackTrace();

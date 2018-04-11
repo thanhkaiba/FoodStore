@@ -103,6 +103,7 @@ public class VendorDetailActivity extends AppCompatActivity {
                         myPath.delete();
                     }
                 }
+                onBackPressed();
             }
         }
 
@@ -121,7 +122,7 @@ public class VendorDetailActivity extends AppCompatActivity {
                 /*Intent intent = new Intent(VendorDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_vendor_list);
                 startActivity(intent);*/
-                onBackPressed();
+
                 return true;
             } catch (Exception e) {
                 e.getStackTrace();
