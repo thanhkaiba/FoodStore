@@ -163,9 +163,10 @@ public class OrderDetailActivity extends AppCompatActivity {
                 long id = ids[0];
                 db.delete("ORDERS", "_id=?", new String[]{Long.toString(id)});
                 db.close();
-                Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
+                /*Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_order_list);
-                startActivity(intent);
+                startActivity(intent);*/
+                onBackPressed();
                 return true;
             } catch (Exception e) {
                 e.getStackTrace();

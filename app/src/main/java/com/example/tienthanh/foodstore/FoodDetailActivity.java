@@ -134,18 +134,17 @@ public class FoodDetailActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(FoodDetailActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
                 toast.show();
             }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            if (food.getImg() != null) {
-                File myPath = new File(food.getImg());
-                if (myPath.exists()) {
-                    myPath.delete();
+            else {
+                if (food.getImg() != null) {
+                    File myPath = new File(food.getImg());
+                    if (myPath.exists()) {
+                        myPath.delete();
+                    }
                 }
             }
-            super.onPreExecute();
         }
+
+
 
         @Override
         protected Boolean doInBackground(Long... ids) {
@@ -155,11 +154,11 @@ public class FoodDetailActivity extends AppCompatActivity {
                 SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
                 long id = ids[0];
                 db.delete("FOOD", "_id=?", new String[]{Long.toString(id)});
-
                 db.close();
-                Intent intent = new Intent(FoodDetailActivity.this, MainActivity.class);
+                /*Intent intent = new Intent(FoodDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_food_list);
-                startActivity(intent);
+                startActivity(intent);*/
+                onBackPressed();
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();

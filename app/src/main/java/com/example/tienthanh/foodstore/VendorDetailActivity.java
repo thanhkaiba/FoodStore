@@ -96,18 +96,17 @@ public class VendorDetailActivity extends AppCompatActivity {
             if (!done) {
                 Toast toast = Toast.makeText(VendorDetailActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
                 toast.show();
-            }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            if (vendor.getImg() != null) {
-                File myPath = new File(vendor.getImg());
-                if (myPath.exists()) {
-                    myPath.delete();
+            } else {
+                if (vendor.getImg() != null) {
+                    File myPath = new File(vendor.getImg());
+                    if (myPath.exists()) {
+                        myPath.delete();
+                    }
                 }
             }
         }
+
+
 
         @Override
         protected Boolean doInBackground(Long... ids) {
@@ -119,9 +118,10 @@ public class VendorDetailActivity extends AppCompatActivity {
                 db.delete("VENDOR", "_id=?", new String[]{Long.toString(id)});
 
                 db.close();
-                Intent intent = new Intent(VendorDetailActivity.this, MainActivity.class);
+                /*Intent intent = new Intent(VendorDetailActivity.this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT, R.id.nav_vendor_list);
-                startActivity(intent);
+                startActivity(intent);*/
+                onBackPressed();
                 return true;
             } catch (Exception e) {
                 e.getStackTrace();

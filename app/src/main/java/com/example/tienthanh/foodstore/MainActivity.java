@@ -3,6 +3,7 @@ package com.example.tienthanh.foodstore;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,14 +16,17 @@ import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final int LOGIN = 90;
     private ShareActionProvider shareActionProvider;
     public static ArrayList<OrderDetail> cart;
+    public static User user;
     public static final String FRAGMENT = "fragment";
     private Fragment currentFragment;
 
@@ -45,9 +49,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = getIntent();
         Fragment fragment = new FoodTypeFragment();
 
-        if (intent.hasExtra(FRAGMENT)) {
+       /* if (intent.hasExtra(FRAGMENT)) {
             int id = intent.getExtras().getInt(FRAGMENT);
             switch (id) {
+
                 case R.id.nav_food_list:
                     fragment = new FoodTypeFragment();
                     break;
@@ -66,18 +71,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 default:
                     fragment = new FoodTypeFragment();
             }
-        }
+        }*/
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
         FoodStoreDatabaseHelper.setContext(new ContextWrapper(getApplicationContext()));
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        Fragment fragment;
+        Fragment fragment = null;
         Intent intent = null;
         switch (id) {
+            case R.id.nav_login:
+                intent = new Intent(this, LoginActivity.class);
+                startActivityForResult(intent, LOGIN);
+                break;
             case R.id.nav_food_list:
                 fragment = new FoodTypeFragment();
                 setTitle("Food");
@@ -105,10 +114,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, fragment);
             ft.commit();
-        } else {
-            startActivity(intent);
         }
-        DrawerLayout drawerLayout =  findViewById(R.id.drawer_layout);
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -149,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, "Let use FoodStore app!");
-       shareActionProvider.setShareIntent(intent);
+        shareActionProvider.setShareIntent(intent);
     }
 
     @Override
@@ -167,6 +174,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.detach(currentFragment);
             ft.attach(currentFragment);
             ft.commit();
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case LOGIN:
+
+                if (user != null) {
+                    ImageView imageView = findViewById(R.id.profile_image);
+                    imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(user.getImg(), 200, 200));
+                    TextView profileEmail = findViewById(R.id.profile_email);
+                    TextView profileName = findViewById(R.id.profile_name);
+                    profileEmail.setText(user.getEmail());
+                    profileName.setText(user.getName());
+                    NavigationView navigationView = findViewById(R.id.nav_view);
+                    MenuItem item = navigationView.getMenu().findItem(R.id.nav_login);
+                    item.setTitle("Logout");
+                }
+
         }
     }
 }

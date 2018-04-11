@@ -6,6 +6,7 @@
     <string name="nav_vendor_list">Vendor</string>
     <string name="nav_order_list">Order</string>
     <string name="nav_bill_list">Bill</string>
+    <string name="nav_login">Login</string>
     <string name="nav_help">Help</string>
     <string name="nav_feedback">Give us feedback</string>
     <string name="nav_support">Support</string>
@@ -36,4 +37,6 @@
     </array>
     <string name="action_view_cart">Cart</string>
     <string name="order_qty">QTY</string>
+    <string name="app_name_login">FOOD STORE</string>
+    <string name="enjoy">Hope you enjoy this app!</string>
 </resources>

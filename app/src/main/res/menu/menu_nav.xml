@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="@string/nav_login"></item>
         <item android:id="@+id/nav_food_list"
             android:icon="@drawable/food_icon"
             android:checked="true"
-            android:title="@string/nav_food_list"></item>
+            android:title="@string/nav_food_list">
+        </item>
         <item android:id="@+id/nav_user_list"
             android:icon="@drawable/user_icon"
             android:title="@string/nav_user_list"></item>

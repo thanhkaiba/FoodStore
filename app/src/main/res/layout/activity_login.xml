@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lovelogin">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        />
+    <com.example.tienthanh.customfonts.MyTextView
+        android:id="@+id/llg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="FOOD STORE"
+        android:textColor="#fff"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_marginBottom="220dp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="520dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp">
+        <com.example.tienthanh.customfonts.MyTextView
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LOGIN"
+            android:textColor="#fff"
+            android:background="@drawable/brodetr"
+            android:padding="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:onClick="onClickLogin"
+            android:layout_marginEnd="10dp"
+            android:textStyle="bold"
+            />
+        <com.example.tienthanh.customfonts.MyTextView
+            android:id="@+id/signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SIGN UP"
+            android:textColor="#fff"
+            android:background="@drawable/brodetr"
+            android:padding="15dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:layout_marginTop="280dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/user"
+                    android:layout_gravity="center"/>
+
+                <com.example.tienthanh.customfonts.MyEditText
+                    android:id="@+id/user"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email"
+                    android:textColorHint="#fff"
+                    android:layout_marginStart="15dp"
+                    android:background="#00000000"
+                    android:letterSpacing="0.1"
+                    android:textSize="16sp"
+                    android:textColor="#fff"
+                    android:inputType="textEmailAddress"
+                    />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#5fff">
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/lock"
+                    android:layout_gravity="center"/>
+
+
+                <com.example.tienthanh.customfonts.MyEditText
+                    android:id="@+id/pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:textColorHint="#fff"
+                    android:layout_marginStart="15dp"
+                    android:background="#00000000"
+                    android:inputType="textPassword"
+                    android:letterSpacing="0.1"
+                    android:textSize="16sp"
+                    android:textColor="#fff"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#5fff">
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
