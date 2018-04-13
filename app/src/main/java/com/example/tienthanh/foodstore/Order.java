@@ -25,6 +25,8 @@ public class Order implements Serializable{
         this.status = status;
     }
 
+
+
     public Order(double total, String date, String name, String email, String phone, String address, int amount, int status) {
         this.total = total;
         this.date = date;

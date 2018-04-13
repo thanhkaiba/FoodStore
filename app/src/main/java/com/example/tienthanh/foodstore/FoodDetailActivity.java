@@ -133,6 +133,7 @@ public class FoodDetailActivity extends AppCompatActivity {
             orderDetail.setAmount(Integer.parseInt(qty.getText().toString()));
             MainActivity.cart.add(orderDetail);
             MainActivity.foodCart.add(food);
+            finish();
         } else {
             Toast.makeText(this, "You have not selected the quantity", Toast.LENGTH_SHORT).show();
         }

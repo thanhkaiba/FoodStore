@@ -102,7 +102,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(this);
         try {
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT ORDERDETAIL.*, FOOD.NAME FROM ORDERDETAIL, FOOD, ORDERS WHERE ORDERID = " +
+            Cursor cursor = db.rawQuery("SELECT ORDERDETAIL.*, FOOD.NAME FROM ORDERDETAIL, FOOD WHERE ORDERID = " +
                     + order.getId() + " AND FOOD._id = FOODID;", null);
             if (cursor.moveToFirst()) {
                 do {
@@ -116,11 +116,8 @@ public class OrderDetailActivity extends AppCompatActivity {
                     OrderDetail orderDetail = new OrderDetail(id, orderID, foodID, amount, cost, foodName);
                     detailList.add(orderDetail);
 
-                    if (cursor.isLast() ) {
-                        break;
-                    }
                     cursor.moveToNext();
-                } while(true);
+                } while(!cursor.isAfterLast());
                 cursor.close();
                 db.close();
             }

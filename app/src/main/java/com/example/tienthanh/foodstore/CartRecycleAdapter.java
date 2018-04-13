@@ -23,12 +23,12 @@ public class CartRecycleAdapter extends RecyclerView.Adapter<CartRecycleAdapter.
 
 
         TextView name,qty,cost,type;
-        ImageView image, minus, plus;
+        ImageView image, minus, plus, delete;
 
 
         public MyViewHolder(View view) {
             super(view);
-
+            delete = view.findViewById(R.id.delete);
             image = view.findViewById(R.id.info_image);
             name= view.findViewById(R.id.info_name);
             qty = view.findViewById(R.id.info_qty);
@@ -58,7 +58,7 @@ public class CartRecycleAdapter extends RecyclerView.Adapter<CartRecycleAdapter.
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final OrderDetail orderDetail = MainActivity.cart.get(position);
         final Food food = MainActivity.foodCart.get(position);
 
@@ -73,11 +73,11 @@ public class CartRecycleAdapter extends RecyclerView.Adapter<CartRecycleAdapter.
             @Override
             public void onClick(View v) {
 
-                if (number[0] == 0) {
+                if (number[0] == 1) {
                     holder.qty.setText("" + number[0]);
                 }
 
-                if (number[0] > 0) {
+                if (number[0] > 1) {
 
                     number[0] = number[0] - 1;
                     holder.qty.setText("" + number[0]);
@@ -99,6 +99,13 @@ public class CartRecycleAdapter extends RecyclerView.Adapter<CartRecycleAdapter.
                     holder.qty.setText("" + number[0]);
                 }
                 orderDetail.setAmount(number[0]);
+            }
+        });
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.cart.remove(position);
+                notifyDataSetChanged();
             }
         });
     }

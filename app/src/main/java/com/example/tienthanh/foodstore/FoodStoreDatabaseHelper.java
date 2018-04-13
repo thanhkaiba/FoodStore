@@ -77,6 +77,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
     }
 
     private static void insertOrder(SQLiteDatabase db, Order order) {
+
         ContentValues orderValues = new ContentValues();
         orderValues.put("TOTAL", order.getTotal());
         orderValues.put("DATE", order.getDate());
@@ -86,7 +87,6 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         orderValues.put("ADDRESS", order.getAddress());
         orderValues.put("AMOUNT", order.getAmount());
         orderValues.put("STATUS ", order.getStatus());
-
         db.insert("ORDERS", null, orderValues);
     }
 

@@ -17,6 +17,8 @@ import java.util.ArrayList;
 public class CartDetailActivity extends AppCompatActivity {
 
 
+    private static final int MAKE_ORDER = 15;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +36,7 @@ public class CartDetailActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         TextView orderButton = findViewById(R.id.order_button);
-        if (MainActivity.cart.size() == 0) {
+        if (MainActivity.cart.isEmpty()) {
             orderButton.setEnabled(false);
         }
 
@@ -54,6 +56,15 @@ public class CartDetailActivity extends AppCompatActivity {
 
     public void onClickOrder(View view) {
         Intent intent = new Intent(this, MakeOrderActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, MAKE_ORDER);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == MAKE_ORDER) {
+            if (resultCode == RESULT_OK) {
+                finish();
+            }
+        }
     }
 }
