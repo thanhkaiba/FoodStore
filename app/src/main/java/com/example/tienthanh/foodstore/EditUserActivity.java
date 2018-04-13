@@ -103,12 +103,16 @@ public class EditUserActivity extends AppCompatActivity {
             address.setText(user.getAddress());
             try {
                 Calendar calendar = Calendar.getInstance();
-                calendar.setTime(format.parse(user.getBirthday()));
+                if (user.getBirthday() != null) {
+                    calendar.setTime(format.parse(user.getBirthday()));
+                }
                 birthday.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            gender.setSelection(genderAdapter.getPosition(user.getGender()));
+            if (user.getGender() != null) {
+                gender.setSelection(genderAdapter.getPosition(user.getGender()));
+            }
 
         }
 
@@ -290,7 +294,7 @@ public class EditUserActivity extends AppCompatActivity {
         }
     }
 
-    public static boolean isValidEmail(CharSequence target) {
+    private boolean isValidEmail(CharSequence target) {
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 

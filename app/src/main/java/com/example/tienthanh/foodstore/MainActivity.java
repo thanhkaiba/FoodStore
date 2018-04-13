@@ -28,7 +28,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static ArrayList<OrderDetail> cart;
     public static ArrayList<Food> foodCart;
     public static User user;
+    private boolean preUser = false;
     private Fragment currentFragment;
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +42,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_open_drawer, R.string.nav_close_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
+
         cart = new ArrayList<>();
         foodCart = new ArrayList<>();
 
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
         FoodStoreDatabaseHelper.setContext(new ContextWrapper(getApplicationContext()));
+
     }
 
     @Override
@@ -85,6 +89,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = null;
         switch (id) {
             case R.id.nav_login:
+                if (user != null) {
+                    user = null;
+                }
                 intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, LOGIN);
                 break;
@@ -179,6 +186,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.commit();
         }
 
+        if (!preUser && user != null) {
+            ImageView imageView = findViewById(R.id.profile_image);
+            TextView profileEmail = findViewById(R.id.profile_email);
+            TextView profileName = findViewById(R.id.profile_name);
+            imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(user.getImg(), 200, 200));
+            profileEmail.setText(user.getEmail());
+            profileName.setText(user.getName());
+            MenuItem item = navigationView.getMenu().findItem(R.id.nav_login);
+            item.setTitle("Logout");
+        }
+
     }
 
     @Override
@@ -187,16 +205,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (requestCode) {
             case LOGIN:
 
+                ImageView imageView = findViewById(R.id.profile_image);
+                TextView profileEmail = findViewById(R.id.profile_email);
+                TextView profileName = findViewById(R.id.profile_name);
+
                 if (user != null) {
-                    ImageView imageView = findViewById(R.id.profile_image);
                     imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(user.getImg(), 200, 200));
-                    TextView profileEmail = findViewById(R.id.profile_email);
-                    TextView profileName = findViewById(R.id.profile_name);
                     profileEmail.setText(user.getEmail());
                     profileName.setText(user.getName());
-                    NavigationView navigationView = findViewById(R.id.nav_view);
                     MenuItem item = navigationView.getMenu().findItem(R.id.nav_login);
+                    preUser = true;
                     item.setTitle("Logout");
+                } else {
+                    preUser = false;
+                    MenuItem item = navigationView.getMenu().findItem(R.id.nav_login);
+                    item.setTitle("Login");
+                    imageView.setImageResource(R.drawable.logo);
+                    profileName.setText(R.string.app_name_login);
+                    profileEmail.setText(R.string.enjoy);
+
                 }
 
         }

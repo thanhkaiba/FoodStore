@@ -22,12 +22,15 @@
     </android.support.v7.widget.RecyclerView>
 
     <com.example.tienthanh.customfonts.MyTextView
+        android:id="@+id/order_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#4c71f5"
         android:gravity="center"
         android:padding="16dp"
         android:text="ORDER NOW"
+        android:layout_margin="10dp"
+        android:onClick="onClickOrder"
         android:textColor="#fff"
         android:textSize="16sp" />
 

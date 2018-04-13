@@ -16,9 +16,12 @@ import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final int SIGN_UP = 46;
+    public static final String NEW_USER = "New user";
     private EditText email;
     private EditText pass;
     private ArrayList<User> users;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,15 +56,15 @@ public class LoginActivity extends AppCompatActivity {
                     User user = new User(id, password, image, name, gender, birthday, email, phone, privilege, address);
 
                     userList.add(user);
-                    if (cursor.isLast() ) {
+                    if (cursor.isLast()) {
                         break;
                     }
                     cursor.moveToNext();
-                } while(true);
+                } while (true);
                 cursor.close();
                 db.close();
             }
-        }catch (SQLiteException e) {
+        } catch (SQLiteException e) {
             Toast toast = Toast.makeText(this, "Database unavailable", Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -73,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             if (user.getEmail().equalsIgnoreCase(email.getText().toString())) {
                 if (user.getPassword().equals(FoodStoreDatabaseHelper.MD5(pass.getText().toString()))) {
                     MainActivity.user = user;
-                    onBackPressed();
+                    finish();
                     return;
                 }
             }
@@ -85,6 +88,22 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onClickSignUp(View view) {
         Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
+        intent.putExtra(SignUpActivity.USER_LIST, users);
+        startActivityForResult(intent, SIGN_UP);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SIGN_UP) {
+            if (resultCode == RESULT_OK) {
+                User userResult = (User) data.getSerializableExtra(NEW_USER);
+                users.add(userResult);
+                email.setText(userResult.getEmail());
+            }
+            if (resultCode == RESULT_CANCELED)
+            {
+
+            }
+        }
     }
 }

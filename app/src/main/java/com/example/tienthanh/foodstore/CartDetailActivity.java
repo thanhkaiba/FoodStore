@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -31,6 +33,10 @@ public class CartDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        TextView orderButton = findViewById(R.id.order_button);
+        if (MainActivity.cart.size() == 0) {
+            orderButton.setEnabled(false);
+        }
 
     }
 
@@ -44,5 +50,10 @@ public class CartDetailActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    public void onClickOrder(View view) {
+        Intent intent = new Intent(this, MakeOrderActivity.class);
+        startActivity(intent);
     }
 }

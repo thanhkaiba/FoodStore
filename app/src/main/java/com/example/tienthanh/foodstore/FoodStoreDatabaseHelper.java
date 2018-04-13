@@ -165,7 +165,6 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
         if (oldVersion < 1) {
 
 
-
             db.execSQL("CREATE TABLE VENDOR (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + "NAME TEXT NOT NULL, "
                     + "IMAGE TEXT, "
@@ -248,7 +247,6 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
             insertOrderDetail(db, orderDetail);
             orderDetail = new OrderDetail(1, 2, 1, 25.0);
             insertOrderDetail(db, orderDetail);
-
         }
         if (oldVersion < 2) {
 

@@ -10,5 +10,7 @@
     <color name="textSub">#76818a</color>
     <color name="Tex">#404547</color>
     <color name="medium_text">#7e7e7e</color>
+    <color name="lightgrey">#d1d1d1</color>
+    <color name="text">#545454</color>
 
 </resources>
