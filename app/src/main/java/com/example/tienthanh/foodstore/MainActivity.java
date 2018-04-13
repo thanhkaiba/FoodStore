@@ -26,8 +26,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int LOGIN = 90;
     private ShareActionProvider shareActionProvider;
     public static ArrayList<OrderDetail> cart;
+    public static ArrayList<Food> foodCart;
     public static User user;
-    public static final String FRAGMENT = "fragment";
     private Fragment currentFragment;
 
     @Override
@@ -44,11 +44,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
         cart = new ArrayList<>();
+        foodCart = new ArrayList<>();
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Intent intent = getIntent();
-        Fragment fragment = new FoodTypeFragment();
 
+        Fragment fragment = new FoodTypeFragment();
+        //Intent intent = getIntent();
        /* if (intent.hasExtra(FRAGMENT)) {
             int id = intent.getExtras().getInt(FRAGMENT);
             switch (id) {
@@ -101,9 +102,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_order_list:
                 fragment = new OrderListFragment();
+                setTitle("Order");
                 break;
             case R.id.nav_bill_list:
                 fragment = new BillListFragment();
+                setTitle("Bill");
                 break;
             default:
                 fragment = new FoodTypeFragment();

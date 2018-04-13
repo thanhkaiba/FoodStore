@@ -29,9 +29,9 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
         public MyViewHolder(View view) {
             super(view);
 
-            item=(TextView) view.findViewById(R.id.item);
-            amount=(TextView) view.findViewById(R.id.amount);
-            price=(TextView) view.findViewById(R.id.price);
+            item= view.findViewById(R.id.item);
+            amount= view.findViewById(R.id.amount);
+            price= view.findViewById(R.id.price);
 
         }
 

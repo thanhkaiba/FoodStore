@@ -1,5 +1,6 @@
 package com.example.tienthanh.foodstore;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -80,5 +81,10 @@ public class LoginActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(this, "Email or Password not match!", Toast.LENGTH_SHORT);
         toast.show();
 
+    }
+
+    public void onClickSignUp(View view) {
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
     }
 }

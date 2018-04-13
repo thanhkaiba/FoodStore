@@ -24,10 +24,9 @@ public class CartDetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        OrderRecyclerAdapter adapter = new OrderRecyclerAdapter(this, MainActivity.cart);
+        CartRecycleAdapter adapter = new CartRecycleAdapter(this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

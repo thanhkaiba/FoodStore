@@ -22,6 +22,7 @@ public class FoodDetailActivity extends AppCompatActivity {
 
     public static final String FOOD_INFO = "food_info";
     private Food food;
+    final int[] number = {0};
 
 
     @Override
@@ -39,7 +40,7 @@ public class FoodDetailActivity extends AppCompatActivity {
         TextView name = findViewById(R.id.info_name);
         name.setText(food.getName());
         TextView amount = findViewById(R.id.info_amount);
-        String amountText = "There are " +food.getAmount()+ " " + food.getUnit() + " in stock";
+        String amountText = "There are " + food.getAmount() + " " + food.getUnit() + " in stock";
         amount.setText(amountText);
         TextView description = findViewById(R.id.info_description);
         description.setText(food.getDescription());
@@ -49,11 +50,11 @@ public class FoodDetailActivity extends AppCompatActivity {
         TextView vendorName = findViewById(R.id.info_vendor);
         vendorName.setText(food.getVendorName());
 
-        ImageView plus =  findViewById(R.id.plus);
-        ImageView minus =  findViewById(R.id.minus);
+        ImageView plus = findViewById(R.id.plus);
+        ImageView minus = findViewById(R.id.minus);
         final TextView qty = findViewById(R.id.sizeno);
 
-        final int[] number = {0};
+
         qty.setText("" + number[0]);
 
         minus.setOnClickListener(new View.OnClickListener() {
@@ -118,12 +119,23 @@ public class FoodDetailActivity extends AppCompatActivity {
 
     public void onClickBuy(View view) {
         TextView qty = findViewById(R.id.sizeno);
-        OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setFoodName(food.getName());
-        orderDetail.setFoodID(food.getId());
-        orderDetail.setCost(food.getCost());
-        orderDetail.setAmount(Integer.parseInt(qty.getText().toString()));
-        MainActivity.cart.add(orderDetail);
+        if (number[0] > 0) {
+            for (OrderDetail od : MainActivity.cart) {
+                if (od.getFoodName().equals(food.getName())) {
+                    od.setAmount(od.getAmount() + number[0]);
+                    return;
+                }
+            }
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setFoodName(food.getName());
+            orderDetail.setFoodID(food.getId());
+            orderDetail.setCost(food.getCost());
+            orderDetail.setAmount(Integer.parseInt(qty.getText().toString()));
+            MainActivity.cart.add(orderDetail);
+            MainActivity.foodCart.add(food);
+        } else {
+            Toast.makeText(this, "You have not selected the quantity", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class DeleteFoodTask extends AsyncTask<Long, Void, Boolean> {
@@ -133,8 +145,7 @@ public class FoodDetailActivity extends AppCompatActivity {
             if (!done) {
                 Toast toast = Toast.makeText(FoodDetailActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
                 toast.show();
-            }
-            else {
+            } else {
                 if (food.getImg() != null) {
                     File myPath = new File(food.getImg());
                     if (myPath.exists()) {
@@ -144,7 +155,6 @@ public class FoodDetailActivity extends AppCompatActivity {
                 onBackPressed();
             }
         }
-
 
 
         @Override
@@ -166,8 +176,6 @@ public class FoodDetailActivity extends AppCompatActivity {
             }
         }
     }
-
-
 
 
 }

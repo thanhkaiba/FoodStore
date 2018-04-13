@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:text="SIGN UP"
             android:textColor="#fff"
+            android:onClick="onClickSignUp"
             android:background="@drawable/brodetr"
             android:padding="15dp"
             android:layout_weight="1"
