@@ -29,7 +29,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private Order order;
     private ArrayList<OrderDetail> details;
     private ToggleButton status;
-    private int preStatus;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +55,14 @@ public class OrderDetailActivity extends AppCompatActivity {
             status.setChecked(order.getStatus() == 1);
             String info_id = "ID: " + String.valueOf(order.getId());
             id.setText(info_id);
-            preStatus = order.getStatus();
             name.setText(order.getName());
             phone.setText(order.getPhone());
             email.setText(order.getEmail());
             date.setText(order.getDate());
             address.setText(order.getAddress());
+        }
+        if (MainActivity.user == null || MainActivity.user.getPrivilege() > 1) {
+            status.setEnabled(false);
         }
 
         RecyclerView recyclerView =  findViewById(R.id.recyclerview);
@@ -76,9 +78,12 @@ public class OrderDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.detail_menu, menu);
-        MenuItem editAction = menu.findItem(R.id.action_edit);
-        editAction.setVisible(false);
+        if (MainActivity.user != null && MainActivity.user.getPrivilege() == 0) {
+            getMenuInflater().inflate(R.menu.detail_menu, menu);
+            MenuItem editAction = menu.findItem(R.id.action_edit);
+            editAction.setVisible(false);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 

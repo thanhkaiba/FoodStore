@@ -57,6 +57,8 @@ public class OrderListFragment extends Fragment implements OrderListAdapter.List
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem addItem = menu.findItem(R.id.action_add);
+        addItem.setVisible(false);
         final MenuItem searchItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
         search(searchView);

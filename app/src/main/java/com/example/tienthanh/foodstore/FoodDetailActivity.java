@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,50 +51,63 @@ public class FoodDetailActivity extends AppCompatActivity {
         TextView vendorName = findViewById(R.id.info_vendor);
         vendorName.setText(food.getVendorName());
 
+
         ImageView plus = findViewById(R.id.plus);
         ImageView minus = findViewById(R.id.minus);
         final TextView qty = findViewById(R.id.sizeno);
 
+        if (MainActivity.user != null && MainActivity.user.getPrivilege() == 0) {
+            TextView buyButton = findViewById(R.id.buy);
+            buyButton.setVisibility(View.GONE);
+            plus.setVisibility(View.GONE);
+            minus.setVisibility(View.GONE);
+            qty.setVisibility(View.GONE);
+        } else {
+            qty.setText("" + number[0]);
 
-        qty.setText("" + number[0]);
+            minus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-        minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    if (number[0] == 0) {
+                        qty.setText("" + number[0]);
+                    }
 
-                if (number[0] == 0) {
-                    qty.setText("" + number[0]);
+                    if (number[0] > 0) {
+
+                        number[0] = number[0] - 1;
+                        qty.setText("" + number[0]);
+                    }
                 }
+            });
+            plus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                if (number[0] > 0) {
+                    if (number[0] == food.getAmount()) {
+                        qty.setText("" + number[0]);
+                    }
 
-                    number[0] = number[0] - 1;
-                    qty.setText("" + number[0]);
+                    if (number[0] < food.getAmount()) {
+
+                        number[0] = number[0] + 1;
+                        qty.setText("" + number[0]);
+
+                    }
                 }
-            }
-        });
-        plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            });
+        }
 
-                if (number[0] == food.getAmount()) {
-                    qty.setText("" + number[0]);
-                }
 
-                if (number[0] < food.getAmount()) {
 
-                    number[0] = number[0] + 1;
-                    qty.setText("" + number[0]);
-
-                }
-            }
-        });
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        if (MainActivity.user != null &&  MainActivity.user.getPrivilege() == 0) {
+            getMenuInflater().inflate(R.menu.detail_menu, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -104,7 +118,6 @@ public class FoodDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, EditFoodActivity.class);
                 intent.putExtra(EditFoodActivity.EDIT_FOOD, food);
                 startActivity(intent);
-
                 return true;
             case R.id.action_delete:
                 new DeleteFoodTask().execute(food.getId());

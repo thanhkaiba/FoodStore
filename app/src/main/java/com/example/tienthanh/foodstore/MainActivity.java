@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static ArrayList<OrderDetail> cart;
     public static ArrayList<Food> foodCart;
     public static User user;
-    private boolean preUser = false;
     private Fragment currentFragment;
     private NavigationView navigationView;
 
@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
         FoodStoreDatabaseHelper.setContext(new ContextWrapper(getApplicationContext()));
+
 
     }
 
@@ -131,7 +132,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        setNavMenu();
         getMenuInflater().inflate(R.menu.main_menu, menu);
+        MenuItem addItem = menu.findItem(R.id.action_add);
+        addItem.setVisible(false);
+        if (user != null && user.getPrivilege() == 0) {
+            MenuItem cartItem = menu.findItem(R.id.action_view_cart);
+            cartItem.setVisible(false);
+            addItem.setVisible(true);
+        }
         MenuItem menuItem = menu.findItem(R.id.action_share);
         shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         setShareActionIntent();
@@ -163,47 +172,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.commit();
         }
 
-        if (!preUser && user != null) {
-            ImageView imageView = findViewById(R.id.profile_image);
-            TextView profileEmail = findViewById(R.id.profile_email);
-            TextView profileName = findViewById(R.id.profile_name);
-            imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(user.getImg(), 200, 200));
-            profileEmail.setText(user.getEmail());
-            profileName.setText(user.getName());
-            MenuItem item = navigationView.getMenu().findItem(R.id.nav_login);
-            item.setTitle("Logout");
-            preUser = true;
-        }
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case LOGIN:
 
-                ImageView imageView = findViewById(R.id.profile_image);
-                TextView profileEmail = findViewById(R.id.profile_email);
-                TextView profileName = findViewById(R.id.profile_name);
+    private void setNavMenu() {
 
-                if (user != null) {
-                    imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(user.getImg(), 200, 200));
-                    profileEmail.setText(user.getEmail());
-                    profileName.setText(user.getName());
-                    MenuItem item = navigationView.getMenu().findItem(R.id.nav_login);
-                    preUser = true;
-                    item.setTitle("Logout");
-                } else {
-                    preUser = false;
-                    MenuItem item = navigationView.getMenu().findItem(R.id.nav_login);
-                    item.setTitle("Login");
-                    imageView.setImageResource(R.drawable.logo);
-                    profileName.setText(R.string.app_name_login);
-                    profileEmail.setText(R.string.enjoy);
+        Menu menu = navigationView.getMenu();
+        ImageView imageView = findViewById(R.id.profile_image);
+        TextView profileEmail = findViewById(R.id.profile_email);
+        TextView profileName = findViewById(R.id.profile_name);
+        if (MainActivity.user != null) {
 
-                }
+            imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(user.getImg(), 200, 200));
+            profileEmail.setText(user.getEmail());
+            profileName.setText(user.getName());
+            MenuItem item = menu.findItem(R.id.nav_login);
+            item.setTitle("Logout");
 
+            if (MainActivity.user.getPrivilege() == 3) {
+
+                MenuItem userItem = menu.findItem(R.id.nav_user_list);
+                userItem.setTitle("Your profile");
+                MenuItem orderItem = menu.findItem(R.id.nav_order_list);
+                orderItem.setTitle("Your order");
+                MenuItem billItem = menu.findItem(R.id.nav_bill_list);
+                billItem.setTitle("Your bill");
+
+            } else {
+
+                MenuItem userItem = menu.findItem(R.id.nav_user_list);
+                userItem.setTitle("User");
+                MenuItem orderItem = menu.findItem(R.id.nav_order_list);
+                orderItem.setTitle("Order");
+                MenuItem billItem = menu.findItem(R.id.nav_bill_list);
+                billItem.setTitle("Bill");
+                billItem.setVisible(true);
+                orderItem.setVisible(true);
+            }
+        } else {
+
+            MenuItem item = menu.findItem(R.id.nav_login);
+            item.setTitle("Login");
+            imageView.setImageResource(R.drawable.logo);
+            profileName.setText(R.string.app_name_login);
+            profileEmail.setText(R.string.enjoy);
+
+            MenuItem orderItem = menu.findItem(R.id.nav_order_list);
+            orderItem.setVisible(false);
+            MenuItem billItem = menu.findItem(R.id.nav_bill_list);
+            billItem.setVisible(false);
         }
     }
 }

@@ -62,7 +62,9 @@ public class UserDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        if (MainActivity.user != null &&  MainActivity.user.getPrivilege() == 0) {
+            getMenuInflater().inflate(R.menu.detail_menu, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 

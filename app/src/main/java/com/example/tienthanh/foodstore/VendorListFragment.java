@@ -50,7 +50,7 @@ public class VendorListFragment extends Fragment implements CaptionImageAdapter.
     }
 
     private ArrayList<Vendor> getVendorDatabase() {
-        ArrayList<Vendor> vendorList = new ArrayList<Vendor>();
+        ArrayList<Vendor> vendorList = new ArrayList<>();
 
         SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(getActivity());
         try {

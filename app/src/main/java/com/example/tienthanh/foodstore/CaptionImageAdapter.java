@@ -22,6 +22,10 @@ public class CaptionImageAdapter extends RecyclerView.Adapter<CaptionImageAdapte
     private String type = "";
     Listener listener;
 
+    public void setmFilteredList(ArrayList<Info> mFilteredList) {
+        this.mFilteredList = mFilteredList;
+    }
+
     public void setType(String type) {
         this.type = type;
     }

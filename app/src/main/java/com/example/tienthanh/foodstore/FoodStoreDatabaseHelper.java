@@ -212,6 +212,23 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
                     + "FOREIGN KEY(ORDERID) REFERENCES ORDERS(_id) ON UPDATE CASCADE ON DELETE CASCADE,"
                     + "FOREIGN KEY(FOODID) REFERENCES FOOD(_id));");
 
+            db.execSQL("CREATE TABLE BILL ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "TOTAL REAL NOT NULL, "
+                    + "DATE TEXT, "
+                    + "TYPE INTEGER, "
+                    + "AMOUNT INTEGER NOT NULL, "
+                    + "USERID INTEGER NOT NULL, "
+                    + "FOREIGN KEY(USERID) REFERENCES USERS(_id));");
+
+            db.execSQL("CREATE TABLE BILLDETAIL ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "BILLID INTEGER NOT NULL, "
+                    + "FOODID INTEGER NOT NULL, "
+                    + "AMOUNT INTEGER NOT NULL, "
+                    + "COST REAL, "
+                    + "FOREIGN KEY(BILLID) REFERENCES BILL(_id) ON UPDATE CASCADE ON DELETE CASCADE,"
+                    + "FOREIGN KEY(FOODID) REFERENCES FOOD(_id));");
+
+
 
             Vendor vendor = new Vendor("Earth's Best", saveDrawableToInternalStorage(R.drawable.earth_best, "EarthsBest@gmail.com", VENDOR), "4600 Sleepytime Dr. Boulder, CO 80301 USA",
                     "EarthsBest@gmail.com", "1-800-442-4221");
@@ -233,13 +250,13 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
             insertFood(db, food);
 
             User user = new User( MD5("12345678"), saveDrawableToInternalStorage(R.drawable.thanh, "tienthanhit97@gmail.com", USER), "Nguyễn Tiến Thành", "Nam", "30-04-1997",
-                    "tienthanhit97@gmail.com", "01679003648", 1, "Vietnam");
+                    "tienthanhit97@gmail.com", "01679003648", 0, "Vietnam");
             insertUser(db, user);
             user = new User( MD5("12345678"), saveDrawableToInternalStorage(R.drawable.tzuyu, "tzuyu@gmail.com", USER), "Tzuyu", "Nữ", "14-6-1999",
                     "tzuyu@gmail.com", "0123456789", 2, "South Korea");
             insertUser(db, user);
             user = new User(MD5("12345678"), saveDrawableToInternalStorage(R.drawable.kimyojung, "kimyooyung@gmail.com", USER), "Kim Yoo Yung", "Nữ", "22-9-1999",
-                    "kimyooyung@gmail.com", "0123456789", 2, "South Korea");
+                    "kimyooyung@gmail.com", "0123456789", 1, "South Korea");
             insertUser(db, user);
             Order order = new Order(50, "6-4-2018", "Nguyễn Tiến Thành", "tienthanhit97@gmail.com", "01679003648", "Vietnam", 20, 0);
             insertOrder(db, order);
