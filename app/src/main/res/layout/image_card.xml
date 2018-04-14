@@ -19,16 +19,16 @@
             android:scaleType="centerCrop"
             android:layout_weight="1.0"/>
 
-            <TextView
+            <com.example.tienthanh.customfonts.MyTextView
                 android:id="@+id/info_name"
-                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginBottom="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <TextView
+            <com.example.tienthanh.customfonts.MyTextView
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
                 android:id="@+id/info_description"
-                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginBottom="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

@@ -22,32 +22,32 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class OrderListFragment extends Fragment implements CaptionImageAdapter.Listener{
+public class OrderListFragment extends Fragment implements OrderListAdapter.Listener{
 
 
+    public static final String TYPE = "status";
+    public static final int UNFINISHED = 0;
+    public static final int FINISHED = 1;
     ArrayList<Order> orders;
-    CaptionImageAdapter adapter;
-
+    OrderListAdapter adapter;
+    private int status;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView orderRecycler = (RecyclerView)  inflater.inflate(R.layout.fragment_order_list, container, false);
 
-        orders = getOrderDatabase();
-        ArrayList<Info> infos = new ArrayList<>();
-
-
-        for (Order order : orders) {
-            Info info = new Info(order.getName() + "\n" + order.getStatus(), String.valueOf(order.getTotal()), null);
-            infos.add(info);
+        savedInstanceState = getArguments();
+        if (savedInstanceState != null) {
+            status = savedInstanceState.getInt(TYPE);
         }
 
-        adapter = new CaptionImageAdapter(infos);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        orders = getOrderDatabase();
+
+        adapter = new OrderListAdapter(orders);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         orderRecycler.setLayoutManager(layoutManager);
         adapter.setListener(this);
-        adapter.setType(CaptionImageAdapter.ORDER_ADAPTER);
         orderRecycler.setAdapter(adapter);
         setHasOptionsMenu(true);
         return  orderRecycler;
@@ -63,18 +63,6 @@ public class OrderListFragment extends Fragment implements CaptionImageAdapter.L
         super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_add:
-                /*Intent intent = new Intent(getActivity(), EditOrderActivity.class);
-                startActivity(intent);
-                return true;*/
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
 
     private void search(SearchView searchView) {
 
@@ -97,7 +85,7 @@ public class OrderListFragment extends Fragment implements CaptionImageAdapter.L
         SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(getActivity());
         try {
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM ORDERS", null);
+            Cursor cursor = db.rawQuery("SELECT * FROM ORDERS WHERE STATUS = " + status + ";", null);
             if (cursor.moveToFirst()) {
                 do {
                     long id = cursor.getLong(0);

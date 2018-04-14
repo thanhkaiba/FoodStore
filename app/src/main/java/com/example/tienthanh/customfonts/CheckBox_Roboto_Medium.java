@@ -24,7 +24,7 @@ public class CheckBox_Roboto_Medium extends ToggleButton {
 
     private void init() {
         if (!isInEditMode()) {
-            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Black.ttf");
+            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Lato-Regular.ttf");
             setTypeface(tf);
         }
     }

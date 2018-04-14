@@ -24,13 +24,14 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
 
-        TextView item,amount,price;
+        TextView item,amount,qty,rate;
 
         public MyViewHolder(View view) {
             super(view);
             item= view.findViewById(R.id.item);
             amount= view.findViewById(R.id.amount);
-            price= view.findViewById(R.id.price);
+            qty= view.findViewById(R.id.qty);
+            rate = view.findViewById(R.id.rate);
 
         }
 
@@ -60,8 +61,9 @@ public class OrderRecyclerAdapter extends RecyclerView.Adapter<OrderRecyclerAdap
         OrderDetail orderDetail = detailList.get(position);
 
         holder.item.setText(orderDetail.getFoodName());
-        holder.amount.setText(String.valueOf(orderDetail.getAmount()));
-        holder.price.setText(String.valueOf(orderDetail.getCost()));
+        holder.qty.setText(String.valueOf(orderDetail.getAmount()));
+        holder.rate.setText(String.valueOf(orderDetail.getCost()));
+        holder.amount.setText(String.valueOf(orderDetail.getCost() * orderDetail.getAmount()));
 
     }
 

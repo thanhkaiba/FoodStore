@@ -76,7 +76,7 @@
                     android:src="@drawable/salad" />
             </LinearLayout>
 
-            <com.example.tienthanh.customfonts.MyTextView_Roboto_Regular
+            <com.example.tienthanh.customfonts.MyTextView
                 android:id="@+id/info_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                 android:textColor="#000"
                 android:textSize="12sp" />
 
-            <com.example.tienthanh.customfonts.MyTextView_Roboto_Regular
+            <com.example.tienthanh.customfonts.MyTextView
                 android:id="@+id/info_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                 android:textColor="#000"
                 android:textSize="12sp" />
 
-            <com.example.tienthanh.customfonts.MyTextView_Roboto_Regular
+            <com.example.tienthanh.customfonts.MyTextView
                 android:id="@+id/info_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                 android:textSize="12sp" />
 
 
-            <com.example.tienthanh.customfonts.MyTextView_Roboto_Regular
+            <com.example.tienthanh.customfonts.MyTextView
                 android:id="@+id/info_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -126,31 +126,39 @@
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
-                <com.example.tienthanh.customfonts.MyTextView_Roboto_Regular
-                    android:layout_width="wrap_content"
+                <com.example.tienthanh.customfonts.MyTextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="@string/order_item"
                     android:textColor="#b1b1b1"
-
                     android:textSize="12sp" />
 
-                <com.example.tienthanh.customfonts.MyTextView_Roboto_Regular
-                    android:layout_width="wrap_content"
+                <com.example.tienthanh.customfonts.MyTextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="0.8"
                     android:gravity="center"
                     android:text="@string/order_amount"
                     android:textColor="#b1b1b1"
                     android:textSize="12sp" />
 
-                <com.example.tienthanh.customfonts.MyTextView_Roboto_Regular
-                    android:layout_width="wrap_content"
+                <com.example.tienthanh.customfonts.MyTextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="PRICE"
+                    android:text="Rate"
+                    android:textColor="#b1b1b1"
+                    android:textSize="12sp" />
+
+                <com.example.tienthanh.customfonts.MyTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="Amount"
                     android:textColor="#b1b1b1"
                     android:textSize="12sp" />
             </LinearLayout>

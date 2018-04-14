@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static User user;
     private boolean preUser = false;
     private Fragment currentFragment;
-    NavigationView navigationView;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,30 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         Fragment fragment = new FoodTypeFragment();
-        //Intent intent = getIntent();
-       /* if (intent.hasExtra(FRAGMENT)) {
-            int id = intent.getExtras().getInt(FRAGMENT);
-            switch (id) {
 
-                case R.id.nav_food_list:
-                    fragment = new FoodTypeFragment();
-                    break;
-                case R.id.nav_user_list:
-                    fragment = new UserListFragment();
-                    break;
-                case R.id.nav_vendor_list:
-                    fragment = new VendorListFragment();
-                    break;
-                case R.id.nav_order_list:
-                    fragment = new OrderListFragment();
-                    break;
-                case R.id.nav_bill_list:
-                    fragment = new BillListFragment();
-                    break;
-                default:
-                    fragment = new FoodTypeFragment();
-            }
-        }*/
         fragmentTransaction.add(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
         FoodStoreDatabaseHelper.setContext(new ContextWrapper(getApplicationContext()));
@@ -108,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setTitle("Vendor");
                 break;
             case R.id.nav_order_list:
-                fragment = new OrderListFragment();
+                fragment = new OrderTypeFragment();
                 setTitle("Order");
                 break;
             case R.id.nav_bill_list:
@@ -195,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             profileName.setText(user.getName());
             MenuItem item = navigationView.getMenu().findItem(R.id.nav_login);
             item.setTitle("Logout");
+            preUser = true;
         }
 
     }
