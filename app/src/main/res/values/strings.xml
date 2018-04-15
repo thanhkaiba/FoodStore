@@ -30,7 +30,7 @@
     <string name="order_item">ITEM</string>
     <string name="order_amount">QTY</string>
     <string name="order_vat">VAT</string>
-    <string name="customer_order">BUY IT NOW</string>
+    <string name="customer_order">ADD TO CART</string>
     <string name="action_view_cart">Cart</string>
     <string name="order_qty">QTY</string>
     <string name="app_name_login">FOOD STORE</string>

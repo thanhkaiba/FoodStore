@@ -49,6 +49,9 @@ public class UserListFragment extends Fragment implements CaptionImageAdapter.Li
         userRecycler.setLayoutManager(layoutManager);
         adapter.setListener(this);
         userRecycler.setAdapter(adapter);
+        if (MainActivity.user != null && MainActivity.user.getPrivilege() == 3) {
+            adapter.getFilter().filter(MainActivity.user.getEmail());
+        }
         setHasOptionsMenu(true);
         return  userRecycler;
     }
@@ -103,7 +106,10 @@ public class UserListFragment extends Fragment implements CaptionImageAdapter.Li
 
     private void search(SearchView searchView) {
 
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+
             @Override
             public boolean onQueryTextSubmit(String query) {
 
@@ -111,6 +117,9 @@ public class UserListFragment extends Fragment implements CaptionImageAdapter.Li
             }
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (MainActivity.user != null && MainActivity.user.getPrivilege() == 3) {
+                    newText += MainActivity.user.getEmail();
+                }
 
                 adapter.getFilter().filter(newText);
                 return true;

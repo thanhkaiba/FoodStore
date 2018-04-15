@@ -139,6 +139,7 @@ public class MakeOrderActivity extends AppCompatActivity {
     private class MakeOrderTask extends AsyncTask<Void, Void, Boolean> {
 
         private ContentValues orderValues;
+        private ContentValues foodValues;
 
         @Override
         protected void onPostExecute(Boolean done) {
@@ -149,6 +150,7 @@ public class MakeOrderActivity extends AppCompatActivity {
                 setResult(RESULT_CANCELED, returnIntent);
             } else {
                 MainActivity.cart.clear();
+                MainActivity.foodCart.clear();
                 setResult(RESULT_OK, returnIntent);
             }
             finish();
@@ -163,13 +165,16 @@ public class MakeOrderActivity extends AppCompatActivity {
                 long id = db.insert("ORDERS", null, orderValues);
                 ContentValues orderDetailValue = new ContentValues();
 
-                for (OrderDetail orderDetail : MainActivity.cart) {
-
+                for (int i = 0; i < MainActivity.cart.size(); i++) {
+                    OrderDetail orderDetail = MainActivity.cart.get(i);
+                    Food food = MainActivity.foodCart.get(i);
                     orderDetailValue.put("ORDERID", id);
                     orderDetailValue.put("FOODID", orderDetail.getFoodID());
                     orderDetailValue.put("AMOUNT ", orderDetail.getAmount());
                     orderDetailValue.put("COST", orderDetail.getCost());
                     db.insert("ORDERDETAIL", null, orderDetailValue);
+                    foodValues.put("AMOUNT", food.getAmount() - orderDetail.getAmount());
+                    db.update("FOOD", foodValues, "_id = ?", new String[]{String.valueOf(food.getId())});
                 }
 
                 db.close();
@@ -183,6 +188,7 @@ public class MakeOrderActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             orderValues = new ContentValues();
+            foodValues = new ContentValues();
             orderValues.put("TOTAL", order.getTotal());
             orderValues.put("DATE", order.getDate());
             orderValues.put("NAME", order.getName());

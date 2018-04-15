@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +25,8 @@ public class CartDetailActivity extends AppCompatActivity {
 
     private static final int MAKE_ORDER = 15;
     private int billType;
+    RecyclerView.LayoutManager mLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +39,8 @@ public class CartDetailActivity extends AppCompatActivity {
 
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        CartRecycleAdapter adapter = new CartRecycleAdapter(this);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        final CartRecycleAdapter adapter = new CartRecycleAdapter(this);
+        mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -61,9 +64,21 @@ public class CartDetailActivity extends AppCompatActivity {
                         case R.id.receipt:
                             orderButton.setText(R.string.order_button_receipt);
                             billType = Bill.RECEIPT;
+                            for (int i = 0; i < MainActivity.cart.size(); i++) {
+                                    View v = mLayoutManager.findViewByPosition(i);
+                                    v.setBackgroundColor(Color.WHITE);
+                            }
+
                             break;
                         case R.id.issue:
                             orderButton.setText(R.string.order_button_issue);
+                            for (int i = 0; i < MainActivity.cart.size(); i++) {
+                                if (MainActivity.cart.get(i).getAmount() > MainActivity.foodCart.get(i).getAmount()) {
+                                    View v = mLayoutManager.findViewByPosition(i);
+                                    v.setBackgroundColor(Color.RED);
+
+                                }
+                            }
                             billType = Bill.ISSUE;
                             break;
                     }
@@ -86,12 +101,28 @@ public class CartDetailActivity extends AppCompatActivity {
     }
 
     public void onClickOrder(View view) {
-       if (MainActivity.user == null ) {
+       if (MainActivity.user == null || MainActivity.user.getPrivilege() == 3) {
            Intent intent = new Intent(this, MakeOrderActivity.class);
            startActivityForResult(intent, MAKE_ORDER);
-       } else if (MainActivity.user.getPrivilege() == 2 || MainActivity.user.getPrivilege() == 3){
-           new MakeBillTask().execute();
-           finish();
+       } else if (MainActivity.user.getPrivilege() == 1 || MainActivity.user.getPrivilege() == 2){
+           boolean flag = true;
+           if (billType == Bill.ISSUE) {
+               for (int i = 0; i < MainActivity.cart.size(); i++) {
+                   if (MainActivity.cart.get(i).getAmount() > MainActivity.foodCart.get(i).getAmount()) {
+                       View v = mLayoutManager.findViewByPosition(i);
+                       v.setBackgroundColor(Color.RED);
+                       flag = false;
+                   }
+               }
+           }
+           if (flag) {
+               new MakeBillTask().execute();
+               finish();
+           } else {
+               Toast.makeText(this, "Some products have larger" +
+                       " quantities than their stock", Toast.LENGTH_SHORT).show();
+               return;
+           }
         }
     }
 
@@ -107,6 +138,7 @@ public class CartDetailActivity extends AppCompatActivity {
     private class MakeBillTask extends AsyncTask<Void, Void, Boolean> {
 
         private ContentValues billValues;
+        private ContentValues foodValues;
 
         @Override
         protected void onPostExecute(Boolean done) {
@@ -115,6 +147,7 @@ public class CartDetailActivity extends AppCompatActivity {
                 toast.show();
             } else {
                 MainActivity.cart.clear();
+                MainActivity.foodCart.clear();
                 finish();
             }
 
@@ -129,12 +162,19 @@ public class CartDetailActivity extends AppCompatActivity {
                 long id = db.insert("BILL", null, billValues);
                 ContentValues billDetailValue = new ContentValues();
 
-                for (OrderDetail orderDetail : MainActivity.cart) {
+                for (int i = 0; i < MainActivity.cart.size(); i++) {
+                    OrderDetail orderDetail = MainActivity.cart.get(i);
+                    Food food = MainActivity.foodCart.get(i);
                     billDetailValue.put("BILLID", id);
                     billDetailValue.put("FOODID", orderDetail.getFoodID());
                     billDetailValue.put("AMOUNT ", orderDetail.getAmount());
                     billDetailValue.put("COST", orderDetail.getCost());
                     db.insert("BILLDETAIL", null, billDetailValue);
+                    if (billType != Bill.RECEIPT)
+                        foodValues.put("AMOUNT", food.getAmount() - orderDetail.getAmount());
+                    else
+                        foodValues.put("AMOUNT", food.getAmount() + orderDetail.getAmount());
+                    db.update("FOOD", foodValues, "_id = ?", new String[]{String.valueOf(food.getId())});
                 }
 
                 db.close();
@@ -148,6 +188,7 @@ public class CartDetailActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             billValues = new ContentValues();
+            foodValues = new ContentValues();
             double total = 0;
             for (OrderDetail orderDetail : MainActivity.cart) {
                 total += orderDetail.getCost() * orderDetail.getAmount();

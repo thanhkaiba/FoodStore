@@ -11,13 +11,13 @@
             android:checked="true"
             android:title="@string/nav_food_list">
         </item>
-        <item android:id="@+id/nav_user_list"
-            android:icon="@drawable/user_icon"
-            android:title="@string/nav_user_list">
-        </item>
         <item android:id="@+id/nav_vendor_list"
             android:icon="@drawable/vendor_icon"
             android:title="@string/nav_vendor_list">
+        </item>
+        <item android:id="@+id/nav_user_list"
+            android:icon="@drawable/user_icon"
+            android:title="@string/nav_user_list">
         </item>
         <item android:id="@+id/nav_order_list"
             android:icon="@drawable/order_icon"

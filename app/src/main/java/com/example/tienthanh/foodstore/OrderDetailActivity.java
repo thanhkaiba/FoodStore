@@ -78,7 +78,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (MainActivity.user != null && MainActivity.user.getPrivilege() == 0) {
+        if (MainActivity.user != null && MainActivity.user.getPrivilege() < 2) {
             getMenuInflater().inflate(R.menu.detail_menu, menu);
             MenuItem editAction = menu.findItem(R.id.action_edit);
             editAction.setVisible(false);
@@ -167,11 +167,12 @@ public class OrderDetailActivity extends AppCompatActivity {
                 SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
                 long id = ids[0];
                 db.delete("ORDERS", "_id=?", new String[]{Long.toString(id)});
+                for (int i = 0; i < details.size(); i++) {
+                    OrderDetail orderDetail = details.get(i);
+                    String sql = "UPDATE FOOD SET AMOUNT = AMOUNT + " + orderDetail.getAmount() + " WHERE _id = " + orderDetail.getFoodID() + ";";
+                    db.execSQL(sql);
+                }
                 db.close();
-                /*Intent intent = new Intent(OrderDetailActivity.this, MainActivity.class);
-                intent.putExtra(MainActivity.FRAGMENT, R.id.nav_order_list);
-                startActivity(intent);*/
-
                 return true;
             } catch (Exception e) {
                 e.getStackTrace();

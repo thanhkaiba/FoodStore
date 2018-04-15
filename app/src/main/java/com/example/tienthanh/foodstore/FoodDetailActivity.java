@@ -155,11 +155,16 @@ public class FoodDetailActivity extends AppCompatActivity {
         ImageView minus = findViewById(R.id.minus);
         final TextView qty = findViewById(R.id.sizeno);
 
-        int size = MainActivity.foodCart.size();
-        for (int i = 0; i < size; i++) {
-            if (MainActivity.foodCart.get(i).getId() == food.getId()) {
-                food.setAmount(food.getAmount() - MainActivity.cart.get(i).getAmount());
-                break;
+        if (MainActivity.user == null || MainActivity.user.getPrivilege() != 2) {
+            int size = MainActivity.foodCart.size();
+            for (int i = 0; i < size; i++) {
+                if (MainActivity.foodCart.get(i).getId() == food.getId()) {
+                    food.setAmount(food.getAmount() - MainActivity.cart.get(i).getAmount());
+                    if (food.getAmount() < 0) {
+                        food.setAmount(0);
+                    }
+                    break;
+                }
             }
         }
 
@@ -171,14 +176,16 @@ public class FoodDetailActivity extends AppCompatActivity {
         String costText = food.getCost() + "$ / " + food.getUnit();
         cost.setText(costText);
         vendorName.setText(food.getVendorName());
-
+        TextView buyButton = findViewById(R.id.buy);
         if (MainActivity.user != null && MainActivity.user.getPrivilege() == 0) {
-            TextView buyButton = findViewById(R.id.buy);
+
             buyButton.setVisibility(View.GONE);
             plus.setVisibility(View.GONE);
             minus.setVisibility(View.GONE);
             qty.setVisibility(View.GONE);
         } else {
+
+
             qty.setText("" + number[0]);
 
             minus.setOnClickListener(new View.OnClickListener() {
@@ -200,15 +207,20 @@ public class FoodDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    if (number[0] == food.getAmount()) {
-                        qty.setText("" + number[0]);
-                    }
+                    if (MainActivity.user == null || MainActivity.user.getPrivilege() != 2) {
+                        if (number[0] == food.getAmount()) {
+                            qty.setText("" + number[0]);
+                        }
 
-                    if (number[0] < food.getAmount()) {
+                        if (number[0] < food.getAmount()) {
 
+                            number[0] = number[0] + 1;
+                            qty.setText("" + number[0]);
+
+                        }
+                    } else {
                         number[0] = number[0] + 1;
                         qty.setText("" + number[0]);
-
                     }
                 }
             });

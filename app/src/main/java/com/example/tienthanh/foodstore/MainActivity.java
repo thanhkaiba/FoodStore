@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_login:
                 if (user != null) {
                     user = null;
+                    cart.clear();
+                    foodCart.clear();
                 }
                 intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, LOGIN);
@@ -196,8 +198,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 userItem.setTitle("Your profile");
                 MenuItem orderItem = menu.findItem(R.id.nav_order_list);
                 orderItem.setTitle("Your order");
-                MenuItem billItem = menu.findItem(R.id.nav_bill_list);
-                billItem.setTitle("Your bill");
+                orderItem.setVisible(true);
+                userItem.setVisible(true);
 
             } else {
 
@@ -209,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 billItem.setTitle("Bill");
                 billItem.setVisible(true);
                 orderItem.setVisible(true);
+                userItem.setVisible(true);
             }
         } else {
 
@@ -222,6 +225,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             orderItem.setVisible(false);
             MenuItem billItem = menu.findItem(R.id.nav_bill_list);
             billItem.setVisible(false);
+            MenuItem userItem = menu.findItem(R.id.nav_user_list);
+            userItem.setVisible(false);
         }
     }
 }

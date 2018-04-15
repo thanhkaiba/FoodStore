@@ -49,6 +49,9 @@ public class OrderListFragment extends Fragment implements OrderListAdapter.List
         orderRecycler.setLayoutManager(layoutManager);
         adapter.setListener(this);
         orderRecycler.setAdapter(adapter);
+        if (MainActivity.user != null && MainActivity.user.getPrivilege() == 3) {
+            adapter.getFilter().filter(MainActivity.user.getEmail());
+        }
         setHasOptionsMenu(true);
         return  orderRecycler;
         
@@ -75,6 +78,10 @@ public class OrderListFragment extends Fragment implements OrderListAdapter.List
             }
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (MainActivity.user != null && MainActivity.user.getPrivilege() == 3) {
+                    newText += MainActivity.user.getEmail();
+                }
+
                 adapter.getFilter().filter(newText);
                 return true;
             }

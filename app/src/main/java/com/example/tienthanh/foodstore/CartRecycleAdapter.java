@@ -1,6 +1,7 @@
 package com.example.tienthanh.foodstore;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
@@ -22,12 +23,14 @@ public class CartRecycleAdapter extends RecyclerView.Adapter<CartRecycleAdapter.
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
 
+        View view;
         TextView name,qty,cost,type;
         ImageView image, minus, plus, delete;
 
 
         public MyViewHolder(View view) {
             super(view);
+            this.view = view;
             delete = view.findViewById(R.id.delete);
             image = view.findViewById(R.id.info_image);
             name= view.findViewById(R.id.info_name);
@@ -82,6 +85,7 @@ public class CartRecycleAdapter extends RecyclerView.Adapter<CartRecycleAdapter.
                     number[0] = number[0] - 1;
                     holder.qty.setText("" + number[0]);
                 }
+                holder.view.setBackgroundColor(Color.WHITE);
                 orderDetail.setAmount(number[0]);
             }
         });
@@ -89,12 +93,17 @@ public class CartRecycleAdapter extends RecyclerView.Adapter<CartRecycleAdapter.
             @Override
             public void onClick(View v) {
 
-                if (number[0] == food.getAmount()) {
-                    holder.qty.setText("" + number[0]);
-                }
+                if (MainActivity.user == null || MainActivity.user.getPrivilege() != 2) {
+                    if (number[0] == food.getAmount()) {
+                        holder.qty.setText("" + number[0]);
+                    }
 
-                if (number[0] < food.getAmount()) {
+                    if (number[0] < food.getAmount()) {
 
+                        number[0] = number[0] + 1;
+                        holder.qty.setText("" + number[0]);
+                    }
+                } else {
                     number[0] = number[0] + 1;
                     holder.qty.setText("" + number[0]);
                 }
@@ -105,10 +114,12 @@ public class CartRecycleAdapter extends RecyclerView.Adapter<CartRecycleAdapter.
             @Override
             public void onClick(View v) {
                 MainActivity.cart.remove(position);
+                MainActivity.foodCart.remove(position);
                 notifyDataSetChanged();
             }
         });
     }
+
 
     @Override
     public int getItemCount() {
