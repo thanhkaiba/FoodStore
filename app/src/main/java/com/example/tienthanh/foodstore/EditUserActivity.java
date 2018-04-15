@@ -290,7 +290,8 @@ public class EditUserActivity extends AppCompatActivity {
             else {
                 new UpdateUserTask().execute();
             }
-
+        } else {
+            Toast.makeText(this, "Nothing change", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -357,11 +358,14 @@ public class EditUserActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if (password.getText().toString().isEmpty()) {
+                    password.setError("Empty password!");
+                }
                 if (!password.getText().toString().equals(retypePassword.getText().toString())) {
                     retypePassword.setError("Password not match!");
                 }
                 else {
-                    user.setPassword(password.getText().toString());
+                    user.setPassword(FoodStoreDatabaseHelper.MD5(password.getText().toString()));
                     new UpdateUserTask().execute();
                     dialog.dismiss();
                 }
@@ -412,15 +416,20 @@ public class EditUserActivity extends AppCompatActivity {
 
     private class UpdateUserTask extends AsyncTask<Void, Void, Boolean> {
 
-
         private ContentValues userValues;
 
         @Override
         protected void onPostExecute(Boolean done) {
+            Intent returnIntent = new Intent();
             if (!done) {
                 Toast toast = Toast.makeText(EditUserActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
                 toast.show();
+                setResult(RESULT_CANCELED, returnIntent);
+            } else {
+                returnIntent.putExtra(UserDetailActivity.USER_INFO, user);
+                setResult(RESULT_OK, returnIntent);
             }
+            finish();
         }
 
         @Override
@@ -446,18 +455,10 @@ public class EditUserActivity extends AppCompatActivity {
                 if (preEmail == null) {
                     long id = db.insert("USERS", null, userValues);
                     user.setId(id);
-                    db.close();
-                    onBackPressed();
 
                 } else {
                     db.update("USERS", userValues, "_id = ?", new String[]{String.valueOf(user.getId())});
-                    for (User u : users) {
-                        if (user.getId() == u.getId()) {
-                            users.remove(u);
-                            users.add(user);
-                            break;
-                        }
-                    }
+
                 }
 
                 db.close();
@@ -468,15 +469,4 @@ public class EditUserActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        if (user != null) {
-            Intent intent = new Intent(this, UserDetailActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra(UserDetailActivity.USER_INFO, user);
-            startActivity(intent);
-        } else {
-            super.onBackPressed();
-        }
-    }
 }

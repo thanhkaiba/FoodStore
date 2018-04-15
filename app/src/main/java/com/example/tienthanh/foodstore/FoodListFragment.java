@@ -21,8 +21,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
+
 public class FoodListFragment extends Fragment implements CaptionImageAdapter.Listener{
 
+    private static final int ADD = 22;
     ArrayList<Food> foods;
     CaptionImageAdapter adapter;
     public static final String VEGETABLE = "Vegetable";
@@ -114,7 +117,7 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add:
-                startActivity(new Intent(getActivity(), EditFoodActivity.class));
+                startActivityForResult(new Intent(getActivity(), EditFoodActivity.class), ADD);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -144,7 +147,14 @@ public class FoodListFragment extends Fragment implements CaptionImageAdapter.Li
         });
     }
 
-
-
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADD) {
+            if (resultCode == RESULT_OK) {
+                Intent intent = new Intent(getActivity(), FoodDetailActivity.class);
+                intent.putExtra(FoodDetailActivity.FOOD_INFO, data.getSerializableExtra(FoodDetailActivity.FOOD_INFO));
+                startActivity(intent);
+            }
+        }
+    }
 }

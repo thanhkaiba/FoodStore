@@ -121,20 +121,6 @@ public class EditFoodActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-
-        if (food != null) {
-            Intent intent = new Intent(this, FoodDetailActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra(FoodDetailActivity.FOOD_INFO, food);
-            startActivity(intent);
-        } else {
-            super.onBackPressed();
-        }
-
-    }
-
     public void onChangeImage(View view) {
 
         CharSequence chooses[] = new CharSequence[]{"Camera", "Gallery"};
@@ -315,7 +301,7 @@ public class EditFoodActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -329,10 +315,16 @@ public class EditFoodActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean done) {
+            Intent returnIntent = new Intent();
             if (!done) {
                 Toast toast = Toast.makeText(EditFoodActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
                 toast.show();
+                setResult(RESULT_CANCELED, returnIntent);
+            } else {
+                returnIntent.putExtra(FoodDetailActivity.FOOD_INFO, food);
+                setResult(RESULT_OK, returnIntent);
             }
+            finish();
         }
 
         @Override
@@ -356,19 +348,9 @@ public class EditFoodActivity extends AppCompatActivity {
                 if (preName == null) {
                     long id = db.insert("FOOD", null, foodValues);
                     food.setId(id);
-                    db.close();
-                    onBackPressed();
 
                 } else {
                     db.update("FOOD", foodValues, "_id = ?", new String[]{String.valueOf(food.getId())});
-                    for (Food f : foods) {
-                        if (f.getId() == food.getId()) {
-                            foods.remove(f);
-                            foods.add(food);
-                            break;
-                        }
-                    }
-
                 }
 
                 db.close();

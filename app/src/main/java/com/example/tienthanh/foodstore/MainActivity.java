@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setTitle("Order");
                 break;
             case R.id.nav_bill_list:
-                fragment = new BillListFragment();
+                fragment = new BillTypeFragment();
                 setTitle("Bill");
                 break;
             default:

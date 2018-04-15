@@ -122,7 +122,7 @@ public class EditVendorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                finish();
                 return true;
             case R.id.action_change_image:
                 onChangeImage();
@@ -195,17 +195,6 @@ public class EditVendorActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        if (vendor != null) {
-            Intent intent = new Intent(this, VendorDetailActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra(VendorDetailActivity.VENDOR_INFO, vendor);
-            startActivity(intent);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     public static boolean isValidEmail(CharSequence target) {
         return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
@@ -254,10 +243,16 @@ public class EditVendorActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean done) {
+            Intent returnIntent = new Intent();
             if (!done) {
                 Toast toast = Toast.makeText(EditVendorActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
                 toast.show();
+                setResult(RESULT_CANCELED, returnIntent);
+            } else {
+                returnIntent.putExtra(VendorDetailActivity.VENDOR_INFO, vendor);
+                setResult(RESULT_OK, returnIntent);
             }
+            finish();
         }
 
         @Override
@@ -268,8 +263,6 @@ public class EditVendorActivity extends AppCompatActivity {
             vendorValues.put("EMAIL", vendor.getEmail());
             vendorValues.put("PHONE", vendor.getPhone());
             vendorValues.put("IMAGE", vendor.getImg());
-
-
         }
 
         @Override
@@ -280,18 +273,10 @@ public class EditVendorActivity extends AppCompatActivity {
                 if (preName == null) {
                     long id = db.insert("VENDOR", null, vendorValues);
                     vendor.setId(id);
-                    db.close();
-                    onBackPressed();
 
                 } else {
                     db.update("VENDOR", vendorValues, "_id = ?", new String[]{String.valueOf(vendor.getId())});
-                    for (Vendor v : vendors) {
-                        if (vendor.getId() == v.getId()) {
-                            vendors.remove(v);
-                            vendors.add(vendor);
-                            break;
-                        }
-                    }
+
                 }
 
                 db.close();
@@ -379,6 +364,8 @@ public class EditVendorActivity extends AppCompatActivity {
             vendor.setAddress(address.getText().toString());
             
             new UpdateVendorTask().execute();
+        } else {
+            Toast.makeText(this, "Nothing change", Toast.LENGTH_SHORT).show();
         }
 
     }

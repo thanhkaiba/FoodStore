@@ -1,6 +1,8 @@
 package com.example.tienthanh.foodstore;
 
-public class Bill {
+import java.io.Serializable;
+
+public class Bill implements Serializable{
     private long id;
     private double total;
     private String date;
@@ -10,8 +12,8 @@ public class Bill {
     private String userName;
 
     public static final int SELL = 0;
-    public static final int ENTER = 1;
-    public static final int RETURN = 2;
+    public static final int RECEIPT = 1;
+    public static final int ISSUE = 2;
 
     public Bill(long id, double total, String date, int type, int amount, long userID, String userName) {
         this.id = id;

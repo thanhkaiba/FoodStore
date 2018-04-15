@@ -12,5 +12,7 @@
     <color name="medium_text">#7e7e7e</color>
     <color name="lightgrey">#d1d1d1</color>
     <color name="text">#545454</color>
+    <color name="custom_switch">#32c1da</color>
+    <color name="dark_custom_switch">#1d7b97</color>
 
 </resources>

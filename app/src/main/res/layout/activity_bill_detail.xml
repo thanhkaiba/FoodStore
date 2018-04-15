@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    tools:context=".OrderDetailActivity"
+    tools:context=".BillDetailActivity"
     android:layout_height="match_parent">
 
 
@@ -48,17 +48,6 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <com.example.tienthanh.customfonts.CheckBox_Roboto_Medium
-                android:layout_marginEnd="10dp"
-                android:textColor="#000"
-                android:textSize="12sp"
-                android:layout_gravity="end"
-                android:id="@+id/info_status"
-                android:textOn="Finished"
-                android:textOff="Unfinished"
-                android:onClick="onClickDone"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp" />
 
             <LinearLayout
                 android:layout_width="50dp"
@@ -73,11 +62,11 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="2dp"
                     android:layout_marginStart="12dp"
-                    android:src="@drawable/salad" />
+                    android:src="@drawable/bill_detail" />
             </LinearLayout>
 
             <com.example.tienthanh.customfonts.MyTextView
-                android:id="@+id/info_email"
+                android:id="@+id/info_user_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -86,7 +75,7 @@
                 android:textSize="12sp" />
 
             <com.example.tienthanh.customfonts.MyTextView
-                android:id="@+id/info_phone"
+                android:id="@+id/info_name_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -94,22 +83,12 @@
                 android:textSize="12sp" />
 
             <com.example.tienthanh.customfonts.MyTextView
-                android:id="@+id/info_address"
+                android:id="@+id/info_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:textColor="#000"
                 android:textSize="12sp" />
-
-
-            <com.example.tienthanh.customfonts.MyTextView
-                android:id="@+id/info_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
-                android:textColor="#000"
-                android:textSize="37sp" />
 
 
             <View
@@ -193,12 +172,6 @@
                     android:text="@string/order_total"
                     android:textColor="#000"
                     android:textSize="12sp" />
-
-                <ImageView
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_marginTop="3dp"
-                    android:src="@drawable/ic_british_pound_symbol" />
 
                 <com.example.tienthanh.customfonts.MyTextView_Roboto_Medium
                     android:id="@+id/info_total"

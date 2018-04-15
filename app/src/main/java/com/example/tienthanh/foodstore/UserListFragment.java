@@ -20,8 +20,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
+
 public class UserListFragment extends Fragment implements CaptionImageAdapter.Listener {
 
+    private static final int ADD = 20;
     private ArrayList<User> users;
     CaptionImageAdapter adapter;
 
@@ -127,11 +130,22 @@ public class UserListFragment extends Fragment implements CaptionImageAdapter.Li
         switch (item.getItemId()) {
             case R.id.action_add:
                 Intent intent = new Intent(getActivity(), EditUserActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, ADD);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADD) {
+            if (resultCode == RESULT_OK) {
+                Intent intent = new Intent(getActivity(), UserDetailActivity.class);
+                intent.putExtra(UserDetailActivity.USER_INFO, data.getSerializableExtra(UserDetailActivity.USER_INFO));
+                startActivity(intent);
+            }
+        }
     }
 }

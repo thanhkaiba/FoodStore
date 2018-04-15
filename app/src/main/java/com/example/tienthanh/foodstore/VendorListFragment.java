@@ -21,8 +21,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
+
 public class VendorListFragment extends Fragment implements CaptionImageAdapter.Listener{
 
+    private static final int ADD = 23;
     ArrayList<Vendor> vendors;
     CaptionImageAdapter adapter;
 
@@ -95,7 +98,7 @@ public class VendorListFragment extends Fragment implements CaptionImageAdapter.
         switch (item.getItemId()) {
             case R.id.action_add:
                 Intent intent = new Intent(getActivity(), EditVendorActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, ADD);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -123,5 +126,16 @@ public class VendorListFragment extends Fragment implements CaptionImageAdapter.
         Intent intent = new Intent(getActivity(), VendorDetailActivity.class);
         intent.putExtra(VendorDetailActivity.VENDOR_INFO, vendors.get(position));
         startActivity(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ADD) {
+            if (resultCode == RESULT_OK) {
+                Intent intent = new Intent(getActivity(), VendorDetailActivity.class);
+                intent.putExtra(VendorDetailActivity.VENDOR_INFO, data.getSerializableExtra(VendorDetailActivity.VENDOR_INFO));
+                startActivity(intent);
+            }
+        }
     }
 }

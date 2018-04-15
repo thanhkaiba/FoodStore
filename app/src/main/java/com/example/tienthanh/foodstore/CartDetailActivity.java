@@ -14,16 +14,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CartDetailActivity extends AppCompatActivity {
 
 
     private static final int MAKE_ORDER = 15;
+    private int billType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +41,34 @@ public class CartDetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        TextView orderButton = findViewById(R.id.order_button);
+        final TextView orderButton = findViewById(R.id.order_button);
         if (MainActivity.cart.isEmpty()) {
             orderButton.setEnabled(false);
         }
         if (MainActivity.user != null && MainActivity.user.getPrivilege() == 1) {
-            orderButton.setText("SELL NOW");
+            orderButton.setText(R.string.order_button_sell);
+            billType = Bill.SELL;
+        }
+        if (MainActivity.user != null && MainActivity.user.getPrivilege() == 2) {
+            RadioGroup vendorBillType = findViewById(R.id.vendor_bill_type);
+            orderButton.setText(R.string.order_button_receipt);
+            vendorBillType.setVisibility(View.VISIBLE);
+            billType = Bill.RECEIPT;
+            vendorBillType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId) {
+                        case R.id.receipt:
+                            orderButton.setText(R.string.order_button_receipt);
+                            billType = Bill.RECEIPT;
+                            break;
+                        case R.id.issue:
+                            orderButton.setText(R.string.order_button_issue);
+                            billType = Bill.ISSUE;
+                            break;
+                    }
+                }
+            });
         }
 
     }
@@ -67,7 +89,7 @@ public class CartDetailActivity extends AppCompatActivity {
        if (MainActivity.user == null ) {
            Intent intent = new Intent(this, MakeOrderActivity.class);
            startActivityForResult(intent, MAKE_ORDER);
-       } else if (MainActivity.user.getPrivilege() == 1){
+       } else if (MainActivity.user.getPrivilege() == 2 || MainActivity.user.getPrivilege() == 3){
            new MakeBillTask().execute();
            finish();
         }
@@ -88,16 +110,14 @@ public class CartDetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Boolean done) {
-            Intent returnIntent = new Intent();
             if (!done) {
                 Toast toast = Toast.makeText(CartDetailActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
                 toast.show();
-                setResult(RESULT_CANCELED, returnIntent);
             } else {
                 MainActivity.cart.clear();
-                setResult(RESULT_OK, returnIntent);
+                finish();
             }
-            finish();
+
         }
 
         @Override
@@ -139,9 +159,7 @@ public class CartDetailActivity extends AppCompatActivity {
             billValues.put("DATE", date);
             billValues.put("AMOUNT", MainActivity.cart.size());
             billValues.put("USERID", MainActivity.user.getId());
-            if (MainActivity.user.getPrivilege() == 1) {
-                billValues.put("TYPE", Bill.SELL);
-            }
+            billValues.put("TYPE", billType);
 
         }
     }

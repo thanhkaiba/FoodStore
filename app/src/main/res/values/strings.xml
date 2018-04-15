@@ -35,4 +35,7 @@
     <string name="order_qty">QTY</string>
     <string name="app_name_login">FOOD STORE</string>
     <string name="enjoy">Hope you enjoy this app!</string>
+    <string name="order_button_sell">SELL NOW</string>
+    <string name="order_button_receipt">RECEIPT NOW</string>
+    <string name="order_button_issue">ISSUE NOW</string>
 </resources>

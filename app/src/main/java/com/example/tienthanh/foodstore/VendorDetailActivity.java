@@ -21,6 +21,7 @@ import java.io.File;
 public class VendorDetailActivity extends AppCompatActivity {
 
     public static final String VENDOR_INFO = "vendor info";
+    private static final int EDIT = 21;
     private Vendor vendor;
 
     @Override
@@ -34,24 +35,13 @@ public class VendorDetailActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        ImageView image = findViewById(R.id.info_image);
-        TextView phone = findViewById(R.id.phone_info);
-        TextView email = findViewById(R.id.email_info);
-        TextView address = findViewById(R.id.info_address);
 
         Intent intent = getIntent();
         if (intent.hasExtra(VENDOR_INFO)) {
-            Display display = getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
             vendor= (Vendor) intent.getSerializableExtra(VENDOR_INFO);
-            image.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(vendor.getImg(), size.x, 300));
-            setTitle(vendor.getName());
-
-            email.setText(vendor.getEmail());
-            phone.setText(vendor.getPhone());
-            address.setText(vendor.getAddress());
+            setUpView();
         }
+        setTitle(vendor.getName());
 
     }
 
@@ -64,13 +54,6 @@ public class VendorDetailActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-  /*  @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(MainActivity.FRAGMENT, R.id.nav_vendor_list);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -78,7 +61,7 @@ public class VendorDetailActivity extends AppCompatActivity {
             case R.id.action_edit:
                Intent intent = new Intent(this, EditVendorActivity.class);
                 intent.putExtra(EditVendorActivity.EDIT_VENDOR, vendor);
-                startActivity(intent);
+                startActivityForResult(intent, EDIT);
                 return true;
             case R.id.action_delete:
                 new DeleteUserTask().execute(vendor.getId());
@@ -105,7 +88,7 @@ public class VendorDetailActivity extends AppCompatActivity {
                         myPath.delete();
                     }
                 }
-                onBackPressed();
+                finish();
             }
         }
 
@@ -119,11 +102,7 @@ public class VendorDetailActivity extends AppCompatActivity {
                 SQLiteDatabase db = sqLiteOpenHelper.getWritableDatabase();
                 long id = ids[0];
                 db.delete("VENDOR", "_id=?", new String[]{Long.toString(id)});
-
                 db.close();
-                /*Intent intent = new Intent(VendorDetailActivity.this, MainActivity.class);
-                intent.putExtra(MainActivity.FRAGMENT, R.id.nav_vendor_list);
-                startActivity(intent);*/
 
                 return true;
             } catch (Exception e) {
@@ -133,5 +112,27 @@ public class VendorDetailActivity extends AppCompatActivity {
         }
     }
 
+    private void setUpView() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        ImageView image = findViewById(R.id.info_image);
+        TextView phone = findViewById(R.id.phone_info);
+        TextView email = findViewById(R.id.email_info);
+        TextView address = findViewById(R.id.info_address);
+        image.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(vendor.getImg(), size.x, 300));
+        email.setText(vendor.getEmail());
+        phone.setText(vendor.getPhone());
+        address.setText(vendor.getAddress());
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == EDIT) {
+            if (resultCode == RESULT_OK) {
+                vendor = (Vendor)data.getSerializableExtra(VendorDetailActivity.VENDOR_INFO);
+                setUpView();
+            }
+        }
+    }
 }

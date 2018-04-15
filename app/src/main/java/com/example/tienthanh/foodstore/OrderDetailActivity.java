@@ -94,7 +94,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 new DeleteOrderTask().execute(order.getId());
                 return true;
             case android.R.id.home:
-                onBackPressed();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -221,15 +221,5 @@ public class OrderDetailActivity extends AppCompatActivity {
         }
     }
 
-    /*@Override
-    public void onBackPressed() {
-        if (preStatus != order.getStatus()) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(MainActivity.FRAGMENT, R.id.nav_order_list);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        } else {
-            super.onBackPressed();
-        }
-    }*/
+
 }

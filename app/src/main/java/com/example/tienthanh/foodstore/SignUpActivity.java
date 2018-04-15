@@ -19,6 +19,7 @@ import java.util.Calendar;
 public class SignUpActivity extends AppCompatActivity {
 
     public static final String USER_LIST = "user list";
+    private TextView name;
     private TextView email;
     private TextView address;
     private TextView password;
@@ -31,6 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        name = findViewById(R.id.info_name);
         email = findViewById(R.id.info_email);
         address = findViewById(R.id.info_address);
         password = findViewById(R.id.info_password);
@@ -68,6 +70,13 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void onClickSignUp(View view) {
+
+        if (name.getText().toString().isEmpty()) {
+            name.setError("You did not enter your name!");
+            name.requestFocus();
+            return;
+        }
+
         if (email.getText().toString().isEmpty()) {
             email.setError("You did not enter email!");
             email.requestFocus();
@@ -84,6 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
             email.requestFocus();
             return;
         }
+
 
         if (phone.getText().toString().isEmpty()) {
             phone.setError("You did not enter phone number!");
@@ -105,7 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
         user = new User();
         user.setEmail(email.getText().toString());
         user.setPhone(phone.getText().toString());
-        user.setName("");
+        user.setName(name.getText().toString());
         user.setGender("Nam");
         Calendar calendar = Calendar.getInstance();
         user.setBirthday(calendar.get(Calendar.DAY_OF_MONTH) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.YEAR));

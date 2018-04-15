@@ -98,11 +98,18 @@ public class BillListAdapter extends RecyclerView.Adapter<BillListAdapter.ViewHo
         TextView total =  view.findViewById(R.id.info_total);
         TextView date = view.findViewById(R.id.info_date);
         TextView address = view.findViewById(R.id.info_address);
-        name.setText(String.valueOf(bill.getId()));
+        name.setText("ID: " + String.valueOf(bill.getId()));
         email.setText(bill.getUserName());
         total.setText(String.valueOf(bill.getTotal()));
         date.setText(bill.getDate());
-        address.setText(String.valueOf(bill.getId()));
+        StringBuilder text = new StringBuilder();
+        if (bill.getType() == Bill.SELL) {
+            text.append("Salesman / Saleswoman ID: ");
+        } else {
+            text.append("Storekeeper ID: ");
+        }
+        text.append(bill.getUserID());
+        address.setText(text);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

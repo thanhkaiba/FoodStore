@@ -24,15 +24,21 @@ import java.util.ArrayList;
 public class BillListFragment extends Fragment implements BillListAdapter.Listener{
 
 
-
-    ArrayList<Bill> bills;
-    BillListAdapter adapter;
+    public static final String TYPE = "type";
+    private ArrayList<Bill> bills;
+    private BillListAdapter adapter;
+    private int billType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         RecyclerView billRecycler = (RecyclerView)  inflater.inflate(R.layout.fragment_bill_list, container, false);
 
+        savedInstanceState = getArguments();
+        if (savedInstanceState != null) {
+
+            billType = savedInstanceState.getInt(TYPE);
+        }
 
         bills = getBillDatabase();
 
@@ -79,7 +85,8 @@ public class BillListFragment extends Fragment implements BillListAdapter.Listen
         SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(getActivity());
         try {
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT BILL.*, USERS.NAME FROM BILL, USERS WHERE USERID = USERS._id;", null);
+            Cursor cursor = db.rawQuery("SELECT BILL.*, USERS.NAME FROM BILL, USERS WHERE USERID = USERS._id AND TYPE = '" +
+                    billType +"';", null);
             if (cursor.moveToFirst()) {
                 do {
                     long id = cursor.getLong(0);
@@ -109,8 +116,8 @@ public class BillListFragment extends Fragment implements BillListAdapter.Listen
 
     @Override
     public void onClick(int position) {
-        /*Intent intent = new Intent(getActivity(), OrderDetailActivity.class);
-        intent.putExtra(OrderDetailActivity.ORDER_INFO, bills.get(position));
-        startActivity(intent);*/
+        Intent intent = new Intent(getActivity(), BillDetailActivity.class);
+        intent.putExtra(BillDetailActivity.BILL_INFO, bills.get(position));
+        startActivity(intent);
     }
 }
