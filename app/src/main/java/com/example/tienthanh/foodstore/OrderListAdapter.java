@@ -102,7 +102,7 @@ public class OrderListAdapter extends RecyclerView.Adapter<OrderListAdapter.View
         TextView total =  view.findViewById(R.id.info_total);
         TextView date = view.findViewById(R.id.info_date);
         TextView address = view.findViewById(R.id.info_address);
-        name.setText(order.getName());
+        name.setText("No." + order.getId() + " " + order.getName());
         email.setText(order.getEmail());
         total.setText(String.valueOf(order.getTotal()));
         date.setText(order.getDate());

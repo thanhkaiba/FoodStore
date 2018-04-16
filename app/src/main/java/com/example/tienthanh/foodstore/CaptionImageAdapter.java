@@ -105,9 +105,9 @@ public class CaptionImageAdapter extends RecyclerView.Adapter<CaptionImageAdapte
         CardView cardView = holder.cardView;
         ImageView imageView =  cardView.findViewById(R.id.info_image);
         if (type != ORDER_ADAPTER)
-            imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(mFilteredList.get(position).getImage(), 200, 200));
+            imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(mFilteredList.get(position).getImage(), 150, 150));
         else
-            imageView.setImageResource(R.drawable.order);
+            imageView.setImageResource(R.drawable.food_image);
         imageView.setContentDescription(mFilteredList.get(position).getName());
         TextView name = cardView.findViewById(R.id.info_name);
         name.setText(mFilteredList.get(position).getName());

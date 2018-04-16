@@ -2,6 +2,7 @@ package com.example.tienthanh.foodstore;
 
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -96,6 +97,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new BillTypeFragment();
                 setTitle("Bill");
                 break;
+            case R.id.nav_feedback:
+                composeEmail(new String[] {"foodstore@gmail.com"}, "FOOD STORE APP");
+                break;
+            case R.id.nav_about:
+                intent = new Intent(this, AboutFoodStoreActivity.class);
+                startActivity(intent);
+                break;
             default:
                 fragment = new FoodTypeFragment();
                 setTitle("Food");
@@ -181,10 +189,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.attach(currentFragment);
             ft.commit();
         }
-
-
     }
-
 
     private void setNavMenu() {
 
@@ -192,29 +197,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageView imageView = findViewById(R.id.profile_image);
         TextView profileEmail = findViewById(R.id.profile_email);
         TextView profileName = findViewById(R.id.profile_name);
+        MenuItem userItem = menu.findItem(R.id.nav_user_list);
+        MenuItem orderItem = menu.findItem(R.id.nav_order_list);
+        MenuItem billItem = menu.findItem(R.id.nav_bill_list);
+        MenuItem item = menu.findItem(R.id.nav_login);
         if (MainActivity.user != null) {
 
             imageView.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(user.getImg(), 200, 200));
             profileEmail.setText(user.getEmail());
             profileName.setText(user.getName());
-            MenuItem item = menu.findItem(R.id.nav_login);
+
             item.setTitle("Logout");
 
             if (MainActivity.user.getPrivilege() == 3) {
-
-                MenuItem userItem = menu.findItem(R.id.nav_user_list);
-                MenuItem orderItem = menu.findItem(R.id.nav_order_list);
-                orderItem.setTitle("Your order");
                 orderItem.setVisible(true);
                 userItem.setVisible(true);
 
             } else {
-
-                MenuItem userItem = menu.findItem(R.id.nav_user_list);
-                MenuItem orderItem = menu.findItem(R.id.nav_order_list);
-                orderItem.setTitle("Order");
-                MenuItem billItem = menu.findItem(R.id.nav_bill_list);
-                billItem.setTitle("Bill");
                 billItem.setVisible(true);
                 orderItem.setVisible(true);
                 userItem.setVisible(true);
@@ -224,18 +223,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         } else {
 
-            MenuItem item = menu.findItem(R.id.nav_login);
             item.setTitle("Login");
             imageView.setImageResource(R.drawable.logo);
             profileName.setText(R.string.app_name_login);
             profileEmail.setText(R.string.enjoy);
-
-            MenuItem orderItem = menu.findItem(R.id.nav_order_list);
             orderItem.setVisible(false);
-            MenuItem billItem = menu.findItem(R.id.nav_bill_list);
             billItem.setVisible(false);
-            MenuItem userItem = menu.findItem(R.id.nav_user_list);
             userItem.setVisible(false);
+        }
+    }
+
+    public void composeEmail(String[] addresses, String subject) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
         }
     }
 }

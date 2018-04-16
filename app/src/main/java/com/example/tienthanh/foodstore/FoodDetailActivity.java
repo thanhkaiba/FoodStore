@@ -3,6 +3,7 @@ package com.example.tienthanh.foodstore;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -173,12 +174,11 @@ public class FoodDetailActivity extends AppCompatActivity {
         String amountText = "There are " + food.getAmount() + " " + food.getUnit() + " in stock";
         amount.setText(amountText);
         description.setText(food.getDescription());
-        String costText = food.getCost() + "$ / " + food.getUnit();
+        String costText = food.getCost() + "/" + food.getUnit();
         cost.setText(costText);
         vendorName.setText(food.getVendorName());
         TextView buyButton = findViewById(R.id.buy);
         if (MainActivity.user != null && MainActivity.user.getPrivilege() == 0) {
-
             buyButton.setVisibility(View.GONE);
             plus.setVisibility(View.GONE);
             minus.setVisibility(View.GONE);

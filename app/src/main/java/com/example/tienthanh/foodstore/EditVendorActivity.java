@@ -362,7 +362,9 @@ public class EditVendorActivity extends AppCompatActivity {
             vendor.setName(name.getText().toString());
             vendor.setEmail(email.getText().toString());
             if (selectedImage != null)
-                vendor.setImg(FoodStoreDatabaseHelper.saveToInternalStorage(selectedImage, vendor.getEmail(), FoodStoreDatabaseHelper.FOOD));
+                vendor.setImg(FoodStoreDatabaseHelper.saveToInternalStorage(selectedImage, vendor.getEmail(), FoodStoreDatabaseHelper.VENDOR));
+            else
+                vendor.setImg(FoodStoreDatabaseHelper.saveDrawableToInternalStorage(R.drawable.default_user, vendor.getEmail(), FoodStoreDatabaseHelper.VENDOR));
             vendor.setPhone(phone.getText().toString());
             vendor.setAddress(address.getText().toString());
             

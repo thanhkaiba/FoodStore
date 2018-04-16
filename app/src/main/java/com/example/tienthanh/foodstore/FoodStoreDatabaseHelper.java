@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int VENDOR = 104;
+    public static final int VENDOR = 104;
     public static final int ORDER = 105;
     private static Context context;
     private static final String DB_NAME = "foodstore";
@@ -255,7 +255,7 @@ public class FoodStoreDatabaseHelper extends SQLiteOpenHelper {
             user = new User( MD5("12345678"), saveDrawableToInternalStorage(R.drawable.tzuyu, "tzuyu@gmail.com", USER), "Tzuyu", "Nữ", "14-6-1999",
                     "tzuyu@gmail.com", "0123456789", 2, "South Korea");
             insertUser(db, user);
-            user = new User(MD5("12345678"), saveDrawableToInternalStorage(R.drawable.kimyojung, "kimyooyung@gmail.com", USER), "Kim Yoo Yung", "Nữ", "22-9-1999",
+            user = new User(MD5("12345678"), saveDrawableToInternalStorage(R.drawable.kimyooyung, "kimyooyung@gmail.com", USER), "Kim Yoo Yung", "Nữ", "22-9-1999",
                     "kimyooyung@gmail.com", "0123456789", 1, "South Korea");
             insertUser(db, user);
             Order order = new Order(50, "6-4-2018", "Nguyễn Tiến Thành", "tienthanhit97@gmail.com", "01679003648", "Vietnam", 20, 0);

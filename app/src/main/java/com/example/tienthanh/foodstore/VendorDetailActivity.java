@@ -118,6 +118,7 @@ public class VendorDetailActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
         ImageView image = findViewById(R.id.info_image);
+        TextView name = findViewById(R.id.info_name);
         TextView phone = findViewById(R.id.phone_info);
         TextView email = findViewById(R.id.email_info);
         TextView address = findViewById(R.id.info_address);
@@ -125,7 +126,8 @@ public class VendorDetailActivity extends AppCompatActivity {
         email.setText(vendor.getEmail());
         phone.setText(vendor.getPhone());
         address.setText(vendor.getAddress());
-        setTitle(vendor.getName());
+        name.setText(vendor.getName());
+        setTitle("");
 
     }
 

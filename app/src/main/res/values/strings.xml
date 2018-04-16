@@ -2,7 +2,7 @@
     <string name="app_name">Food Store</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nav_food_list">Food</string>
-    <string name="nav_user_list">Your profile</string>
+    <string name="nav_user_list">Profile</string>
     <string name="nav_vendor_list">Vendor</string>
     <string name="nav_order_list">Order</string>
     <string name="nav_bill_list">Bill</string>
@@ -38,4 +38,7 @@
     <string name="order_button_sell">SELL NOW</string>
     <string name="order_button_receipt">RECEIPT NOW</string>
     <string name="order_button_issue">ISSUE NOW</string>
+    <string name="about_food_store_1">A convenient utility for managing, ordering, selling, storing invoices for a food store. In a flat and fast-paced world, information technology has evolved in all areas of life and even in the food industry.</string>
+    <string name="about_food_store_2">Making sales, orders and management simpler than ever!</string>
+    <string name="nav_about">About</string>
 </resources>

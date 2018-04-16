@@ -30,7 +30,7 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <com.example.tienthanh.customfonts.MyTextView_Roboto_Medium
+                <com.example.tienthanh.customfonts.MyTextView
                     android:id="@+id/info_id"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                     android:textColor="#000"
                     android:textSize="12sp" />
 
-                <com.example.tienthanh.customfonts.MyTextView_Roboto_Medium
+                <com.example.tienthanh.customfonts.MyTextView
                     android:id="@+id/info_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -164,7 +164,7 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <com.example.tienthanh.customfonts.MyTextView_Roboto_Medium
+                <com.example.tienthanh.customfonts.MyTextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
@@ -173,7 +173,7 @@
                     android:textColor="#000"
                     android:textSize="12sp" />
 
-                <com.example.tienthanh.customfonts.MyTextView_Roboto_Medium
+                <com.example.tienthanh.customfonts.MyTextView
                     android:id="@+id/info_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

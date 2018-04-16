@@ -23,18 +23,18 @@ public class UserDetailActivity extends AppCompatActivity {
 
     public static final String USER_INFO = "user info";
     private static final int EDIT = 19;
-    private Toolbar toolbar;
     private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_detail);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
+        setTitle("");
         if (intent.hasExtra(USER_INFO)) {
             user = (User)intent.getSerializableExtra(USER_INFO);
             setUpView();
@@ -120,6 +120,7 @@ public class UserDetailActivity extends AppCompatActivity {
 
     private void setUpView() {
         ImageView image = findViewById(R.id.info_image);
+        TextView name = findViewById(R.id.name_info);
         TextView phone = findViewById(R.id.phone_info);
         TextView email = findViewById(R.id.email_info);
         TextView birthday = findViewById(R.id.birthday_info);
@@ -130,7 +131,7 @@ public class UserDetailActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
         image.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(user.getImg(), size.x, 300));
-        toolbar.setTitle(user.getName());
+        name.setText(user.getName());
         privilege.setText(User.PRIVILEGE[user.getPrivilege()]);
         gender.setText(user.getGender());
         birthday.setText(user.getBirthday());

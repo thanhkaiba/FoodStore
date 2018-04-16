@@ -281,6 +281,8 @@ public class EditUserActivity extends AppCompatActivity {
             user.setEmail(email.getText().toString());
             if (selectedImage != null)
                 user.setImg(FoodStoreDatabaseHelper.saveToInternalStorage(selectedImage, user.getEmail(), FoodStoreDatabaseHelper.FOOD));
+            else
+                user.setImg(FoodStoreDatabaseHelper.saveDrawableToInternalStorage(R.drawable.default_user, user.getEmail(), FoodStoreDatabaseHelper.USER));
             user.setPhone(phone.getText().toString());
             user.setAddress(address.getText().toString());
             user.setName(name.getText().toString());

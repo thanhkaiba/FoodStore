@@ -14,5 +14,6 @@
     <color name="text">#545454</color>
     <color name="custom_switch">#32c1da</color>
     <color name="dark_custom_switch">#1d7b97</color>
+    <color name="white">#fff</color>
 
 </resources>

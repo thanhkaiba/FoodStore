@@ -31,7 +31,8 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".MakeOrderActivity" />
-        <activity android:name=".BillDetailActivity"></activity>
+        <activity android:name=".BillDetailActivity" />
+        <activity android:name=".AboutFoodStoreActivity"></activity>
     </application>
 
 </manifest>

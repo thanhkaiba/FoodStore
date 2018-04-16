@@ -6,7 +6,8 @@
         android:title="@string/action_edit"
         android:icon="@drawable/ic_edit_white_24dp"
         android:orderInCategory="1"
-        app:showAsAction="ifRoom"></item>
+        app:showAsAction="ifRoom">
+    </item>
     <item
         android:id="@+id/action_delete"
         android:title="@string/action_delete"

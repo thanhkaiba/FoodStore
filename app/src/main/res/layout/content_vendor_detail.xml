@@ -18,6 +18,35 @@
             android:padding="@dimen/activity_horizontal_margin">
 
             <ImageView
+                android:id="@+id/ivContactItem10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:tint="@color/colorPrimary"
+                android:tintMode="src_in"
+                android:src="@drawable/ic_store_black_24dp" />
+
+            <com.example.tienthanh.customfonts.MyTextView
+                android:id="@+id/info_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_toEndOf="@id/ivContactItem10"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#212121" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/item_divider" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/activity_horizontal_margin">
+
+            <ImageView
                 android:id="@+id/ivContactItem1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

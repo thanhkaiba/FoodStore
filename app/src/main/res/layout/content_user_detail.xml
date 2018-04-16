@@ -28,7 +28,7 @@
                 android:src="@drawable/ic_person_black_24dp" />
 
             <com.example.tienthanh.customfonts.MyTextView
-                android:id="@+id/privilege_info"
+                android:id="@+id/name_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -42,7 +42,7 @@
                 android:id="@+id/gender_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/privilege_info"
+                android:layout_below="@id/name_info"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="8dp"
                 android:layout_toEndOf="@id/ivContactItem6"
@@ -170,5 +170,35 @@
                 android:textColor="#212121" />
         </RelativeLayout>
         <include layout="@layout/item_divider"></include>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="@dimen/activity_horizontal_margin">
+
+
+            <ImageView
+                android:id="@+id/ivContactItem20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:tint="@color/colorPrimary"
+                android:tintMode="src_in"
+                android:src="@drawable/right_icon" />
+
+            <com.example.tienthanh.customfonts.MyTextView
+                android:id="@+id/privilege_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_toEndOf="@id/ivContactItem20"
+                android:ellipsize="end"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#212121" />
+
+        </RelativeLayout>
+        <include layout="@layout/item_divider">
+        </include>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -229,6 +229,8 @@ public class EditFoodActivity extends AppCompatActivity {
             }
             if (selectedImage != null)
                 food.setImg(FoodStoreDatabaseHelper.saveToInternalStorage(selectedImage, food.getName(), FoodStoreDatabaseHelper.FOOD));
+            else
+                food.setImg(FoodStoreDatabaseHelper.saveDrawableToInternalStorage(R.drawable.default_user, food.getName(), FoodStoreDatabaseHelper.FOOD));
             new UpdateFoodTask().execute();
             Snackbar snackbar = Snackbar.make(findViewById(R.id.constraint), "Your food has been update", Snackbar.LENGTH_SHORT);
             snackbar.show();

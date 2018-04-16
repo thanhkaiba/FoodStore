@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 public class OrderDetailActivity extends AppCompatActivity {
 
-    public static final String ORDER_INFO = "order info";
+    public static final String ORDER_INFO = "food_image info";
     private Order order;
     private ArrayList<OrderDetail> details;
     private ToggleButton status;
