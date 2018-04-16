@@ -323,6 +323,7 @@ public class EditFoodActivity extends AppCompatActivity {
             } else {
                 returnIntent.putExtra(FoodDetailActivity.FOOD_INFO, food);
                 setResult(RESULT_OK, returnIntent);
+                finish();
             }
             finish();
         }

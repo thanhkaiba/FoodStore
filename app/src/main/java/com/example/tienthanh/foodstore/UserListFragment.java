@@ -34,6 +34,7 @@ public class UserListFragment extends Fragment implements CaptionImageAdapter.Li
         RecyclerView userRecycler = (RecyclerView)  inflater.inflate(R.layout.fragment_user_list,
                 container, false);
 
+
        users = getUsersDatabase();
         ArrayList<Info> infos = new ArrayList<>();
 
@@ -49,9 +50,6 @@ public class UserListFragment extends Fragment implements CaptionImageAdapter.Li
         userRecycler.setLayoutManager(layoutManager);
         adapter.setListener(this);
         userRecycler.setAdapter(adapter);
-        if (MainActivity.user != null && MainActivity.user.getPrivilege() == 3) {
-            adapter.getFilter().filter(MainActivity.user.getEmail());
-        }
         setHasOptionsMenu(true);
         return  userRecycler;
     }
@@ -71,7 +69,12 @@ public class UserListFragment extends Fragment implements CaptionImageAdapter.Li
         try {
 
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM USERS", null);
+            Cursor cursor = null;
+            if (MainActivity.user.getPrivilege() == 0) {
+                cursor = db.rawQuery("SELECT * FROM USERS", null);
+            } else {
+                cursor = db.rawQuery("SELECT * FROM USERS WHERE _id = " + MainActivity.user.getId() +";", null);
+            }
 
             if (cursor.moveToFirst()) {
                 do {
@@ -105,22 +108,13 @@ public class UserListFragment extends Fragment implements CaptionImageAdapter.Li
     }
 
     private void search(SearchView searchView) {
-
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return false;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (MainActivity.user != null && MainActivity.user.getPrivilege() == 3) {
-                    newText += MainActivity.user.getEmail();
-                }
-
                 adapter.getFilter().filter(newText);
                 return true;
             }

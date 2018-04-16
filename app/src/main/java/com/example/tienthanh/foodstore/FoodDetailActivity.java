@@ -136,7 +136,7 @@ public class FoodDetailActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == EDIT) {
-            if (requestCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 food = (Food) data.getSerializableExtra(FoodDetailActivity.FOOD_INFO);
                 setUpView();
             }

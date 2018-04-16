@@ -2,7 +2,7 @@
     <string name="app_name">Food Store</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nav_food_list">Food</string>
-    <string name="nav_user_list">User</string>
+    <string name="nav_user_list">Your profile</string>
     <string name="nav_vendor_list">Vendor</string>
     <string name="nav_order_list">Order</string>
     <string name="nav_bill_list">Bill</string>

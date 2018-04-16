@@ -23,12 +23,13 @@ public class VendorDetailActivity extends AppCompatActivity {
     public static final String VENDOR_INFO = "vendor info";
     private static final int EDIT = 21;
     private Vendor vendor;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_detail);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -41,7 +42,7 @@ public class VendorDetailActivity extends AppCompatActivity {
             vendor= (Vendor) intent.getSerializableExtra(VENDOR_INFO);
             setUpView();
         }
-        setTitle(vendor.getName());
+
 
     }
 
@@ -124,6 +125,8 @@ public class VendorDetailActivity extends AppCompatActivity {
         email.setText(vendor.getEmail());
         phone.setText(vendor.getPhone());
         address.setText(vendor.getAddress());
+        setTitle(vendor.getName());
+
     }
 
     @Override

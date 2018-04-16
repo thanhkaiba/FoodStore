@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     user = null;
                     cart.clear();
                     foodCart.clear();
+
                 }
                 intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, LOGIN);
@@ -168,6 +169,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onPostResume();
         if (currentFragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            if (MainActivity.user == null) {
+                if (currentFragment instanceof UserListFragment ||
+                        currentFragment instanceof BillTypeFragment || currentFragment instanceof OrderTypeFragment) {
+                    currentFragment = new FoodTypeFragment();
+                    setTitle("Food");
+                }
+            }
             ft.replace(R.id.fragment_container, currentFragment);
             ft.detach(currentFragment);
             ft.attach(currentFragment);
@@ -195,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (MainActivity.user.getPrivilege() == 3) {
 
                 MenuItem userItem = menu.findItem(R.id.nav_user_list);
-                userItem.setTitle("Your profile");
                 MenuItem orderItem = menu.findItem(R.id.nav_order_list);
                 orderItem.setTitle("Your order");
                 orderItem.setVisible(true);
@@ -204,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
 
                 MenuItem userItem = menu.findItem(R.id.nav_user_list);
-                userItem.setTitle("User");
                 MenuItem orderItem = menu.findItem(R.id.nav_order_list);
                 orderItem.setTitle("Order");
                 MenuItem billItem = menu.findItem(R.id.nav_bill_list);
@@ -212,6 +218,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 billItem.setVisible(true);
                 orderItem.setVisible(true);
                 userItem.setVisible(true);
+                if (MainActivity.user.getPrivilege() == 0) {
+                    userItem.setTitle("User");
+                }
             }
         } else {
 

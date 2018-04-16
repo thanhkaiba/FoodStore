@@ -23,13 +23,14 @@ public class UserDetailActivity extends AppCompatActivity {
 
     public static final String USER_INFO = "user info";
     private static final int EDIT = 19;
+    private Toolbar toolbar;
     private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_detail);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -43,8 +44,10 @@ public class UserDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (MainActivity.user != null &&  MainActivity.user.getPrivilege() == 0) {
-            getMenuInflater().inflate(R.menu.detail_menu, menu);
+        getMenuInflater().inflate(R.menu.detail_menu, menu);
+        if (MainActivity.user.getPrivilege() > 0) {
+            MenuItem deleteAction = menu.findItem(R.id.action_delete);
+            deleteAction.setVisible(false);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -127,7 +130,7 @@ public class UserDetailActivity extends AppCompatActivity {
         Point size = new Point();
         display.getSize(size);
         image.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(user.getImg(), size.x, 300));
-        setTitle(user.getName());
+        toolbar.setTitle(user.getName());
         privilege.setText(User.PRIVILEGE[user.getPrivilege()]);
         gender.setText(user.getGender());
         birthday.setText(user.getBirthday());

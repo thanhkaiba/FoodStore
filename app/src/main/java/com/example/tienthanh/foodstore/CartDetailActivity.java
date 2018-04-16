@@ -121,7 +121,6 @@ public class CartDetailActivity extends AppCompatActivity {
            } else {
                Toast.makeText(this, "Some products have larger" +
                        " quantities than their stock", Toast.LENGTH_SHORT).show();
-               return;
            }
         }
     }

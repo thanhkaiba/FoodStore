@@ -61,7 +61,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             date.setText(order.getDate());
             address.setText(order.getAddress());
         }
-        if (MainActivity.user == null || MainActivity.user.getPrivilege() > 1) {
+        if (MainActivity.user.getPrivilege() > 1) {
             status.setEnabled(false);
         }
 
@@ -78,7 +78,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (MainActivity.user != null && MainActivity.user.getPrivilege() < 2) {
+        if (MainActivity.user.getPrivilege() < 2) {
             getMenuInflater().inflate(R.menu.detail_menu, menu);
             MenuItem editAction = menu.findItem(R.id.action_edit);
             editAction.setVisible(false);

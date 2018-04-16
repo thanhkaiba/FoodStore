@@ -248,11 +248,14 @@ public class EditVendorActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(EditVendorActivity.this, "Database unavailable", Toast.LENGTH_SHORT);
                 toast.show();
                 setResult(RESULT_CANCELED, returnIntent);
+
             } else {
                 returnIntent.putExtra(VendorDetailActivity.VENDOR_INFO, vendor);
                 setResult(RESULT_OK, returnIntent);
+                finish();
             }
             finish();
+
         }
 
         @Override

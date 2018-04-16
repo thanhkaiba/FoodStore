@@ -49,9 +49,6 @@ public class OrderListFragment extends Fragment implements OrderListAdapter.List
         orderRecycler.setLayoutManager(layoutManager);
         adapter.setListener(this);
         orderRecycler.setAdapter(adapter);
-        if (MainActivity.user != null && MainActivity.user.getPrivilege() == 3) {
-            adapter.getFilter().filter(MainActivity.user.getEmail());
-        }
         setHasOptionsMenu(true);
         return  orderRecycler;
         
@@ -78,10 +75,6 @@ public class OrderListFragment extends Fragment implements OrderListAdapter.List
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (MainActivity.user != null && MainActivity.user.getPrivilege() == 3) {
-                    newText += MainActivity.user.getEmail();
-                }
-
                 adapter.getFilter().filter(newText);
                 return true;
             }
@@ -94,7 +87,15 @@ public class OrderListFragment extends Fragment implements OrderListAdapter.List
         SQLiteOpenHelper sqLiteOpenHelper = new FoodStoreDatabaseHelper(getActivity());
         try {
             SQLiteDatabase db = sqLiteOpenHelper.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM ORDERS WHERE STATUS = " + status + ";", null);
+            String sql;
+
+            if (MainActivity.user.getPrivilege() < 3) {
+                sql = "SELECT * FROM ORDERS WHERE STATUS = " + status + ";";
+            } else {
+                sql = "SELECT * FROM ORDERS WHERE STATUS = " + status + "AND EMAIL =  " + MainActivity.user.getEmail() + ";";
+            }
+            Cursor cursor = db.rawQuery(sql, null);
+
             if (cursor.moveToFirst()) {
                 do {
                     long id = cursor.getLong(0);

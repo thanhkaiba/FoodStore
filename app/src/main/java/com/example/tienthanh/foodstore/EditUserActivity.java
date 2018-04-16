@@ -97,6 +97,9 @@ public class EditUserActivity extends AppCompatActivity {
             preEmail = user.getEmail();
             image.setImageBitmap(FoodStoreDatabaseHelper.loadImageFromStorage(user.getImg(), size.x, 300));
             privilege.setSelection(user.getPrivilege());
+            if (MainActivity.user.getPrivilege() > 0) {
+                privilege.setEnabled(false);
+            }
             name.setText(user.getName());
             phone.setText(user.getPhone());
             email.setText(user.getEmail());
@@ -428,6 +431,7 @@ public class EditUserActivity extends AppCompatActivity {
             } else {
                 returnIntent.putExtra(UserDetailActivity.USER_INFO, user);
                 setResult(RESULT_OK, returnIntent);
+                finish();
             }
             finish();
         }
